@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>X-KaYa v1.0</title>
+<script src="./../layui/src/lay/jquery.min.js"></script>
+<script src="./../layui/src/lay/jquery.i18n.properties.min.js"></script>
+<script src="./../layui/src/lay/lang.js"></script>
+<script src="./../layui/src/layui.js"></script>
+<script src="./../layui/plug/layui_exts/excel.js"></script>
+<link rel="stylesheet" href="./css/font.css">
+<link rel="stylesheet" href="./css/main.css">
+<link rel="stylesheet" href="./../layui/src/css/layui.css">
+<script type="text/html" id="toolbar19">
+      <div class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
+      <div class="layui-inline" lay-event="update"><i class="layui-icon layui-icon-edit"></i></div>
+</script>
+<script type="text/html" id="toolbar1c">
+      <div class="layui-inline" lay-event="add"><i class="layui-icon layui-icon-add-1"></i></div>
+</script>
+<script type="text/html" id="toolbar1b">
+      <div class="layui-inline" lay-event="putStorage"><i class="layui-icon layui-icon-ok"></i></div>
+</script>
+<script id="barAllocate" type="text/html">
+  <a class="layui-btn layui-btn-xs" lay-event="history">history</a>
+</script>
+<script src="js/kaya.js"></script>
+<script src="js/common.js"></script>
+
+<style>
+.first-tab i.layui-tab-close {
+	display: none !important;
+}
+
+.layui-nav-item li dl dd {
+	margin-left: 20px;
+}
+
+.layui-nav-tree layui-nav-bar layui-nav-item layui-nav-items {
+	width: 0;
+	height: 0;
+	background-color: #009688
+}
+
+.layui-layer-title {
+	color: #009688;
+}
+</style>
+</head>
+<body class="layui-layout-body">
+
+	<div class="layui-layout layui-layout-admin">
+		<div class="layui-header">
+			<a href="">
+				<div class="layui-logo" style="color: #FFFFFF;">X-KaYa v1.0</div>
+
+			</a>
+			<!-- 显示/隐藏菜单 -->
+			
+			<ul class="layui-nav layui-layout-left">
+				<li class="layui-nav-item"><a href="javascript:;">Model update</a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a href="javascript:void(0);" onclick="x_admin_show('Personal information','http://www.baidu.com')">Model change</a>
+						</dd>
+						<dd>
+							<a href="javascript:void(0);" onclick="RefreshModel()">Load Model</a>
+						</dd>
+						<dd>
+							<a href="./login.html">Sign Out</a>
+						</dd>
+					</dl></li>
+				<li class="layui-nav-item"><a href="javascript:;">admin</a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a onclick="x_admin_show('Personal information','http://www.baidu.com')">Personal information</a>
+						</dd>
+						<dd>
+							<a onclick="x_admin_show('Switch Account','http://www.baidu.com')">Switch Account</a>
+						</dd>
+						<dd>
+							<a href="./login.html">Sign Out</a>
+						</dd>
+					</dl></li>
+			</ul>
+			<ul class="layui-nav layui-layout-right">
+				
+			</ul>
+		</div>
+
+		<div class="layui-form">
+			<div class="layui-side layui-bg-black">
+				<div class="layui-side-scroll">
+					<!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+					<ul class="layui-nav layui-nav-tree" id="menutree"
+						lay-filter="test1">
+
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- 选项卡和内容区 -->
+		<div class="layui-tab" lay-filter="home-tabs" lay-allowclose="false"
+			style="margin: 0 0 0 220px;">
+			<ul class="layui-tab-title">
+				<li class="first-tab"><i class="layui-icon">&#xe68e;</i>My Desktop</li>
+			</ul>
+
+			<ul class="rightmenu"
+				style="display: none; position: absolute; z-index: 99999;">
+				<li data-type="refresh">Refresh</li>
+				<li data-type="closeOthers">Close other tabs</li>
+				<li data-type="closeRight">Close all tabs on the right</li>
+				<li data-type="closeAll">Close all tabs</li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<iframe src='./welcome.html' frameborder="0"
+						style="width: 100%; height: 768px;"></iframe>
+				</div>
+			</div>
+		</div>
+
+		<!-- 底部固定区域 -->
+		<div class="layui-footer" style="text-align: center">System information display.</div>
+	</div>
+	<!-- 顶部结束 -->
+	<!-- 中部开始 -->
+	<!-- 左侧菜单开始 -->
+
+</body>
+</html>

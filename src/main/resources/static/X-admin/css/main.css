@@ -1,0 +1,40 @@
+.rightmenu {
+	width: 140px;
+	padding: 5px 0;
+	font-size: 14px;
+	text-align: left;
+	background-color: #fff;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
+	border-radius: 4px;
+}
+
+.rightmenu li {
+	font-size: 13px;
+	transition-duration: 0.3s;
+	padding: 3px 20px;
+	font-weight: 400;
+	line-height: 30px;
+	color: #333;
+	cursor: pointer;
+}
+
+.rightmenu li:hover {
+	background-color: #eeeeee;
+}
+
+.rightmenu li i{
+	margin-right: 10px;
+}
+
+.layui-tab-title .layui-this {
+	color: #009688!important;
+}
+
+#middle{	
+	position:absolute;
+	width: calc(100% - 240px);
+	overflow:auto;
+	bottom:45px;
+	top:120px;
+	z-index:90;
+}
