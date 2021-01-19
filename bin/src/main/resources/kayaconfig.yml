@@ -1,0 +1,61 @@
+metamodelPath: 
+  baseModel: 
+    basePath: C:/wuzy/mazda/Kaya_POC/KAYA_Spring_POC_Step1/src/main/resources/
+    mgaVersion: 
+      1.0: 001.mga
+      2.0: 002.mga
+      3.0: 003.mga
+    xmeVersion: 
+      1.0: 001.xme
+      2.0: 002.xme
+      3.0: 003.xme
+  otherModel: 
+    - 
+      serviceId: XXX
+      basePath: C:/wuzy/mazda/Kaya_POC/KAYA_Spring_POC_Step1/src/main/resources/
+      mgaVersion: 
+        1.0: 001.mga
+        2.0: 002.mga
+        3.0: 003.mga
+      xmeVersion: 
+        1.0: 001.xme
+        2.0: 002.xme
+        3.0: 003.xme
+    - 
+      serviceId: XXX
+      basePath: C:/wuzy/mazda/Kaya_POC/KAYA_Spring_POC_Step1/src/main/resources/
+      mgaVersion: 
+        1.0: 001.mga
+        2.0: 002.mga
+        3.0: 003.mga
+      xmeVersion: 
+        1.0: 001.xme
+        2.0: 002.xme
+        3.0: 003.xme
+  log: 
+    basePath: C:/wuzy/mazda/Kaya_POC/log/
+    parse: KayaModel.log
+    sql: KayaModelSql.log
+    service: KayaModelConnection.log
+model: dev
+tableId: 
+  emploeeInfo: id-0065-00000003
+  roleInfo: id-0065-0000000a
+  permissionInfo: id-0065-0000000b
+user: 
+  tableId: userTableId
+  userId: userId
+  userName: userName
+  password: password
+  salt: salt
+  roles: roles
+  role:
+    id: roles
+    role: roles_NM
+    describe: roles_NM
+    enabled: roleEnabled
+    permissions: permissions
+    permission:
+      id: permissionId
+      name: permissionId_NM
+      permission: permissionId_NM
