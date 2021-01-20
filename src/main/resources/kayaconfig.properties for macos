@@ -1,15 +1,15 @@
 #Log Path
-kayaMetaModelParseLogPath=/Users/chenliang/eclipse-workspace/KAYA_Spring_POC_Step1/src/main/resources/KayaModel.log
-kayaMetaModelSqlLogPath=/Users/chenliang/eclipse-workspace/KAYA_Spring_POC_Step1/src/main/resources/KayaModelSql.log
-kayaMetaModelConnectionLogPath=/Users/chenliang/eclipse-workspace/KAYA_Spring_POC_Step1/src/main/resources/KayaModelConnection.log
+kayaMetaModelParseLogPath=/Users/eclipse-workspace/SmartKaYa/src/main/resources/KayaModel.log
+kayaMetaModelSqlLogPath=/Users/eclipse-workspace/SmartKaYa/src/main/resources/KayaModelSql.log
+kayaMetaModelConnectionLogPath=/Users/eclipse-workspace/SmartKaYa/src/main/resources/KayaModelConnection.log
 
 #KayaModelFile path
-metamodelPath=/Users/chenliang/eclipse-workspace/KAYA_Spring_POC_Step1/src/main/resources/001.mga
-oldMetamodelPath=/Users/chenliang/eclipse-workspace/KAYA_Spring_POC_Step1/src/main/resources/002.mga
-modelPath=/Users/chenliang/git/SmartKaYa/src/main/resources/001.xme
-oldModelPath=/Users/chenliang/eclipse-workspace/KAYA_Spring_POC_Step1/src/main/resources/20201107backup_001.xme
+metamodelPath=/Users/eclipse-workspace/SmartKaYa/src/main/resources/001.mga
+oldMetamodelPath=/Users/eclipse-workspace/SmartKaYa/src/main/resources/002.mga
+modelPath=/Users/git/SmartKaYa/src/main/resources/001.xme
+oldModelPath=/Users/eclipse-workspace/SmartKaYa/src/main/resources/20201107backup_001.xme
 
-baseModel.basePath=/Users/chenliang/git/SmartKaYa/src/main/resources/
+baseModel.basePath=/Users/git/SmartKaYa/src/main/resources/
 baseModel.mgaVersion=1.0:001.mga,2.0:002.mga,3.0:003.mga
 baseModel.xmeVersion=1.0:001.xme,2.0:002.xme,3.0:003.xme
 
