@@ -40,19 +40,6 @@ import net.sf.json.JSONArray;
 @Controller
 @RestController
 public class HelloKayaInit {
-	//	@RequestMapping(value = "/kayamenu", produces = "application/json;charset=utf-8")
-	//	@ResponseBody
-	//	public Map<String, Object> kayaMenu(final HttpServletRequest request, final HttpServletResponse response) {
-	//		List<Map<String, Object>> menuList = new ArrayList<Map<String, Object>>();
-	//		Map<String, Object> menuTree = AccessKayaModel.getMenuTree();
-	//		menuList.add(menuTree);
-	//		RestHelper helper = new RestHelper();
-	//		Map<String, Object> ret = helper.getSimpleSuccess();
-	//		ret.put(Constant.MENUTREE, menuList);
-	//		ret.put(Constant.LANGUAGE, AccessKayaModel.getLanguage());
-	//		ret.put(APIConstant.ITEMS, true);
-	//		return ret;
-	//	}
 
 	@RequestMapping(value = "/kayamenu", produces = "application/json;charset=utf-8")
 	@ResponseBody
@@ -76,13 +63,7 @@ public class HelloKayaInit {
 		String searchUsr = request.getParameter("searchUser");
 		HttpSession session = request.getSession();
 		User userInfo = (User) session.getAttribute("user");
-//		boolean mgrFlg = false;
-//		if(kayaModelId.length()>3){
-//			if("mg".equals(kayaModelId.substring(0,2))) {
-//				kayaModelId = kayaModelId.substring(3);
-//				mgrFlg = true;
-//			}			
-//		}
+
 		// 表列信息列表
 		List<GridColumn> columnsList = new ArrayList<GridColumn>();
 		// 从元模型中取出表信息
@@ -99,7 +80,7 @@ public class HelloKayaInit {
 			AccessKayaModel.getKayaWorkFlowUI(kayamodelReq.getWorkFlowId());
 
 			kayamodelList.add(AccessKayaModel.getKayaModelId(kayamodelReq.getWorkFlowId()));
-			//columnsList = editeGridColumn(kayamodelList,kayamodelReq.getRowspan()>2?kayamodelReq.getRowspan():2);
+			//Rowspan 最小值为2
 			columnsList = editeGridColumn(kayamodelList,kayamodelReq.getRowspan()>2?kayamodelReq.getRowspan():2);
 		} else {
 			columnsList = editeGridColumn(kayamodelList,kayamodelReq.getRowspan());
@@ -493,7 +474,7 @@ public class HelloKayaInit {
 				break;
 			}
 			
-			System.out.println(gridColumn.toString());
+			//System.out.println(gridColumn.toString());
 			columnsList.add(gridColumn);
 			// columnsList.add(column);
 		}
