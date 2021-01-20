@@ -25,7 +25,7 @@ layui.config({
 	base : '../../layui/plug/'
 }).extend({
 	selectM: 'layui_extends/selectM',
-	
+
 	tablePlug: 'tablePlug/tablePlug',
 	base_ui: 'base_ui/base_ui'
 }).use(['layer','form','element','jquery','laydate','tablePlug', 'selectM','base_ui'],function(){
@@ -201,7 +201,7 @@ layui.config({
 
 		$('.rightmenu').hide();
 	});
-	
+
 	/**
 	 * Tab 绑定事件
 	 */
@@ -218,11 +218,6 @@ layui.config({
 				var isWorkflowFlg = false;
 				// UI 编辑基础方法调用
 				var base_ui = layui.base_ui;
-				if(G_BusinessSubkeyListMap.has(kayaModelId)) {
-					if(G_BusinessSubkeyListMap.get(kayaModelId)=='workflow') {
-						isWorkflowFlg = true;
-					}
-				}
 
 				// KayaModel选项的场合
 				if (kayaModelId!=undefined) {
@@ -251,7 +246,7 @@ layui.config({
 						// 取得父表各元素信息
 						var columnsMap = G_ColumnsMap.get(parentKayaModelId);
 						var displaText = "";
-	
+
 						var businessKeyText = "";
 						var businessKeys_Json = {};
 
@@ -365,40 +360,23 @@ layui.config({
 						"						autocomplete=\"off\" class=\"layui-input\">" +
 						"				</div>";
 					}
-					if(isWorkflowFlg){
+
+					html = html + 
+					"				<input type=\"button\" class=\"layui-btn layui-block\" onclick=\"doSearch(\'" + kayaModelId + "\',\'" + name + "\',false)\" value=\"Search\"/></div>" +
+					"		</fieldset></form>" +
+					"	<div class=\"layui-form-item\"></div>" +
+					"</div>" +
+					"<xblock id=\"xblock_" + kayaModelId +"\">";
+					for (x in buttonItems) {
+						// TODO:Tab的Index取得
 						html = html + 
-						"				<input type=\"button\" class=\"layui-btn layui-block\" onclick=\"doSearchWorkflow(\'" + kayaModelId + "\',\'" + name + "\',false)\" value=\"Search\"/></div>" +
-						"		</fieldset></form>" +
-						"	<div class=\"layui-form-item\"></div>" +
-						"</div>" +
-						"<xblock id=\"xblock_" + kayaModelId +"\">";
-						for (x in buttonItems) {
-							// TODO:Tab的Index取得
-							html = html + 
-							"<button onclick=\"EditDetailedInfoWF('"+ kayaModelId + "','"  + buttonItems[x]['kayamodelid'] + "','" + buttonItems[x]['title']+ "','" + name + "')\" class=\"layui-btn layui-btn-radius subButton" + kayaModelId + "\">" + buttonItems[x]['title'] + "</button>";
-						}
-						html = html + 
-						"</xblock>" +
-						"<div id=\"tablediv_" + kayaModelIdTab + "\">" +
-						//"	<table class=\"layui-table\"  id=\""+kayaModelIdTab +"\" lay-data=\"{toolbar:'#toolbar1c',defaultToolbar:'[]'}\" lay-filter=\""+kayaModelIdTab +"\">" +
-						"	<table class=\"layui-table\"  id=\""+kayaModelIdTab +"\" lay-data=\"{toolbar:'',defaultToolbar:'[]'}\" lay-filter=\""+kayaModelIdTab +"\">";
-					} else {
-						html = html + 
-						"				<input type=\"button\" class=\"layui-btn layui-block\" onclick=\"doSearch(\'" + kayaModelId + "\',\'" + name + "\',false)\" value=\"Search\"/></div>" +
-						"		</fieldset></form>" +
-						"	<div class=\"layui-form-item\"></div>" +
-						"</div>" +
-						"<xblock id=\"xblock_" + kayaModelId +"\">";
-						for (x in buttonItems) {
-							// TODO:Tab的Index取得
-							html = html + 
-							"<button onclick=\"EditDetailedInfo('"+ kayaModelId + "','"  + buttonItems[x]['kayamodelid'] + "','" + buttonItems[x]['title']+ "','" + name + "')\" class=\"layui-btn layui-btn-radius subButton" + kayaModelId + "\">" + buttonItems[x]['title'] + "</button>";
-						}
-						html = html + 
-						"</xblock>" +
-						"<div id=\"tablediv_" + kayaModelIdTab + "\">" +
-						"	<table class=\"layui-table\"  id=\""+kayaModelIdTab +"\" lay-data=\"{toolbar:'#toolbar1c',defaultToolbar:'[]'}\" lay-filter=\""+kayaModelIdTab +"\">";
+						"<button onclick=\"EditDetailedInfo('"+ kayaModelId + "','"  + buttonItems[x]['kayamodelid'] + "','" + buttonItems[x]['title']+ "','" + name + "')\" class=\"layui-btn layui-btn-radius subButton" + kayaModelId + "\">" + buttonItems[x]['title'] + "</button>";
 					}
+					html = html + 
+					"</xblock>" +
+					"<div id=\"tablediv_" + kayaModelIdTab + "\">" +
+					"	<table class=\"layui-table\"  id=\""+kayaModelIdTab +"\" lay-data=\"{toolbar:'#toolbar1c',defaultToolbar:'[]'}\" lay-filter=\""+kayaModelIdTab +"\">";
+
 
 					//+++++++++++++++++++++++++++++++++++++++++++检索条件结束++++++++++++++++++++++++++++++++++++++++++++
 
@@ -410,16 +388,16 @@ layui.config({
 
 					for (var i = levelMap.size;i>0;i--) {
 						if (i ==levelMap.size) {
-			　　　				html = html + "<tr><th lay-data=\"{type:'numbers'}\" rowspan=\"" + levelMap.size + "\" style=\"width:10px\">No.</th>";
+							html = html + "<tr><th lay-data=\"{type:'numbers'}\" rowspan=\"" + levelMap.size + "\" style=\"width:10px\">No.</th>";
 
-								html = html + "<th lay-data=\"{type:'checkbox'}\" rowspan=\"" + levelMap.size + "\" style=\"width:18px\"></th>";
+							html = html + "<th lay-data=\"{type:'checkbox'}\" rowspan=\"" + levelMap.size + "\" style=\"width:18px\"></th>";
 
-			　　　				html = html + levelMap.get(i) + "</tr>";
-			　　　			}　else {
-			　　　				html = html + "<tr>" + levelMap.get(i) + "</tr>";
-			　　　			}　　　　　　
+							html = html + levelMap.get(i) + "</tr>";
+						}　else {
+							html = html + "<tr>" + levelMap.get(i) + "</tr>";
+						}　　　　　　
 					}
-					
+
 					html = html + "</thead></table></div></div>";
 				}
 
@@ -428,11 +406,11 @@ layui.config({
 					smartReloadModel: true
 					,title: name 
 					,content:html
-					
+
 					,page: {
 						limit: 12
 					}
-					,id: kayaModelIdTab
+				,id: kayaModelIdTab
 				});
 
 
@@ -611,7 +589,7 @@ layui.config({
 					// No.和CheckBox列处理
 					"			<th lay-data=\"{type:'numbers'}\"  style=\"width:10px\">No.</th>";
 
-						html = html + "<th lay-data=\"{type:'checkbox'}\"  style=\"width:18px\"></th>";
+					html = html + "<th lay-data=\"{type:'checkbox'}\"  style=\"width:18px\"></th>";
 
 
 					if(column.length > 10) {
@@ -762,7 +740,7 @@ function editTreeHtmlAuto(ulHtml,nodes) {
 			dl_1Html = editTreeHtmlAuto(dl_1Html, nodes[x]['children']) + "</dl>";
 			_liHtml =_liHtml + (_aHtml + _iHtml + spanHtml + "</a>" + dl_1Html +"</li>");
 			dlHtml = dlHtml + _liHtml;
-			
+
 		} else {
 			var _aHtml = "<dd><a class=\"site-demo-active\" data-url=\"admin-role.html\" data-id=\"" + 
 			nodes[x]['id'] + "\" data-title=\"" + nodes[x]['text'] + "\"data-type=\"tabAdd\" href=\"javascript:void(0);\">" + nodes[x]['text'] +"</a></dd>";
@@ -799,7 +777,6 @@ function getInitColumnsAuto(kayaModelId,column,buttonItems,businessKeys,business
 		success : function(data) {
 			_column = data.columnsList;
 			// 拿到主键
-			//businessKeyList = ;
 			businessSubKeys = data.businessSubKeyList;
 			businessKeys = data.businessKeyList;
 
@@ -890,7 +867,7 @@ function EditDetailedInfo(parentKayaModelId,kayaModelId,title,parentTitle) {
 			,page: {
 				limit: 12
 			}
-			,stoolbar:toolbar
+		,stoolbar:toolbar
 		});
 
 		//监听头工具栏事件
@@ -907,8 +884,6 @@ function EditDetailedInfo(parentKayaModelId,kayaModelId,title,parentTitle) {
 				addRow(kayaModelId,title,true);
 				break;
 			case 'delete':
-				//alert(JSON.stringify(G_BusinessKeyMap.get(kayaModelId)));
-				//alert(JSON.stringify(G_BusinessKeyListMap.get(kayaModelId)));
 				deleteRow(kayaModelId,data,title);
 				break;
 			};
@@ -1212,7 +1187,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
 				_contentHtml = base_ui.editAddRows(columns,_contentHtml,isEditFlg,rowData,jsonBusinessSubkey);
 				contentHtml = contentHtml +_contentHtml;
 				contentHtml = contentHtml +"</div></div>" + "<div align=\"right\" style=\"border:15px solid #fff;bottom:0;left:0;\">";
-				
+
 				insertField = insertField + "]";
 				// 流程元素处理
 				var buttonItems = "";
@@ -1268,8 +1243,8 @@ function addRow(kayaModelId,Title,isEditFlg) {
 			//,area: 'auto'
 			//,area: ['500px', '\'' + hi + 'px\'']
 			,area:'500px'
-			,maxHeight:600
-			,offset:[60,0]
+				,maxHeight:600
+				,offset:[60,0]
 		,shade: 0.8
 		,id: 'add_'+kayaModelId //设定一个id，防止重复弹出
 		,moveType: 1 //拖拽模式，0或者1
@@ -1285,12 +1260,12 @@ function addRow(kayaModelId,Title,isEditFlg) {
 					jsonBusinessSubkey[key]=businessKeyMap[key];
 				}
 			}
-			
+
 //			if (isEditFlg){
-//				for (var key in rowData){
-//					jsonBusinessSubkey[key]=rowData[key];
-//				}
-//				
+//			for (var key in rowData){
+//			jsonBusinessSubkey[key]=rowData[key];
+//			}
+
 //			}
 //			// 绑定日期控件
 //			lay('.date-item').each(function(){
@@ -1325,16 +1300,10 @@ function addRow(kayaModelId,Title,isEditFlg) {
 
 			});
 			form.render();
-			
+
 			form.on('select', function(data){
 				// 只有更改过的字段才会传到后台
-//				if (jsonRowData[data.elem.getAttribute("id")]!=data.value) {
-//				jsonBusinessSubkey[data.elem.getAttribute("id")]=data.value;
-//				}
-				//alert(JSON.stringify(data));
-				// 传递所有值到后台，参与后台的业务逻辑处理
 				jsonBusinessSubkey[data.elem.getAttribute("id")]=data.value;
-				//jsonRowData[data.elem.getAttribute("id")]=data.value;
 			});
 			form.render('select');
 			form.on('submit', function(data){
@@ -1346,8 +1315,6 @@ function addRow(kayaModelId,Title,isEditFlg) {
 						jsonBusinessSubkey[this.name]=this.checked ? 'on':'off';
 					} else if(RegExp(/layui-input/).exec($(this).attr("class"))){
 						// 传递所有值到后台，参与后台的业务逻辑处理
-						//alert(JSON.stringify(rowData));
-						//alert(this.text + ":" +  this.value);
 						jsonBusinessSubkey[this.name]=this.value;
 					}
 				});
@@ -1557,7 +1524,7 @@ function RefreshModel(){
 		method : "POST",
 		dataType:'json',
 		data : {
-			
+
 		},
 		success : function(data) {
 			window.location.href = 'http://localhost:8080/X-admin/index.html';
@@ -1565,7 +1532,7 @@ function RefreshModel(){
 
 		}
 	});
-	
+
 }
 
 function validation(){//仿照源码写的校验，返回布尔类型
@@ -1631,488 +1598,23 @@ function getNowFormatDate() {
 function getToolbar(kayaModelId,title) {
 //	switch(kayaModelId)
 //	{
-//	    // 画面
-//		case 'id-0065-00000019':
-//			return '#toolbar19';
-//		case 'id-0065-0000001b':
-//			// 履历画面
-//			if(title==historyTitle) {
-//				return true;
-//			}
-//			return '#toolbar1b';
-//		case 'id-0065-0000000c':
-//			// 
-//			return '#toolbar1c';
-//		case 'id-0065-00000019-0000001b':
-//			// 画面
-//			return '#toolbar1b';
-//		default:
-//			return 'default';
+//	// 画面
+//	case 'id-0065-00000019':
+//	return '#toolbar19';
+//	case 'id-0065-0000001b':
+//	// 履历画面
+//	if(title==historyTitle) {
+//	return true;
+//	}
+//	return '#toolbar1b';
+//	case 'id-0065-0000000c':
+//	// 
+//	return '#toolbar1c';
+//	case 'id-0065-00000019-0000001b':
+//	// 画面
+//	return '#toolbar1b';
+//	default:
+//	return 'default';
 //	}
 	return 'default';
-}
-/**
- * 检索
- * @param kayaModelId
- * @returns
- */
-function doSearchWorkflow(kayaModelId,title,isDownload) {
-	var rows = [];
-	var kvParamaterList = [];
-	if(G_BusinessKeyMap.has(kayaModelId)) {
-		kvParamaterList.push(G_BusinessKeyMap.get(kayaModelId));
-	} else {
-		kvParamaterList.push(eval('({})'));
-	}
-
-	layui.config({base: '../../layui/plug/'})
-	.use(['tablePlug', 'laydate'], function () {
-		//var tablePlug = layui.tablePlug;
-		var table = layui.table;
-		var form = layui.form;
-		// 检索条件设定
-		var fromValue = JSON.stringify(form.val('searchForm_' + kayaModelId));
-		// alert(JSON.stringify(kvParamaterList));
-		var searchKey=$('#searchkey_' + kayaModelId).val();
-		var searchValue=$('#searchvalue_' + kayaModelId).val();
-
-		var columnsMap = G_ColumnsMap.get(kayaModelId);
-		// Master项目处理
-		for (x in columnsMap) {
-			// Hidden项非表示
-			if (columnsMap[x]['searchFlg']!=false) {
-				if ('combobox' == columnsMap[x]['editor'].type) {
-
-					for(var items in columnsMap[x]['editor'].options.data)
-					{
-						// 通过Text查询Id 设置显示内容
-						if(searchValue != '' && columnsMap[x]['editor'].options.data[items].text.indexOf(searchValue)!=-1){
-							searchValue = columnsMap[x]['editor'].options.data[items].id;
-						}
-					}
-				}
-			}
-		}
-
-		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 Start++++++++++++++++++++++++++++++++++++
-		toolbar = getToolbar(kayaModelId,title);
-		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 End++++++++++++++++++++++++++++++++++++++
-		//alert(searchValue);
-		//var workflowActionId = $(this).attr("actionid");
-		$.ajax({
-			url : "/workflowselect",
-			method : "POST",
-			async: false, //同步方式
-			data : {
-				'kayaModelId' : kayaModelId,
-				'searchname' : searchKey,
-				'searchvalue' : searchValue,
-				'searchUser' : "m1",
-				'orientationKey' : G_Orientationkey.get(kayaModelId),
-				"searchParamaterList" : '[' + fromValue +']',
-				"kvParamaterList" : JSON.stringify(kvParamaterList)
-			},
-			success : function(data) {
-				rows = data.resultDetails;
-			}
-		});
-
-		if(!isDownload) {
-			toolbar = '';
-			defaultToolbar = ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
-				title: 'ダウンロード'
-					,layEvent: 'download'
-						,icon: 'layui-icon-export'
-			}, 'print'];
-			if(rows.length>0){
-				$(".subButton"+kayaModelId).attr('disabled', false);
-				$(".subButton"+kayaModelId).css({"background-color":"#009688"});
-			} else {
-				$(".subButton"+kayaModelId).attr('disabled', true);
-				$(".subButton"+kayaModelId).css({"background-color":"grey"});
-				toolbar = '#toolbar1c';
-				defaultToolbar = '[]';
-			}
-
-			//+++++++++++++++++++++++++++重新设定TabId Start+++++++++++++++++++++++++++++++++++++++++++++
-			kayaModelIdTab = kayaModelId;
-			//+++++++++++++++++++++++++++重新设定TabId End+++++++++++++++++++++++++++++++++++++++++++++++
-
-			form.render('select');
-			table.reload(kayaModelIdTab, {
-				data: rows,
-				//toolbar:'default',
-				toolbar: '',
-				defaultToolbar: defaultToolbar,
-				//even: true,
-				//totalRow:true,
-				page: {
-					limit: 12
-				},
-				limits: [2, 5, 12],
-				done: function (res, curr, count) {
-					// 设置第一行为默认选择状态，更改背景色以及字体颜色
-					Layui_SetDataTableRowColor('tablediv_' + kayaModelId, 0, '#2F4056', '#fff');
-					// 取得被选择行数据
-					G_DataRowListMap.set(kayaModelId,res.data[0]);
-					//alert(JSON.stringify(res.data[0]));
-				}
-			});
-
-			//监听头工具栏事件
-			table.on('toolbar('+ kayaModelIdTab + ')', function(obj){
-				var checkStatus = table.checkStatus(obj.config.id);
-				var data = checkStatus.data; //获取选中的数据
-				switch(obj.event){
-				case 'add':
-					addRow(kayaModelId,title,false);
-					break;
-				case 'update':
-					addRow(kayaModelId,title,true);
-					break;
-				case 'delete':
-					//alert(JSON.stringify(G_BusinessKeyMap.get(kayaModelId)));
-					//alert(kayaModelId + ":" +JSON.stringify(G_BusinessKeyListMap.get(kayaModelId)));
-					deleteRow(kayaModelId,data,title);
-					break;
-				case 'download':
-					//alert(JSON.stringify(G_BusinessKeyMap.get(kayaModelId)));
-					//alert(kayaModelId + ":" +JSON.stringify(G_BusinessKeyListMap.get(kayaModelId)));
-					doSearch(kayaModelId,title,true);
-					break;
-				};
-			});
-
-			//监听行单击事件（双击事件为：rowDouble）
-			table.on('row(' + kayaModelIdTab +')', function(obj){
-				//alert(JSON.stringify(obj.data));
-				// 恢复默认行的背景色以及字体颜色
-				Layui_SetDataTableRowColor('tablediv_' + kayaModelId, 0, '#fff', '#666');
-
-				// 标注选中样式
-				obj.tr.addClass('layui-bg-cyan').siblings().removeClass('layui-bg-cyan');
-				// 取得被选择行数据
-				G_DataRowListMap.set(kayaModelId,obj.data);
-
-			});
-		} else {			
-			var column = G_ColumnsMap.get(kayaModelId);
-			var columnDetail={};
-			var title={};
-			var col = 0;
-			var row = rows.length + 1;
-			// 用来把头转换成文字，并把字段顺序保留下来
-			for (x in column) {
-				if(column[x]['hidden']!='true'){
-					if(column[x]['datatype']=='Master') {
-						title[column[x]['field'] + "_NM"]=column[x]['title'];
-						columnDetail[col]=column[x]['field'] + "_NM";
-					} else {
-						title[column[x]['field']]=column[x]['title'];
-						columnDetail[col]=column[x]['field'];
-					}
-					col++;
-				}
-			}
-			//download
-			var bodysArr = new Array();
-			// 加表头
-			bodysArr.unshift(title);
-			for (x in rows) {
-				var detail = {};
-				for(i in columnDetail) {
-					detail[columnDetail[i]]= rows[x][columnDetail[i]];
-				}
-				bodysArr.push(detail);
-			}
-			var date = new Date();
-			date = date.Format('yyyyMMddHHmmssS');
-			// 意思是：列宽120px
-			var pos = createCellPos(col-1);
-			var colConf = LAY_EXCEL.makeColConfig({'AZ': 120},120);
-			// 画表头
-			LAY_EXCEL.setExportCellStyle(bodysArr, 'A1:'+pos+'1', {
-				s: {
-					fill: {bgColor: {indexed: 64}, fgColor: {rgb: "FFFFE0"}},
-					alignment: {
-						horizontal: 'center',
-						vertical: 'center'
-					}
-				}
-			});
-			// 画边框
-			LAY_EXCEL.setExportCellStyle(bodysArr, 'A1:'+pos+row, {
-				s: {
-					border: {
-						top: {style: 'thin', color: {rgb: 'FF000000'}},
-						bottom: {style: 'thin', color: {rgb: 'FF000000'}},
-						left: {style: 'thin', color: {rgb: 'FF000000'}},
-						right: {style: 'thin', color: {rgb: 'FF000000'}}
-					}
-				}
-			});
-			// 3. 执行导出函数，系统会弹出弹框
-			LAY_EXCEL.exportExcel({
-				list: bodysArr
-			}, kayaModelId+'_' + date + '.xlsx', 'xlsx', {
-				extend: {
-					'!cols': colConf
-				}
-			});
-
-		}
-	});
-
-}
-/**
- *  WorkFlow详细Tab选项卡追加处理
- * @param index
- * @param parentKayaModelId
- * @param kayaModelId
- * @param title
- * @returns
- */
-function EditDetailedInfoWF(parentKayaModelId,kayaModelId,title,parentTitle) {
-	// 父类数据为空时不处理
-	if (!G_DataRowListMap.has(parentKayaModelId)) {
-		//alert("请选择数据");
-		return;
-	} else {
-		if (G_DataRowListMap.has(kayaModelId)) {
-			G_DataRowListMap.delete(kayaModelId);
-		}
-	}
-	//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 Start++++++++++++++++++++++++++++++++++++
-	toolbar = getToolbar(kayaModelId,title);
-	//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 End++++++++++++++++++++++++++++++++++++++
-	var column = [];// 列明数组
-	var buttonItems=[];// 按钮数组
-	var rowData = G_DataRowListMap.get(parentKayaModelId);
-	var orientationkey = rowData['orientationkey'];
-	var flowcode = rowData['flowcode'];
-	var businessKeys = [];
-	var rows = [];
-	var workflowRows = [];
-	var actionItemList = [];
-
-	getInitColumnsWF(kayaModelId,column,buttonItems,businessKeys,orientationkey,parentKayaModelId,rows,workflowRows,actionItemList);
-	var isData = false;
-
-	kayaModelIdTab = kayaModelId;
-
-	//这时会判断右侧.layui-tab-title属性下的有lay-id属性的li的数目，即已经打开的tab项数目
-	if ($(".layui-tab-title li[lay-id]").length > 0) {
-		//初始化一个标志，为false说明未打开该tab项 为true则说明已有
-		$.each($(".layui-tab-title li[lay-id]"), function () {
-			//如果点击左侧菜单栏所传入的id 在右侧tab项中的lay-id属性可以找到，则说明该tab项已经打开
-			if ($(this).attr("lay-id") == kayaModelIdTab) {
-				isData = true;
-				active.tabChange(kayaModelIdTab);
-				return;
-				// alert("有问题");
-			}
-		});
-	}
-
-	var businessKeysData;
-	if (!isData) {
-		//标志为false 新增一个tab项
-		//alert($(this).children('a').attr('kayaid'));
-		//---------------------------------按钮，表列明编辑---------------------------------------
-		businessKeysData= active.tabAddWF("", kayaModelId, title, buttonItems,column,parentKayaModelId,parentTitle,actionItemList);
-		active.tabChange(kayaModelIdTab);
-		if(!G_BusinessKeyMap.has(kayaModelId)) {
-			G_BusinessKeyMap.push(kayaModelId,businessKeysData);
-		}
-	}
-
-	// -------Table生成列名处理------------------------------------------------------------------------
-	layui.config({base: '../../layui/plug/'})
-	.use(['tablePlug', 'laydate'], function () {
-		var table = layui.table;
-		var form = layui.form;
-		form.render('select');
-		table.init(kayaModelId, {
-			// toolbar:'default'
-			toolbar:''
-		});
-
-	});	
-	// -------Table生成列名处理------------------------------------------------------------------------
-	active.tabChange(kayaModelId);
-	addWFDetail(kayaModelId,title,rows,workflowRows);
-}
-/**
- * 取得初期的行信息，子表迁移按钮信息
- * @param kayaModelId
- * @param column 表头信息
- * @param buttonItems 子表迁移按钮信息
- * @returns
- */
-function getInitColumnsWF(kayaModelId,column,buttonItems,businessKeys,orientationkey,parentKayaModelId,rows,workflowRows,actionItemList){
-	var actionItems = ['1','2'];
-	var businessid = '';
-	var businesssubid = '';
-	var rowData = G_DataRowListMap.get(parentKayaModelId);
-	var flowcode = rowData['flowcode'];
-	$.ajax({
-		url : "/kayainitWFDetail",
-		method : "POST",
-		async: false, //改为同步方式
-		data : {
-			'kayaModelId' : kayaModelId,
-			'orientationKey' : orientationkey,
-			'workflowId' :parentKayaModelId,
-			'flowcode' :flowcode,
-			'actionItems' : JSON.stringify(actionItems)
-		},
-		success : function(data) {
-			_column = data.columnsList;
-			_rows = data.resultList;
-			_workflowRows = data.workflowList;
-			_actionItemList = data.actionItemList; // 取得流程信息
-			// 拿到主键
-			//businessKeyList = ;
-			businessSubKeys = data.businessSubKeyList;
-			businessKeys = data.businessKeyList;
-
-			for (x in _column) {
-				// Hidden项非表示
-				if (_column[x]['role']==false) {
-					column.push(_column[x]);
-					// 对Role进行显示编辑(子画面Link)
-				} else {
-					buttonItems.push(_column[x]);
-				}
-			} 
-
-
-			// 搜索栏初期表示处理
-			for (x in _actionItemList) {
-				actionItemList.push(_actionItemList[x]);
-			} 
-			for (x in _rows) {
-				rows.push(_rows[x]);
-			} 
-			for (x in _workflowRows) {
-				workflowRows.push(_workflowRows[x]);
-				businessid = workflowRows[x]['businessid'];
-				businesssubid = workflowRows[x]['businesssubid'];
-			} 
-		}
-	});
-
-	G_ColumnsMap.set(kayaModelId,column);
-	G_BusinessSubkeyListMap.set(kayaModelId,businessSubKeys);
-	G_BusinessKeyListMap.set(kayaModelId,businessKeys);
-	G_WorkflowBusinessKey.clear();
-	G_WorkflowBusinessKey.set('businessid',businessid);
-	G_WorkflowBusinessKey.set('businesssubid',businesssubid);
-
-
-}
-/**
- * 检索
- * @param kayaModelId
- * @returns
- */
-function addWFDetail(kayaModelId,title,rows,workflowRows) {
-
-	layui.config({base: '../../layui/plug/'})
-	.use(['tablePlug', 'laydate'], function () {
-		//var tablePlug = layui.tablePlug;
-		var table = layui.table;
-		var form = layui.form;		
-
-		//+++++++++++++++++++++++++++重新设定TabId Start+++++++++++++++++++++++++++++++++++++++++++++
-		kayaModelIdTab = kayaModelId;
-		//+++++++++++++++++++++++++++重新设定TabId End+++++++++++++++++++++++++++++++++++++++++++++++
-
-		form.render('select');
-		table.reload(kayaModelIdTab, {
-			data: rows,
-			//toolbar:'default',
-			toolbar: '',
-			defaultToolbar: defaultToolbar,
-			//even: true,
-			//totalRow:true,
-			page: {
-				limit: 12
-			},
-			limits: [2, 5, 12],
-			done: function (res, curr, count) {
-				// 设置第一行为默认选择状态，更改背景色以及字体颜色
-				Layui_SetDataTableRowColor('tablediv_' + kayaModelId, 0, '#2F4056', '#fff');
-				// 取得被选择行数据
-				G_DataRowListMap.set(kayaModelId,res.data[0]);
-				//alert(JSON.stringify(res.data[0]));
-			}
-		});
-
-		//监听头工具栏事件
-		table.on('toolbar('+ kayaModelIdTab + ')', function(obj){
-			var checkStatus = table.checkStatus(obj.config.id);
-			var data = checkStatus.data; //获取选中的数据
-			switch(obj.event){
-			case 'add':
-				addRow(kayaModelId,title,false);
-				break;
-			case 'update':
-				addRow(kayaModelId,title,true);
-				break;
-			case 'delete':
-				//alert(JSON.stringify(G_BusinessKeyMap.get(kayaModelId)));
-				//alert(kayaModelId + ":" +JSON.stringify(G_BusinessKeyListMap.get(kayaModelId)));
-				deleteRow(kayaModelId,data,title);
-				break;
-			case 'download':
-				//alert(JSON.stringify(G_BusinessKeyMap.get(kayaModelId)));
-				//alert(kayaModelId + ":" +JSON.stringify(G_BusinessKeyListMap.get(kayaModelId)));
-				doSearch(kayaModelId,title,true);
-				break;
-			};
-		});
-		var hotNewsHtml = ' ';
-		var icon = '';
-		for(var i=0;i<workflowRows.length;i++){
-
-			if(i>0) {
-				icon = '';
-			}
-			hotNewsHtml += '  <li class="layui-timeline-item"> '
-				+'     <i class="layui-icon layui-timeline-axis"></i>'
-				+'     <div class="layui-timeline-content layui-text">'
-				+'     <div class="layui-timeline-title">' + workflowRows[i].createdate
-				+ ', ' + workflowRows[i].Action + '<br>' + workflowRows[i].Property;
-
-			hotNewsHtml += '  </div>'
-				+'  </div>' + '  </li>';
-		}
-		hotNewsHtml += '  <li class="layui-timeline-item"> '
-			+'     <i class="layui-icon layui-timeline-axis">◎</i>'
-			+'     <div class="layui-timeline-content layui-text">'
-			+'     <div class="layui-timeline-title">' + ' Start';
-
-		hotNewsHtml += '  </div>'
-			+'  </div>' + '  </li>';
-
-		$(".detailArea").html(hotNewsHtml);
-
-		//画面控件刷新
-		form.render();
-
-		//监听行单击事件（双击事件为：rowDouble）
-		table.on('row(' + kayaModelIdTab +')', function(obj){
-			//alert(JSON.stringify(obj.data));
-			// 恢复默认行的背景色以及字体颜色
-			Layui_SetDataTableRowColor('tablediv_' + kayaModelId, 0, '#fff', '#666');
-
-			// 标注选中样式
-			obj.tr.addClass('layui-bg-cyan').siblings().removeClass('layui-bg-cyan');
-			// 取得被选择行数据
-			G_DataRowListMap.set(kayaModelId,obj.data);
-
-		});
-	});
-
 }
