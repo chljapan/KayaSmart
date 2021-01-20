@@ -1193,6 +1193,7 @@ public final class ParseKayaModel_XPATH {
 						KayaModelIdOrientationKeyMap.put(eElement.getAttribute(Constant.ID), getOrientationKey(ConnectionMap, kayaMetaModelXme.getGmeId(), kayaMetaModelXme.getGmeId()) +eElement.getAttribute(Constant.ID) + ".");	
 						modelAttributesMap.put(Constant.GROUP_ITEMS, new ArrayList<String>());
 						modelAttributesMap.put(Constant.INDEXNO, "999");
+						modelAttributesMap.put(Constant.ROWSPAN, 2);
 						KayaModelParentIdMap.put(eElement.getAttribute(Constant.ID),mainElement.getAttribute(Constant.ID));
 						modelKayaMetaModel.setGmeId(eElement.getAttribute(Constant.ID));
 						modelKayaMetaModel.setMetaModelType(eElement.getAttribute(Constant.KIND));
