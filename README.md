@@ -25,7 +25,7 @@ Metamodel, metadata-driven platform
     #Log Path
     kayaMetaModelParseLogPath=/Users/log/KayaModel.log
 
-	baseModel.basePath=C:/Users/LiangChen/Desktop/GME/
+	baseModel.basePath=C:/Users/Chljapan/Desktop/GME/
 	baseModel.mgaVersion=3.0:0001.mga
 	baseModel.xmeVersion=3.0:0001.xme
    
