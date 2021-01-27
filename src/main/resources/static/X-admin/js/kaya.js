@@ -1238,203 +1238,148 @@ function addRow(kayaModelId,Title,isEditFlg) {
 		//var that = this; 
 		var layer = layui.layer;
 		var laydate = layui.laydate;
-
-		//var contentHtml = "<div id=\"stepForm\" class=\"layui-form layui-form-pane\"  lay-filter=\"" + kayaModelId+ "\" style=\"margin: 0 auto;max-width: 500px;border:15px solid #fff;top:0;left:0;\">";
-//		var contentHtml = "<div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"stepForm\" style=\"margin: 0 auto;\"></div>" + 
-//				"<div id=\"" + kayaModelId + "\" class=\"layui-form layui-form-pane\"  lay-filter=\"" + kayaModelId+ "\" style=\"border:15px solid #fff;top:0;margin: 0;\">";
-
-//			var contentHtml = "<div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"" + kayaModelId + "\" style=\"margin: 0;\">" +
-//			"<div id=\"" + kayaModelId + "\" class=\"layui-form layui-form-pane\" carousel-item=\"\" lay-filter=\"" + kayaModelId+ "\" style=\"max-width: 500px;border:15px solid #fff;top:0;margin: 10px 0px 10px 140px;\">" + 
-//			"<div style=\"scrollTop:top\">";
-//		contentHtml = 	  " <div class=\"container\">" +
-//	       " <div style=\"background-color: #606;\">" +
-//	       "     <header>zxc1</header>" +
-//	       "     <div style=\"height:70px\"></div>" +
-//	       " </div>" +
-//	       " <main style=\"height:550px;overflow: auto;\">" +
-//	       "     <ul>" +
-//	       "         <li>11111</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>11111</li>" +
-//	       "         <li>11111</li>" +
-//	       "         <li>11111</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "         <li>自行车</li>" +
-//	       "     </ul>" +
-//	       " </main>" +
-//	       " <div style=\"background-color: #000\">" +
-//	       "     <div style=\"height:70px\"></div>" +
-//	       "     <footer>zxc1</footer>" +
-//	       " </div>" +
-//	   " </div>";
-			var contentHtml = contentHtml = 	  " <div class=\"container\">" +
-		       " <div style=\"background-color: #eee;\">" +
-		       "     <div style=\"height:20px\"></div>" +
-		       "     <header><div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"stepForm\" style=\"margin: 40 50 50 50;\"></div></header>" +
-		       "     <div style=\"height:40px\"></div>" +
-		       " </div>" +
-		       " <main style=\"height:400px;overflow: auto;\">" +
-			"<div id=\"" + kayaModelId + "\" class=\"layui-form layui-form-pane\" carousel-item=\"\" lay-filter=\"" + kayaModelId+ "\" style=\"max-width: 500px;border:15px solid #fff;top:0;margin: 10px 0px 10px 140px;\">";
-		       
-			
-			
-			
-//			var contentHtml ="<div class=\"layuimini-container\">" +
-//		    "<div class=\"layuimini-main\">" +
-//		        "<div class=\"layui-fluid\">" +
-//		            "<div class=\"layui-card\">" +
-//		                "<div class=\"layui-card-body\" style=\"padding-top: 40px;\">" +
-//		                    "<div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"stepForm\" style=\"margin: 0 auto;\">" +
-//		                        "<div carousel-item>" +
-//		                            "<div>" +
-//		                                "<form class=\"layui-form\" style=\"margin: 0 auto;max-width: 660px;padding-top: 40px;\">" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">游戏ID:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<input type=\"text\" placeholder=\"请填写入款人游戏ID\" class=\"layui-input\" lay-verify=\"number\" required />" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">入款金额:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<input type=\"number\" placeholder=\"请填写入款金额\" value=\"\" class=\"layui-input\" lay-verify=\"number\" required>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">入款类型:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<select lay-verify=\"required\">" +
-//		                                                "<option value=\"1\" selected>保险箱</option>" +
-//		                                                "<option value=\"2\">现金</option>" +
-//		                                            "</select>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">入款方式:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<select lay-verify=\"required\">" +
-//		                                                "<option value=\"1\" selected>人工入款</option>" +
-//		                                                "<option value=\"2\">修正</option>" +
-//		                                                "<option value=\"3\">活动</option>" +
-//		                                                "<option value=\"4\">佣金</option>" +
-//		                                            "</select>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">备注说明:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<textarea placeholder=\"入款备注\" value=\"\" class=\"layui-textarea\"></textarea>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<button class=\"layui-btn\" lay-submit lay-filter=\"formStep\">" +
-//		                                                "&emsp;下一步&emsp;" +
-//		                                            "</button>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                "</form>" +
-//		                            "</div>" +
-//		                            "<div>" +
-//		                                "<form class=\"layui-form\" style=\"margin: 0 auto;max-width: 460px;padding-top: 40px;\">" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">游戏ID:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<div class=\"layui-form-mid layui-word-aux\">639537</div>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">账户余额:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<div class=\"layui-form-mid layui-word-aux\">3000 元（保险箱：1000，现金：2000）</div>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">入款金额:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<div class=\"layui-form-mid layui-word-aux\">" +
-//		                                                "<span style=\"font-size: 18px;color: #333;\">1800 元</span>" +
-//		                                            "</div>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">入款类型:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<div class=\"layui-form-mid layui-word-aux\">保险箱</div>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">入款方式:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<div class=\"layui-form-mid layui-word-aux\">人工入款</div>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<label class=\"layui-form-label\">备注说明:</label>" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<div class=\"layui-form-mid layui-word-aux\">备注说明</div>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                    "<div class=\"layui-form-item\">" +
-//		                                        "<div class=\"layui-input-block\">" +
-//		                                            "<button type=\"button\" class=\"layui-btn layui-btn-primary pre\">上一步</button>" +
-//		                                            "<button class=\"layui-btn\" lay-submit lay-filter=\"formStep2\">" +
-//		                                                "&emsp;确认入款&emsp;" +
-//		                                            "</button>" +
-//		                                        "</div>" +
-//		                                    "</div>" +
-//		                                "</form>" +
-//		                            "</div>" +
-//		                            "<div>" +
-//		                                "<div style=\"text-align: center;margin-top: 90px;\">" +
-//		                                    "<i class=\"layui-icon layui-circle\"" +
-//		                                       "style=\"color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;\">&#xe605;</i>" +
-//		                                    "<div style=\"font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;\">" +
-//		                                       " 入款成功" +
-//		                                    "</div>" +
-//		                                    "<div style=\"font-size: 14px;color: #666;margin-top: 20px;\">预计两小时到账</div>" +
-//		                                "</div>" +
-//		                                "<div style=\"text-align: center;margin-top: 50px;\">" +
-//		                                    "<button class=\"layui-btn next\">再入一笔</button>" +
-//		                                    "<button class=\"layui-btn layui-btn-primary\">查看账单</button>" +
-//		                                "</div>" +
-//		                            "</div>" +
-//		                        "</div>" +
-//		                    "</div>" +
-//		                    "<hr>" +
-//		                    "<div style=\"color: #666;margin-top: 30px;margin-bottom: 40px;padding-left: 30px;\">" +
-//		                        "<h3>说明</h3><br>" +
-//		                        "<h4>入款到保险箱</h4>" +
-//		                        "<p>如果需要，这里可以放一些关于产品的常见问题说明。</p>" +
-//		                        "<br><h4>入款到现金</h4>" +
-//		                        "<p>如果需要，这里可以放一些关于产品的常见问题说明。</p>" +
-//		                    "</div>" +
-//		                "</div>" +
-//		            "</div>" +
-//		        "</div>" +
-//		    "</div>" +
+		var contentHtml = " <div class=\"container\">";
+	
+//		var contentHtml ="<div class=\"layuimini-container\">" +
+//		"<div class=\"layuimini-main\">" +
+//		"<div class=\"layui-fluid\">" +
+//		"<div class=\"layui-card\">" +
+//		"<div class=\"layui-card-body\" style=\"padding-top: 40px;\">" +
+//		"<div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"stepForm\" style=\"margin: 0 auto;\">" +
+//		"<div carousel-item>" +
+//		"<div>" +
+//		"<form class=\"layui-form\" style=\"margin: 0 auto;max-width: 660px;padding-top: 40px;\">" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">游戏ID:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<input type=\"text\" placeholder=\"请填写入款人游戏ID\" class=\"layui-input\" lay-verify=\"number\" required />" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">入款金额:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<input type=\"number\" placeholder=\"请填写入款金额\" value=\"\" class=\"layui-input\" lay-verify=\"number\" required>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">入款类型:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<select lay-verify=\"required\">" +
+//		"<option value=\"1\" selected>保险箱</option>" +
+//		"<option value=\"2\">现金</option>" +
+//		"</select>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">入款方式:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<select lay-verify=\"required\">" +
+//		"<option value=\"1\" selected>人工入款</option>" +
+//		"<option value=\"2\">修正</option>" +
+//		"<option value=\"3\">活动</option>" +
+//		"<option value=\"4\">佣金</option>" +
+//		"</select>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">备注说明:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<textarea placeholder=\"入款备注\" value=\"\" class=\"layui-textarea\"></textarea>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<div class=\"layui-input-block\">" +
+//		"<button class=\"layui-btn\" lay-submit lay-filter=\"formStep\">" +
+//		"&emsp;下一步&emsp;" +
+//		"</button>" +
+//		"</div>" +
+//		"</div>" +
+//		"</form>" +
+//		"</div>" +
+//		"<div>" +
+//		"<form class=\"layui-form\" style=\"margin: 0 auto;max-width: 460px;padding-top: 40px;\">" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">游戏ID:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<div class=\"layui-form-mid layui-word-aux\">639537</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">账户余额:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<div class=\"layui-form-mid layui-word-aux\">3000 元（保险箱：1000，现金：2000）</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">入款金额:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<div class=\"layui-form-mid layui-word-aux\">" +
+//		"<span style=\"font-size: 18px;color: #333;\">1800 元</span>" +
+//		"</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">入款类型:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<div class=\"layui-form-mid layui-word-aux\">保险箱</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">入款方式:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<div class=\"layui-form-mid layui-word-aux\">人工入款</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<label class=\"layui-form-label\">备注说明:</label>" +
+//		"<div class=\"layui-input-block\">" +
+//		"<div class=\"layui-form-mid layui-word-aux\">备注说明</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"<div class=\"layui-form-item\">" +
+//		"<div class=\"layui-input-block\">" +
+//		"<button type=\"button\" class=\"layui-btn layui-btn-primary pre\">上一步</button>" +
+//		"<button class=\"layui-btn\" lay-submit lay-filter=\"formStep2\">" +
+//		"&emsp;确认入款&emsp;" +
+//		"</button>" +
+//		"</div>" +
+//		"</div>" +
+//		"</form>" +
+//		"</div>" +
+//		"<div>" +
+//		"<div style=\"text-align: center;margin-top: 90px;\">" +
+//		"<i class=\"layui-icon layui-circle\"" +
+//		"style=\"color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;\">&#xe605;</i>" +
+//		"<div style=\"font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;\">" +
+//		" 入款成功" +
+//		"</div>" +
+//		"<div style=\"font-size: 14px;color: #666;margin-top: 20px;\">预计两小时到账</div>" +
+//		"</div>" +
+//		"<div style=\"text-align: center;margin-top: 50px;\">" +
+//		"<button class=\"layui-btn next\">再入一笔</button>" +
+//		"<button class=\"layui-btn layui-btn-primary\">查看账单</button>" +
+//		"</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"<hr>" +
+//		"<div style=\"color: #666;margin-top: 30px;margin-bottom: 40px;padding-left: 30px;\">" +
+//		"<h3>说明</h3><br>" +
+//		"<h4>入款到保险箱</h4>" +
+//		"<p>如果需要，这里可以放一些关于产品的常见问题说明。</p>" +
+//		"<br><h4>入款到现金</h4>" +
+//		"<p>如果需要，这里可以放一些关于产品的常见问题说明。</p>" +
+//		"</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"</div>" +
+//		"</div>" +
 //		"</div>";
-			
-			
-			
-			
-			
+
+
+
+
+
 		var hi = 0;
 
 		var Readonly="";
@@ -1470,10 +1415,19 @@ function addRow(kayaModelId,Title,isEditFlg) {
 				businessKeyList = data.businessKeyList;// 取得主键信息
 				workflowList = data.workflowList; // 取得流程信息
 
+				// 业务流程的情况添加状态
+				if (workflowList.length!=0) {
+					contentHtml = contentHtml + " <div style=\"background-color: #eee;\">" +
+					"     <div style=\"height:20px\"></div>" +
+					"     <header><div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"stepForm\" style=\"margin: 40 50 50 50;\"></div></header>" +
+					"     <div style=\"height:40px\"></div>" +
+					" </div>";
+				}
+				
+				contentHtml = contentHtml + " <main style=\"height:400px;overflow: auto;\">" +
+				"<div id=\"" + kayaModelId + "\" class=\"layui-form layui-form-pane\" carousel-item=\"\" lay-filter=\"" + kayaModelId+ "\" style=\"max-width: 500px;border:15px solid #fff;top:0;margin: 10px 0px 10px 140px;\">";
 
-
-
-
+				// 入力内容编辑
 				var base_ui = layui.base_ui;
 				//contentHtml = contentHtml + "<div class=\"layui-form-item\"  style=\"margin-top: 5px;\">";
 				var _contentHtml = "";
@@ -1482,6 +1436,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
 				contentHtml = contentHtml +"</main><div align=\"right\" style=\"border:15px solid #fff;bottom:0;left:50;\"><footer style=\"height:70px;background-color: #eee;\"> <div style=\"height:15px\"></div>";
 
 				insertField = insertField + "]";
+				// 按钮内容编辑
 				// 流程元素处理
 				var buttonItems = "";
 				var propertyItem= "";
@@ -1527,11 +1482,11 @@ function addRow(kayaModelId,Title,isEditFlg) {
 		//++++++++++++++++++++++++++++++++新规窗口End++++++++++++++++++++++++++++++++++++++
 
 		contentHtml = contentHtml +"</footer></div>";
-		
-		
-		
-		
-		
+
+
+
+
+
 
 		//alert(JSON.stringify(jsonBusinessSubkey));
 		layer.open({
@@ -1603,7 +1558,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
 				// 只有更改过的字段才会传到后台
 				jsonBusinessSubkey[data.elem.getAttribute("id")]=data.value;
 			});
-			
+
 
 
 			// 绑定业务流得场合
@@ -1624,7 +1579,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
 			});
 
 			form.render('select');
-			
+
 			form.on('submit', function(data){
 
 				$(layero).find("input").each(function(i,v) {					
