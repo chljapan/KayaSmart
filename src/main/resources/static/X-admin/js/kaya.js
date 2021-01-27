@@ -28,14 +28,15 @@ layui.config({
 
 	tablePlug: 'tablePlug/tablePlug',
 	base_ui: 'base_ui/base_ui'
-}).use(['layer','form','element','jquery','laydate','tablePlug', 'selectM','base_ui'],function(){
+}).use(['layer','form','element','jquery','laydate','tablePlug', 'selectM','base_ui','carousel'],function(){
 	$ = layui.jquery;	
 	var form = layui.form
 	,selectM = layui.selectM
 	,laydate = layui.laydate
 	,layer = layui.layer // 弹出窗口功能模块
 	,element = layui.element //Tab的切换功能，切换事件监听等，需要依赖element模块
-	,table = layui.table;
+	,table = layui.table
+	,carousel = layui.carousel;
 
 	// Menu动态加载处理
 	$.ajax({
@@ -678,6 +679,99 @@ layui.config({
 				return data;
 			}
 	};
+
+	// WorkFlow
+	var renderDom = function (elem, stepItems, postion) {
+		var stepDiv = '<div class="lay-step">';
+		for (var i = 0; i < stepItems.length; i++) {
+			stepDiv += '<div class="step-item">';
+			// 线
+			if (i < (stepItems.length - 1)) {
+				if (i < postion) {
+					stepDiv += '<div class="step-item-tail"><i class="step-item-tail-done"></i></div>';
+				} else {
+					stepDiv += '<div class="step-item-tail"><i class=""></i></div>';
+				}
+			}
+
+			// 数字
+			var number = stepItems[i].number;
+			if (!number) {
+				number = i + 1;
+			}
+			if (i == postion) {
+				stepDiv += '<div class="step-item-head step-item-head-active"><i class="layui-icon">' + number + '</i></div>';
+			} else if (i < postion) {
+				stepDiv += '<div class="step-item-head"><i class="layui-icon layui-icon-ok"></i></div>';
+			} else {
+				stepDiv += '<div class="step-item-head "><i class="layui-icon">' + number + '</i></div>';
+			}
+
+			// 标题和描述
+			var title = stepItems[i].title;
+			var desc = stepItems[i].desc;
+			if (title || desc) {
+				stepDiv += '<div class="step-item-main">';
+				if (title) {
+					stepDiv += '<div class="step-item-main-title">' + title + '</div>';
+				}
+				if (desc) {
+					stepDiv += '<div class="step-item-main-desc">' + desc + '</div>';
+				}
+				stepDiv += '</div>';
+			}
+			stepDiv += '</div>';
+		}
+		stepDiv += '</div>';
+
+		$(elem).prepend(stepDiv);
+
+		// 计算每一个条目的宽度
+		var bfb = 100 / stepItems.length;
+		$('.step-item').css('width', bfb + '%');
+	};
+
+	step = {
+			// 渲染步骤条
+			render: function (param) {
+				param.indicator = 'none';  // 不显示指示器
+				param.arrow = 'always';  // 始终显示箭头
+				param.autoplay = false;  // 关闭自动播放
+				if (!param.stepWidth) {
+					param.stepWidth = '600px';
+				}
+
+				// 渲染轮播图
+				carousel.render(param);
+
+				// 渲染步骤条
+				var stepItems = param.stepItems;
+				renderDom(param.elem, stepItems, 0);
+				$('.lay-step').css('width', param.stepWidth);
+
+				//监听轮播切换事件
+				carousel.on('change(' + param.filter + ')', function (obj) {
+					$(param.elem).find('.lay-step').remove();
+					renderDom(param.elem, stepItems, obj.index);
+					$('.lay-step').css('width', param.stepWidth);
+				});
+
+				// 隐藏左右箭头按钮
+				$(param.elem).find('.layui-carousel-arrow').css('display', 'none');
+
+				// 去掉轮播图的背景颜色
+				$(param.elem).css('background-color', 'transparent');
+			},
+			// 下一步
+			next: function (elem) {
+				$(elem).find('.layui-carousel-arrow[lay-type=add]').trigger('click');
+			},
+			// 上一步
+			pre: function (elem) {
+				$(elem).find('.layui-carousel-arrow[lay-type=sub]').trigger('click');
+			}
+	};
+	//layui.link(layui.cache.base + './css/step.css');s
 });
 
 /**
@@ -1145,7 +1239,15 @@ function addRow(kayaModelId,Title,isEditFlg) {
 		var layer = layui.layer;
 		var laydate = layui.laydate;
 
-		var contentHtml = "<div class=\"layui-form layui-form-pane\"  lay-filter=\"" + kayaModelId+ "\" style=\"border:15px solid #fff;top:0;left:0;\">";
+		//var contentHtml = "<div id=\"stepForm\" class=\"layui-form layui-form-pane\"  lay-filter=\"" + kayaModelId+ "\" style=\"margin: 0 auto;max-width: 500px;border:15px solid #fff;top:0;left:0;\">";
+//		var contentHtml = "<div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"stepForm\" style=\"margin: 0 auto;\"></div>" + 
+//				"<div id=\"" + kayaModelId + "\" class=\"layui-form layui-form-pane\"  lay-filter=\"" + kayaModelId+ "\" style=\"border:15px solid #fff;top:0;margin: 0;\">";
+
+			var contentHtml = " <div class=\"layui-fluid\"><div class=\"layui-card\">" +
+					"<div class=\"layui-card-body\" style=\"padding-top: 40px;\">" +
+					"<div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"" + kayaModelId + "\" style=\"margin: 0;\">" +
+			"<div id=\"" + kayaModelId + "\" class=\"layui-form layui-form-pane\"  lay-filter=\"" + kayaModelId+ "\" style=\"max-width: 500px;border:15px solid #fff;top:0;margin: 10px 0px 10px 140px;\">";
+
 		var hi = 0;
 
 		var Readonly="";
@@ -1181,12 +1283,16 @@ function addRow(kayaModelId,Title,isEditFlg) {
 				businessKeyList = data.businessKeyList;// 取得主键信息
 				workflowList = data.workflowList; // 取得流程信息
 
+
+
+
+
 				var base_ui = layui.base_ui;
 				//contentHtml = contentHtml + "<div class=\"layui-form-item\"  style=\"margin-top: 5px;\">";
 				var _contentHtml = "";
 				_contentHtml = base_ui.editAddRows(columns,_contentHtml,isEditFlg,rowData,jsonBusinessSubkey);
 				contentHtml = contentHtml +_contentHtml;
-				contentHtml = contentHtml +"</div></div>" + "<div align=\"right\" style=\"border:15px solid #fff;bottom:0;left:0;\">";
+				contentHtml = contentHtml +"</div></div></div></div></div></div>" + "<div align=\"right\" style=\"border:15px solid #fff;bottom:0;left:50;\">";
 
 				insertField = insertField + "]";
 				// 流程元素处理
@@ -1233,7 +1339,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
 
 		//++++++++++++++++++++++++++++++++新规窗口End++++++++++++++++++++++++++++++++++++++
 
-		contentHtml = contentHtml +"</div></div>";
+		contentHtml = contentHtml +"</div>";
 
 		//alert(JSON.stringify(jsonBusinessSubkey));
 		layer.open({
@@ -1242,7 +1348,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
 			,closeBtn: false
 			//,area: 'auto'
 			//,area: ['500px', '\'' + hi + 'px\'']
-			,area:'500px'
+			,area:'900px'
 				,maxHeight:600
 				,offset:[60,0]
 		,shade: 0.8
@@ -1293,19 +1399,40 @@ function addRow(kayaModelId,Title,isEditFlg) {
 					,format: dateDetail[x].format
 				});
 			}
-			form.render();
+			//form.render();
 
 			form.on('switch', function(data) {
 				$(data.elem).attr('type', 'hidden').val(this.checked ? 'on':'');
 
 			});
-			form.render();
+			//form.render();
 
 			form.on('select', function(data){
 				// 只有更改过的字段才会传到后台
 				jsonBusinessSubkey[data.elem.getAttribute("id")]=data.value;
 			});
+			
+
+
+			// 绑定业务流得场合
+			form.render();
+			step.render({
+				elem: '#stepForm',
+				filter: kayaModelId,
+				width: '600px', //设置容器宽度
+				stepWidth: '500px',
+				height: '500px',
+				stepItems: [{
+					title: '填写信息'
+				}, {
+					title: '确认信息'
+				}, {
+					title: '完成'
+				}]
+			});
+
 			form.render('select');
+			
 			form.on('submit', function(data){
 
 				$(layero).find("input").each(function(i,v) {					
@@ -1598,22 +1725,22 @@ function getNowFormatDate() {
 function getToolbar(kayaModelId,title) {
 //	switch(kayaModelId)
 //	{
-//	// 画面
-//	case 'id-0065-00000019':
+//	// 画面1
+//	case 'id-0000-00000000':
 //	return '#toolbar19';
-//	case 'id-0065-0000001b':
-//	// 履历画面
-//	if(title==historyTitle) {
+//	case 'id-0000-00000001':
+//	// 画面2
+//	if(title==Title1) {
 //	return true;
 //	}
 //	return '#toolbar1b';
-//	case 'id-0065-0000000c':
+//	case 'id-0000-000000003':
 //	// 
 //	return '#toolbar1c';
-//	case 'id-0065-00000019-0000001b':
-//	// 画面
+//	case 'id-0000-00000002':
+//	// 画面3
 //	return '#toolbar1b';
-//	default:
+//	default:+
 //	return 'default';
 //	}
 	return 'default';
