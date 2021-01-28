@@ -1623,7 +1623,7 @@ public final class ParseKayaModel_XPATH {
 			case Constant.AMC:
 			case Constant.AEC:
 			case Constant.TEC:
-			case Constant.STC:
+			case Constant.STA:
 			case Constant.SMC:
 				setWorkFlowConnpointInf(connectionNode,false);
 				break;

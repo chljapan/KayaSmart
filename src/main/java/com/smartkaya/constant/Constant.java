@@ -168,7 +168,7 @@ public class Constant {
 	public static final String AMC = "ActionToModelTaskConnection";
 	public static final String AEC = "ActionToEndConnection";
 	public static final String TEC = "TaskToEndConnection";
-	public static final String STC = "StartToTaskConnection";
+	public static final String STA = "StartToActionConnection";
 	public static final String SMC = "StartToModelTaskConnection";
 	public static final String SCRIPT_ENGINE = "groovy";
 	public static final String SCRIPTSTRING = "GroovyScript";
