@@ -63,7 +63,7 @@ layui.define(["jquery"],function (exports) {
 					var columnStyle = '';
 					// Master名称显示处理（可根据需求更改）
 					if(columns[x].modeltype=='MasterReference') {
-						columnStyle = "<th lay-data=\"{sort:true,field:\'" + columns[x].field + "_NM\'}\"" +  " rowspan=\"" +columns[x].rowspan + "\">" + columns[x].title + "</th>";
+						columnStyle = "<th lay-data=\"{field:\'" + columns[x].field + "_NM\'}\"" +  " rowspan=\"" +columns[x].rowspan + "\">" + columns[x].title + "</th>";
 						// Group 组件参数处理
 					}else if(columns[x].modeltype=='Group' || columns[x].modeltype=='WorkFlow') {
 						columnStyle = "<th lay-data=\"{align:\'center\',field:\'" + columns[x].field + "\'}\"" +  " colspan=\"" +columns[x].colspan + "\">" + columns[x].title + "</th>";
@@ -74,7 +74,7 @@ layui.define(["jquery"],function (exports) {
 //						this.editeTableColumns(columns[x]['editor'].options.group,levelMap);
 						// 其他组件参数通用处理
 					} else {
-						columnStyle = "<th lay-data=\"{sort:true,field:\'" + columns[x].field + "\'}\"" +  " rowspan=\"" +columns[x].rowspan + "\">" + columns[x].title + "</th>";
+						columnStyle = "<th lay-data=\"{field:\'" + columns[x].field + "\'}\"" +  " rowspan=\"" +columns[x].rowspan + "\">" + columns[x].title + "</th>";
 					}
 
 					// 最新的层信息更新（存在则替换）
