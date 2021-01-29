@@ -11,6 +11,7 @@ var G_BusinessKeyMap = new Map();
 var G_BusinessSubkeyListMap = new Map();
 /** 父页面选择行信息 */
 var G_DataRowListMap = new Map();
+var G_SelectDataRowIndexMap = new Map();
 /** OrientationKey 多表关联信息 */
 var G_Orientationkey = new Map();
 /** workflow key关联信息 */
@@ -165,6 +166,7 @@ layui.config({
 				break;
 			};
 		});
+		
 		//最后不管是否新增tab，最后都转到要打开的选项页面上
 		active.tabChange(kayaModelId);
 
@@ -909,6 +911,7 @@ function EditDetailedInfo(parentKayaModelId,kayaModelId,title,parentTitle) {
 	} else {
 		if (G_DataRowListMap.has(kayaModelId)) {
 			G_DataRowListMap.delete(kayaModelId);
+			G_SelectDataRowIndexMap.delete(kayaModelId);
 		}
 	}
 	//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 Start++++++++++++++++++++++++++++++++++++
@@ -1089,9 +1092,10 @@ function doSearch(kayaModelId,title,isDownload) {
 				limits: [2, 5, 12],
 				done: function (res, curr, count) {
 					// 设置第一行为默认选择状态，更改背景色以及字体颜色
-					Layui_SetDataTableRowColor('tablediv_' + kayaModelId, 0, '#2F4056', '#fff');
+					Layui_SetDataTableRowColor(kayaModelId, 0, '#2F4056', '#fff');
 					// 取得被选择行数据
 					G_DataRowListMap.set(kayaModelId,res.data[0]);
+//					G_SelectDataRowIndexMap.set(kayaModelId,res.data[0]['LAY_TABLE_INDEX']);
 					//alert(JSON.stringify(res.data[0]));
 				}
 			});
@@ -1118,17 +1122,51 @@ function doSearch(kayaModelId,title,isDownload) {
 					break;
 				};
 			});
+			
+			//监听排序事件 
+			table.on('sort('+ kayaModelIdTab + ')', function(obj){ //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+				Layui_SetDataTableRowColor(kayaModelId,0, '#2F4056', '#fff');
+//			// 设置第一行为默认选择状态，更改背景色以及字体颜色
+				//Layui_SetDataTableRowColor('tablediv_' + kayaModelId, 0, '#2F4056', '#fff');
+//				G_DataRowListMap.set(kayaModelId,obj.data);
+				//G_SelectDataRowIndexMap.set(kayaModelId,G_DataRowListMap.get(kayaModelId)['LAY_TABLE_INDEX']);
+				//alert(JSON.stringify(G_DataRowListMap.get(kayaModelId)['LAY_TABLE_INDEX']));
+				
+				//Layui_SetDataTableRowColor('tablediv_' + kayaModelId, G_SelectDataRowIndexMap.get(kayaModelId), '#2F4056', '#fff');
+				// 取得被选择行数据
+				//G_DataRowListMap.set(kayaModelId,res.data[0]);
+			  //尽管我们的 table 自带排序功能，但并没有请求服务端。
+			  //有些时候，你可能需要根据当前排序的字段，重新向服务端发送请求，从而实现服务端排序，如：
+			  table.reload(kayaModelId, {
+			   done: function (res, curr, count) {
+					// 设置第一行为默认选择状态，更改背景色以及字体颜色
+					
+					// 取得被选择行数据
+					//G_DataRowListMap.set(kayaModelId,res.data[G_SelectDataRowIndexMap.get(kayaModelId)]);
+			    	//G_SelectDataRowIndexMap.set(kayaModelId,res.data[0]['LAY_TABLE_INDEX']);
+			    	
+					
+					alert(JSON.stringify(G_DataRowListMap.get(kayaModelId)));
+					alert(JSON.stringify(res.data[0]['LAY_TABLE_INDEX']));
+					//G_SelectDataRowIndexMap.set(kayaModelId,res.data[0]['LAY_TABLE_INDEX']);
+				}
+			  
+			  
+			  });
+			  
+			});
 
 			//监听行单击事件（双击事件为：rowDouble）
 			table.on('row(' + kayaModelIdTab +')', function(obj){
 				//alert(JSON.stringify(obj.data));
 				// 恢复默认行的背景色以及字体颜色
-				Layui_SetDataTableRowColor('tablediv_' + kayaModelId, 0, '#fff', '#666');
+				Layui_SetDataTableRowColor(kayaModelId, 0, '#fff', '#666');
 
 				// 标注选中样式
 				obj.tr.addClass('layui-bg-cyan').siblings().removeClass('layui-bg-cyan');
 				// 取得被选择行数据
 				G_DataRowListMap.set(kayaModelId,obj.data);
+				G_SelectDataRowIndexMap.set(kayaModelId,obj.data['LAY_TABLE_INDEX']);
 
 			});
 		} else {			
@@ -1417,7 +1455,8 @@ function addRow(kayaModelId,Title,isEditFlg) {
 
 				// 业务流程的情况添加状态
 				if (workflowList.length!=0) {
-					contentHtml = contentHtml + " <div style=\"background-color: #eee;\">" +
+					contentHtml = contentHtml + 
+					" <div style=\"background-color: #eee;\">" +
 					"     <div style=\"height:20px\"></div>" +
 					"     <header><div class=\"layui-carousel\" id=\"stepForm\" lay-filter=\"stepForm\" style=\"margin: 40 50 50 50;\"></div></header>" +
 					"     <div style=\"height:40px\"></div>" +
@@ -1448,6 +1487,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
 						{
 						case 'Action':
 							buttonItems = buttonItems + "<button class=\"layui-btn\" top=\"50%\" lay-submit=\"\" actionid=\"insert\"  id=\"" + workflowList[x]['kayamodelid'] + "\">" + workflowList[x]['label'] + "</button>";
+							//alert(workflowList[x]['kayamodelid']);
 							break;
 						case 'Property':
 							propertyItem = propertyItem + "<div class=\"layui-form-item\">" +
@@ -1767,7 +1807,7 @@ function Layui_SetDataTableRowColor(DivId,RowIndex, BackgroundColor,Color)
 {
 	try
 	{
-		var div = document.getElementById(DivId);
+		var div = document.getElementById('tablediv_' + DivId);
 		if(div != null) //找到对象了
 		{
 			var table_main = div.getElementsByClassName('layui-table-main');   //通过class获取table_main

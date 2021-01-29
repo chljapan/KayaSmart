@@ -922,6 +922,37 @@ public final class ParseKayaModel_XPATH {
 					}
 					atomAttributesMap.put(mgaAttributes.getItem(j).getMeta().getName(), MasterItemList);
 					// 
+				} else if (Constant.ORGANIZATION.equals(mgaAttributes.getItem(j).getMeta().getName())) {
+					List<String> organizationItems = new ArrayList<String>();
+					for (String organizationItem : mgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
+						organizationItems.add(organizationItem);
+					}
+					atomAttributesMap.put(mgaAttributes.getItem(j).getMeta().getName(), organizationItems);
+					// 
+				} else if (Constant.WF_PERMISSIONS.equals(mgaAttributes.getItem(j).getMeta().getName())) {
+					List<KayaModelPermissionsItem> permissionItems = new ArrayList<KayaModelPermissionsItem>();
+					for (String permissionItem : mgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
+						if(StringUtil.isNotEmpty(permissionItem)) {
+							KayaModelPermissionsItem perItem = new KayaModelPermissionsItem();
+							permissionItem = permissionItem.replace("\"", "");
+							String[] perStr = permissionItem.split(":|==", 2);
+							if(perStr.length > 1) {
+								perItem.setId(perStr[0].toString());
+								String perValue = perStr[1].toString();
+								if(perValue.startsWith("{") || perValue.startsWith("[") ){
+									String newString = perValue.substring(1, perValue.length() - 1);
+									List<String> valueList = Arrays.asList(newString.split(","));
+									perItem.setText(valueList);
+								}
+								permissionItems.add(perItem);
+							} else {								
+								kayaLoger.error("(" + obj.getName() + ":" + obj.getID() + ")Permissions format was invalid. "+ "\n");
+								kayaLoger.error("Please use the format: userInfo:{M,GL} " + "\n");
+							}
+						}
+					}
+					atomAttributesMap.put(mgaAttributes.getItem(j).getMeta().getName(), permissionItems);
+					//
 				} else {
 					atomAttributesMap.put(mgaAttributes.getItem(j).getMeta().getName(), mgaAttributes.getItem(j).getValue().toString().trim());
 				}
@@ -1459,6 +1490,37 @@ public final class ParseKayaModel_XPATH {
 									}
 									atomAttributesMap.put(attributeElement.getAttribute(Constant.KIND), MasterItemList);
 									// Other
+								} else if (Constant.ORGANIZATION.equals(attributeElement.getAttribute(Constant.KIND))) {
+									List<String> organizationItems = new ArrayList<String>();
+									for (String organizationItem : attributeElement.getTextContent().trim().split("\n")) {
+										organizationItems.add(organizationItem);
+									}
+									atomAttributesMap.put(attributeElement.getAttribute(Constant.KIND), organizationItems);
+									// 
+								} else if (Constant.WF_PERMISSIONS.equals(attributeElement.getAttribute(Constant.KIND))) {
+									List<KayaModelPermissionsItem> permissionItems = new ArrayList<KayaModelPermissionsItem>();
+									for (String permissionItem : attributeElement.getTextContent().trim().split("\n")) {
+										if(StringUtil.isNotEmpty(permissionItem)) {
+											KayaModelPermissionsItem perItem = new KayaModelPermissionsItem();
+											permissionItem = permissionItem.replace("\"", "");
+											String[] perStr = permissionItem.split(":|==", 2);
+											if(perStr.length > 1) {
+												perItem.setId(perStr[0].toString());
+												String perValue = perStr[1].toString();
+												if(perValue.startsWith("{") || perValue.startsWith("[") ){
+													String newString = perValue.substring(1, perValue.length() - 1);
+													List<String> valueList = Arrays.asList(newString.split(","));
+													perItem.setText(valueList);
+												}
+												permissionItems.add(perItem);
+											} else {								
+												kayaLoger.error("(" + eElement.getTextContent() + ":" + eElement.getAttribute(Constant.ID) + ")Permissions format was invalid. "+ "\n");
+												kayaLoger.error("Please use the format: userInfo:{M,GL} " + "\n");
+											}
+										}
+									}
+									atomAttributesMap.put(attributeElement.getAttribute(Constant.KIND), permissionItems);
+									//
 								} else {
 									atomAttributesMap.put(attributeElement.getAttribute(Constant.KIND), attributeElement.getTextContent().trim());
 								}

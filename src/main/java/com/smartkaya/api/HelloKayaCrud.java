@@ -40,7 +40,43 @@ import net.sf.json.JSONObject;
 @Controller
 @RestController
 public class HelloKayaCrud {
+	// 用户信息初期化（测试用）
 
+	private enum UserType {
+
+		E,EO,PEM,PM,GL,PL;
+	};
+	private User initUserInfo(UserType userType) {
+		User user= new User();
+		List<String> roleList = new ArrayList<String>();
+		roleList.add("E");
+		roleList.add("EO");
+		user.setRoleList(roleList);
+		
+		
+		List<String> permissions = new ArrayList<String>();
+		permissions.add("E");
+		permissions.add("M");
+		permissions.add("GL");
+		user.setPermissions(permissions);
+		Map<String, Object> userMap = new HashMap<String, Object>();
+		userMap.put("PemId","ChenLiang");
+		userMap.put("BumenCode","2");
+		userMap.put("ZhiweiCode","99");
+		user.setUserMap(userMap);
+		switch (userType){
+		case E:
+			
+			break;
+		case EO:
+			
+			break;
+		default:
+			break;
+		}
+		
+		return user;
+	}
 	@RequestMapping(value = "/kayaselect", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKayaSelect(final HttpServletRequest request, final HttpServletResponse response) {

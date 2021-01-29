@@ -1236,7 +1236,7 @@ public final class KayaSQLExecute {
 		// 取得业务流开始元素
 		String startUserTaskId = AccessKayaModel
 				.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
-		if (!AccessKayaModel.getParentId(actionId).equals(startUserTaskId)) {
+		if (!actionId.equals(startUserTaskId)) {
 			return "";
 		}
 		KayaMetaModel startModel = AccessKayaModel.getKayaModelId(startUserTaskId);

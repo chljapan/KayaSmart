@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.util.StringUtils;
+
 import com.smartkaya.bean.GridColumn;
 import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
@@ -92,9 +94,13 @@ public class KayaMetaModel implements java.io.Serializable,Comparable<Object>{
 		return attributesMap.get(key) == null?"":attributesMap.get(key).toString();
 	}
 	
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public List<String> getOrganizationItems(){
-		return ((List<String>)attributesMap.get(Constant.ORGANIZATION));
+		if (StringUtils.isEmpty(attributesMap.get(Constant.ORGANIZATION))) {
+			return new ArrayList();
+		} else {
+			return ((List<String>)attributesMap.get(Constant.ORGANIZATION));
+		}
 	}
 	@SuppressWarnings("unchecked")
 	public List<KayaModelPermissionsItem> getPermissionsItems(){
