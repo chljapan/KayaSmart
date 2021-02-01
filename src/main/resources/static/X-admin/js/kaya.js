@@ -387,12 +387,14 @@ layui.config({
 						html = html + 
 						"<button onclick=\"EditDetailedInfo('"+ kayaModelId + "','"  + buttonItems[x]['kayamodelid'] + "','" + buttonItems[x]['title']+ "','" + name + "')\" class=\"layui-btn layui-btn-radius subButton" + kayaModelId + "\">" + buttonItems[x]['title'] + "</button>";
 					}
+					var toolbar = InitToolbar(wfType);
+					
 					html = html + 
 					"</xblock>" +
 					"<div id=\"tablediv_" + kayaModelIdTab + "\">" +
-					"	<table class=\"layui-table\"  id=\""+kayaModelIdTab +"\" lay-data=\"{toolbar:'#toolbar1c',defaultToolbar:'[]'}\" lay-filter=\""+kayaModelIdTab +"\">";
+					"	<table class=\"layui-table\"  id=\""+kayaModelIdTab +"\" lay-data=\"{toolbar:\'#" + toolbar + "\',defaultToolbar:'[]'}\" lay-filter=\""+kayaModelIdTab +"\">";
 
-
+					//alert(html);
 					//+++++++++++++++++++++++++++++++++++++++++++检索条件结束++++++++++++++++++++++++++++++++++++++++++++
 
 					//+++++++++++++++++++++++++++++++++++++++++++表格编辑开始++++++++++++++++++++++++++++++++++++++++++++
@@ -787,7 +789,7 @@ layui.config({
 				$(elem).find('.layui-carousel-arrow[lay-type=sub]').trigger('click');
 			}
 	};
-	//layui.link(layui.cache.base + './css/step.css');s
+
 });
 
 /**
@@ -930,7 +932,7 @@ function EditDetailedInfo(parentKayaModelId,kayaModelId,title,parentTitle) {
 		}
 	}
 	//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 Start++++++++++++++++++++++++++++++++++++
-	toolbar = getToolbar(kayaModelId,title);
+	toolbar = getToolbar(kayaModelId,title,'');
 	//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 End++++++++++++++++++++++++++++++++++++++
 	var column = [];// 列明数组
 	var buttonItems=[];// 按钮数组
@@ -1052,7 +1054,10 @@ function doSearch(kayaModelId,title,isDownload,wfType) {
 		}
 
 		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 Start++++++++++++++++++++++++++++++++++++		
-		toolbar = getToolbar(kayaModelId,title);
+		//var toolbar = getToolbar(kayaModelId,title,wfType);
+		
+		
+		
 		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 End++++++++++++++++++++++++++++++++++++++
 		//alert(searchValue);
 
@@ -1076,7 +1081,7 @@ function doSearch(kayaModelId,title,isDownload,wfType) {
 		});
 
 		if(!isDownload) {
-			toolbar = 'default';
+			//toolbar = 'default';
 			defaultToolbar = ['filter', { //自定义头部工具栏右侧图标。如无需自定义，去除该参数即可
 				title: 'ダウンロード'
 					,layEvent: 'download'
@@ -1088,20 +1093,21 @@ function doSearch(kayaModelId,title,isDownload,wfType) {
 			} else {
 				$(".subButton"+kayaModelId).attr('disabled', true);
 				$(".subButton"+kayaModelId).css({"background-color":"grey"});
-				toolbar = '#toolbar1c';
+				//toolbar = '#toolbar1c';
 				defaultToolbar = '[]';
 			}
 
 			//+++++++++++++++++++++++++++重新设定TabId Start+++++++++++++++++++++++++++++++++++++++++++++
 			kayaModelIdTab = kayaModelId;
 			//+++++++++++++++++++++++++++重新设定TabId End+++++++++++++++++++++++++++++++++++++++++++++++
-
+			var reset_toolbar = getToolbar(kayaModelId,title,wfType);
+			
 			form.render('select');
 			table.reload(kayaModelIdTab, {
 				smartReloadModel: true,
 				data: rows,
 				//toolbar:'default',
-				toolbar: toolbar,
+				toolbar: '#' + reset_toolbar,
 				defaultToolbar: defaultToolbar,
 				//even: true,
 				//totalRow:true,
@@ -1909,26 +1915,41 @@ function getNowFormatDate() {
  * 个别画面检索结果操作按钮（toolbar）设定
  * @param kayaModelId 画面ID
  */
-function getToolbar(kayaModelId,title) {
-//	switch(kayaModelId)
-//	{
-//	// 画面1
-//	case 'id-0000-00000000':
-//	return '#toolbar19';
-//	case 'id-0000-00000001':
-//	// 画面2
-//	if(title==Title1) {
-//	return true;
-//	}
-//	return '#toolbar1b';
-//	case 'id-0000-000000003':
-//	// 
-//	return '#toolbar1c';
-//	case 'id-0000-00000002':
-//	// 画面3
-//	return '#toolbar1b';
-//	default:+
-//	return 'default';
-//	}
-	return 'default';
+function InitToolbar(wfType) {
+	var toolbar = '';
+	switch(wfType){
+	case "":
+		toolbar = 'toolbar1c';
+		break;
+	case "apply":
+		toolbar = 'toolbar1c';
+		break;
+	case "approval":
+		toolbar = 'toolbar1aaa';
+		break;
+	default:
+		toolbar = 'default';
+	}
+	return toolbar;
+}
+/**
+ * 个别画面检索结果操作按钮（toolbar）设定
+ * @param kayaModelId 画面ID
+ */
+function getToolbar(kayaModelId,title,wfType) {
+	var toolbar = '';
+	switch(wfType){
+	case "":
+		toolbar = 'default';
+		break;
+	case "apply":
+		toolbar = 'default';
+		break;
+	case "approval":
+		toolbar = 'toolbar1a';
+		break;
+	default:
+		toolbar = 'default';
+	}
+	return toolbar;
 }
