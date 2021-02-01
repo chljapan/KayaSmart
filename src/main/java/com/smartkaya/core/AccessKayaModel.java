@@ -477,6 +477,7 @@ public final class AccessKayaModel {
 					menuTree.put("id", entity.getKey());
 					menuTree.put("text",getKayaModelId(entity.getKey()).getName());
 					menuTree.put("kindtype",getKayaModelId(entity.getKey()).getMetaModelType());
+					menuTree.put("wftype","");
 					menuTree.put("attributes",getKayaModelId(entity.getKey()).getAttributesMap());
 					if (Constant.G_PRODUCT.equals(getKayaModelId(entity.getKey()).getMetaModelType())) {
 						getMenu(entity.getKey(),menuTree);
@@ -491,11 +492,24 @@ public final class AccessKayaModel {
 			for (Map.Entry<String, String> entity : kayaModelAccess.ProductRefMap.entrySet()) {
 				Map<String,Object> menuTreeWorkFlow = new HashMap<String,Object>();
 				menuTreeWorkFlow.put("id", entity.getKey());
-				menuTreeWorkFlow.put("text",getKayaModelId(entity.getKey()).getName());
+				menuTreeWorkFlow.put("text",getKayaModelId(entity.getKey()).getName() + "(申请)");
 				menuTreeWorkFlow.put("kindtype",getKayaModelId(entity.getKey()).getMetaModelType());
+				menuTreeWorkFlow.put("wftype",Constant.APPLY);
 				menuTreeWorkFlow.put("attributes",getKayaModelId(entity.getKey()).getAttributesMap());
 				
-				getMenuWorkflow_html5(entity.getKey(),menuTreeWorkFlow);
+				getMenuWorkflow_html5(entity.getKey(),menuTreeWorkFlow,Constant.APPLY);
+				menuTreeList.add(menuTreeWorkFlow);
+			}
+			
+			for (Map.Entry<String, String> entity : kayaModelAccess.ProductRefMap.entrySet()) {
+				Map<String,Object> menuTreeWorkFlow = new HashMap<String,Object>();
+				menuTreeWorkFlow.put("id", entity.getKey());
+				menuTreeWorkFlow.put("text",getKayaModelId(entity.getKey()).getName() + "(审批)");
+				menuTreeWorkFlow.put("kindtype",getKayaModelId(entity.getKey()).getMetaModelType());
+				menuTreeWorkFlow.put("wftype",Constant.APPROVAL);
+				menuTreeWorkFlow.put("attributes",getKayaModelId(entity.getKey()).getAttributesMap());
+				
+				getMenuWorkflow_html5(entity.getKey(),menuTreeWorkFlow,Constant.APPROVAL);
 				menuTreeList.add(menuTreeWorkFlow);
 			}
 			
@@ -521,6 +535,7 @@ public final class AccessKayaModel {
 				childrenMenuTree.put("id",entity.getKey());
 				childrenMenuTree.put("text",getKayaModelId(entity.getKey()).getName());
 				childrenMenuTree.put("kindtype",getKayaModelId(entity.getKey()).getMetaModelType());
+				childrenMenuTree.put("wftype","");
 				if (Constant.G_ROLE.equals(getKayaModelId(entity.getKey()).getMetaModelType())){
 					childrenMenuTree.put("iconCls", Constant.G_ROLE);
 				}
@@ -547,7 +562,7 @@ public final class AccessKayaModel {
 	 * @param menuTree
 	 * @return
 	 */
-	private static void getMenuWorkflow_html5(String kayaModelId,Map<String,Object> menuTree) {
+	private static void getMenuWorkflow_html5(String kayaModelId,Map<String,Object> menuTree,String wfType) {
 		List<Map<String, Object>> children = new ArrayList<Map<String,Object>>();
 		for (Map.Entry<String, String> entity : kayaModelAccess.WorkFlowItems.entrySet()) {
 			if(kayaModelId.equals(getKayaModelId(entity.getValue()).getParentId())){
@@ -555,6 +570,7 @@ public final class AccessKayaModel {
 				childrenMenuTree.put("id",entity.getKey());
 				childrenMenuTree.put("text",getKayaModelId(entity.getKey()).getName());
 				childrenMenuTree.put("kindtype",getKayaModelId(entity.getKey()).getMetaModelType());
+				childrenMenuTree.put("wftype",wfType);
 				childrenMenuTree.put("state","closed");
 				childrenMenuTree.put("attributes",getKayaModelId(entity.getKey()).getAttributesMap());
 				children.add(childrenMenuTree);

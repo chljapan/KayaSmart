@@ -44,32 +44,118 @@ public class HelloKayaCrud {
 
 	private enum UserType {
 
-		E,EO,PEM,PM,GL,PL;
+		E1,E2,E3,EO,PEM,PM,GL,PL;
 	};
 	private User initUserInfo(UserType userType) {
-		User user= new User();
+		User user = new User();
+
 		List<String> roleList = new ArrayList<String>();
-		roleList.add("E");
-		roleList.add("EO");
-		user.setRoleList(roleList);
-		
-		
 		List<String> permissions = new ArrayList<String>();
-		permissions.add("E");
-		permissions.add("M");
-		permissions.add("GL");
-		user.setPermissions(permissions);
 		Map<String, Object> userMap = new HashMap<String, Object>();
-		userMap.put("PemId","ChenLiang");
-		userMap.put("BumenCode","2");
-		userMap.put("ZhiweiCode","99");
-		user.setUserMap(userMap);
+		
 		switch (userType){
-		case E:
+		case E1:
 			
+			roleList.add("E");
+			user.setRoleList(roleList);
+			user.setUserId("10001");
+
+			permissions.add("E");
+			user.setPermissions(permissions);
+			
+			userMap.put("PemId","10004");
+			userMap.put("BumenCode","20");
+			userMap.put("ZhiweiCode","1");
+			user.setUserMap(userMap);
+			break;
+		case E2:
+			
+			user.setUserId("10002");
+			roleList.add("E");
+			user.setRoleList(roleList);
+
+			permissions.add("E");
+			user.setPermissions(permissions);
+			
+			userMap.put("PemId","10004");
+			userMap.put("BumenCode","20");
+			userMap.put("ZhiweiCode","1");
+			user.setUserMap(userMap);
 			break;
 		case EO:
 			
+			user.setUserId("10003");
+			roleList.add("EO");
+			user.setRoleList(roleList);
+
+			permissions.add("E");
+			user.setPermissions(permissions);
+			
+			userMap.put("PemId","10004");
+			userMap.put("BumenCode","20");
+			userMap.put("ZhiweiCode","0");
+			user.setUserMap(userMap);
+			break;
+		case PEM:
+			
+			user.setUserId("10004");
+			roleList.add("E");
+			user.setRoleList(roleList);
+
+			permissions.add("E");
+			permissions.add("PEM");
+			user.setPermissions(permissions);
+			
+			userMap.put("PemId","10006");
+			userMap.put("BumenCode","20");
+			userMap.put("ZhiweiCode","4");
+			user.setUserMap(userMap);
+			break;
+		case PM:
+			
+			user.setUserId("10005");
+			roleList.add("E");
+			user.setRoleList(roleList);
+
+			permissions.add("E");
+			permissions.add("PM");
+			user.setPermissions(permissions);
+			
+			userMap.put("PemId","10001");
+			userMap.put("BumenCode","20");
+			userMap.put("ZhiweiCode","3");
+			user.setUserMap(userMap);
+			break;
+		case GL:
+			
+			user.setUserId("10006");
+			roleList.add("E");
+			roleList.add("EO");
+			user.setRoleList(roleList);
+
+			permissions.add("E");
+			permissions.add("PEM");
+			permissions.add("GL");
+			user.setPermissions(permissions);
+			
+			userMap.put("PemId","10008");
+			userMap.put("BumenCode","20");
+			userMap.put("ZhiweiCode","5");
+			user.setUserMap(userMap);
+			break;
+		case PL:
+			
+			user.setUserId("10007");
+			roleList.add("E");
+			user.setRoleList(roleList);
+
+			permissions.add("E");
+			user.setPermissions(permissions);
+			
+			userMap.put("PemId","10006");
+			userMap.put("BumenCode","20");
+			userMap.put("ZhiweiCode","2");
+			user.setUserMap(userMap);
 			break;
 		default:
 			break;
@@ -85,10 +171,14 @@ public class HelloKayaCrud {
 		// 获取前台参数
 		String searchName = request.getParameter("searchname");
 		String searchValue = request.getParameter("searchvalue");
+		String wftype = request.getParameter("wftype");
 
 		Paramater paramater = new Paramater();
 		paramater.setId(kayaModelId);
 		paramater.setMapping(new Mapping());
+		
+		paramater.setUsrinfo(initUserInfo(UserType.E1));
+		
 		// 检索Map
 		Map<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
 		propertys.put(searchName, searchValue == null ? "" : searchValue);
@@ -139,8 +229,8 @@ public class HelloKayaCrud {
 	@RequestMapping(value = "/kayainsert", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKayaInsert(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		//HttpSession session = request.getSession();
+
 		String kayaModelId = request.getParameter("kayaModelId");
 		String actionId = request.getParameter("actionId");
 
@@ -151,9 +241,16 @@ public class HelloKayaCrud {
 				Map.class);
 
 		Paramaters paramaters = new Paramaters();
+		
+		// 普通用户
+		
+		
+		paramaters.setUsrinfo(initUserInfo(UserType.E1));
+		
+		
 		paramaters.setId(kayaModelId);
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
-		paramaters.setUsrinfo(user);
+		//paramaters.setUsrinfo(user);
 		List<Mapping> mappings = new ArrayList<Mapping>();
 		paramaters.setMappings(mappings);
 		for (Map<String, Object> emptyMap : kvParamaterList) {

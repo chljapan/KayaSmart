@@ -175,6 +175,10 @@ public class Constant {
 	public static final String ORGANIZATION= "Organization";
 	public static final String WF_PERMISSIONS= "Permissions";
 	
+	public static final String FLOWCODE = "flowcode";
+	public static final String FLOWSUBCODE = "flowsubcode";
+	public static final String APPLY = "apply";
+	public static final String APPROVAL = "approval";
 	
 	// login user information
 	public static final String P_USERTABLEID = "user.tableId";

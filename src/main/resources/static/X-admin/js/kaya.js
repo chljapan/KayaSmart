@@ -19,6 +19,10 @@ var G_WorkflowBusinessKey = new Map();
 /** 登录用户信息 */
 var loginUserInfo = parent.loginUserInfo;
 
+/** 是否从Menu打开Tab */
+//var G_FromMenuMap = new Map(); 
+//var G_WordFlowIdMap = new Map();
+
 /**
  * 加载通用模块信息（tablePlug）f
  */
@@ -104,11 +108,13 @@ layui.config({
 		var kayaModelId = dataid.attr("data-id");
 		var url = dataid.attr("data-url");
 		var title = dataid.attr("data-title");
+		var wfType = dataid.attr("data-wftype");
 		var column = [];
 		var businessSubKeys = [];
 		var businessKeys = [];
 		var buttonItems=[];
 
+		//var wfid = dataid.attr("data-wfid");
 		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 Start++++++++++++++++++++++++++++++++++++
 		toolbar = getToolbar(kayaModelId,title);
 		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 End++++++++++++++++++++++++++++++++++++++
@@ -117,7 +123,8 @@ layui.config({
 		//这时会判断右侧.layui-tab-title属性下的有lay-id属性的li的数目，即已经打开的tab项数目
 		if ($(".layui-tab-title li[lay-id]").length <= 0) {
 			//如果比零小，则直接打开新的tab项
-			active.tabAdd(url, kayaModelId, title, buttonItems, column,"","");
+			//G_WordFlowIdMap.set(kayaModelId,dataid.attr("data-wfid"));
+			active.tabAdd(url, kayaModelId, title, buttonItems, column,"","",wfType);
 		} else {
 			//否则判断该tab项是否以及存在
 			var isData = false; //初始化一个标志，为false说明未打开该tab项 为true则说明已有
@@ -132,7 +139,8 @@ layui.config({
 			});
 
 			if (!isData) {
-				active.tabAdd(url, kayaModelId, title, buttonItems, column,"","");
+				//G_WordFlowIdMap.set(kayaModelId,dataid.attr("data-wfid"));
+				active.tabAdd(url, kayaModelId, title, buttonItems, column,"","",wfType);
 			} else {
 				return;
 			}
@@ -211,8 +219,9 @@ layui.config({
 	var element = layui.element;
 	active = {
 			//在这里给active绑定几项事件，后面可通过active调用这些事件
-			tabAdd: function(url, kayaModelId, name, buttonItems, column,parentKayaModelId,parentTitle) {
+			tabAdd: function(url, kayaModelId, name, buttonItems, column,parentKayaModelId,parentTitle,wfType) {
 				//新增一个Tab项 传入三个参数，分别是tab页面的地址，还有一个规定的id，对应其标题，是标签中data-id的属性值
+				
 				//关于tabAdd的方法所传入的参数可看layui的开发文档中基础方法部分
 				var html = '<iframe tab-id="'+kayaModelId+'" frameborder="0" src="'+url+'" scrolling="yes" class="x-iframe"></iframe>';
 				var kayaModelIdTab = kayaModelId;
@@ -233,6 +242,7 @@ layui.config({
 
 					// 子表头部处理
 					if (parentKayaModelId != "") {
+						//G_FromMenuMap.set(kayaModelId,false);
 						//+++++++++++++++++++++++++++++++++++++++++++详细信息开始++++++++++++++++++++++++++++++++++++++++++++
 						html = html + 
 						"		<fieldset id=\"parent_" + kayaModelId + "\"class=\"layui-elem-field\">" +
@@ -265,6 +275,8 @@ layui.config({
 						"		</table>" +
 						"	</div></div></div></div>" +
 						"</fieldset>";
+					} else {
+						//G_FromMenuMap.set(kayaModelId,true);
 					}
 					//+++++++++++++++++++++++++++++++++++++++++++详细信息结束++++++++++++++++++++++++++++++++++++++++++++
 
@@ -365,7 +377,7 @@ layui.config({
 					}
 
 					html = html + 
-					"				<input type=\"button\" class=\"layui-btn layui-block\" onclick=\"doSearch(\'" + kayaModelId + "\',\'" + name + "\',false)\" value=\"Search\"/></div>" +
+					"				<input type=\"button\" class=\"layui-btn layui-block\" onclick=\"doSearch(\'" + kayaModelId + "\',\'" + name + "\',false,\'" + wfType + "\')\" value=\"Search\"/></div>" +
 					"		</fieldset></form>" +
 					"	<div class=\"layui-form-item\"></div>" +
 					"</div>" +
@@ -462,6 +474,8 @@ layui.config({
 			},
 			tabDelete: function (kayaModelIdTab) {
 				element.tabDelete('home-tabs', kayaModelIdTab); //删除
+				//G_FromMenuMap.delete(kayaModelId);
+				//G_WordFlowIdMap.delete(kayaModelId);
 			},
 			tabRefresh: function (kayaModelIdTab) { //刷新页面
 				$("iframe[data-frameid='" + kayaModelIdTab + "']").attr("src", $("iframe[data-frameid='" + kayaModelIdTab + "']").attr("src")) //刷新框架
@@ -838,8 +852,9 @@ function editTreeHtmlAuto(ulHtml,nodes) {
 			dlHtml = dlHtml + _liHtml;
 
 		} else {
+			//var workflowId = nodes[x]['attributes']['WorkFlowId'];
 			var _aHtml = "<dd><a class=\"site-demo-active\" data-url=\"admin-role.html\" data-id=\"" + 
-			nodes[x]['id'] + "\" data-title=\"" + nodes[x]['text'] + "\"data-type=\"tabAdd\" href=\"javascript:void(0);\">" + nodes[x]['text'] +"</a></dd>";
+			nodes[x]['id'] + "\" data-title=\"" + nodes[x]['text'] + "\" data-wftype=\"" + nodes[x]['wftype'] + "\" data-type=\"tabAdd\" href=\"javascript:void(0);\">" + nodes[x]['text'] +"</a></dd>";
 			dlHtml=dlHtml + _aHtml;
 			if(nodes[x]['iconCls'] == 'WorkFlow') {
 				var _aHtml = "<dd><a class=\"site-demo-active\" data-url=\"admin-role.html\" data-id=\"" + 
@@ -945,7 +960,7 @@ function EditDetailedInfo(parentKayaModelId,kayaModelId,title,parentTitle) {
 		//标志为false 新增一个tab项
 		//alert($(this).children('a').attr('kayaid'));
 		//---------------------------------按钮，表列明编辑---------------------------------------
-		businessKeysData= active.tabAdd("", kayaModelId, title, buttonItems,column,parentKayaModelId,parentTitle);
+		businessKeysData= active.tabAdd("", kayaModelId, title, buttonItems,column,parentKayaModelId,parentTitle,"");
 		active.tabChange(kayaModelIdTab);
 		if(!G_BusinessKeyMap.has(kayaModelId)) {
 			G_BusinessKeyMap.push(kayaModelId,businessKeysData);
@@ -996,7 +1011,8 @@ function EditDetailedInfo(parentKayaModelId,kayaModelId,title,parentTitle) {
  * @param kayaModelId
  * @returns
  */
-function doSearch(kayaModelId,title,isDownload) {
+function doSearch(kayaModelId,title,isDownload,wfType) {
+	
 	var rows = [];
 	var kvParamaterList = [];
 	if(G_BusinessKeyMap.has(kayaModelId)) {
@@ -1004,7 +1020,6 @@ function doSearch(kayaModelId,title,isDownload) {
 	} else {
 		kvParamaterList.push(eval('({})'));
 	}
-
 	layui.config({base: '../../layui/plug/'})
 	.use(['tablePlug', 'laydate'], function () {
 		//var tablePlug = layui.tablePlug;
@@ -1017,6 +1032,8 @@ function doSearch(kayaModelId,title,isDownload) {
 		var searchValue=$('#searchvalue_' + kayaModelId).val();
 
 		var columnsMap = G_ColumnsMap.get(kayaModelId);
+		
+		//alert(G_Title);
 		// Master项目处理
 		for (x in columnsMap) {
 			// Hidden项非表示
@@ -1034,10 +1051,11 @@ function doSearch(kayaModelId,title,isDownload) {
 			}
 		}
 
-		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 Start++++++++++++++++++++++++++++++++++++
+		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 Start++++++++++++++++++++++++++++++++++++		
 		toolbar = getToolbar(kayaModelId,title);
 		//++++++++++++++++++++++++++++++++个别画面检索结果操作按钮（toolbar）设定 End++++++++++++++++++++++++++++++++++++++
 		//alert(searchValue);
+
 		var workflowActionId = $(this).attr("actionid");
 		$.ajax({
 			url : "/kayaselect",
@@ -1047,6 +1065,7 @@ function doSearch(kayaModelId,title,isDownload) {
 				'kayaModelId' : kayaModelId,
 				'searchname' : searchKey,
 				'searchvalue' : searchValue,
+				'wftype' : wfType,
 				'orientationKey' : G_Orientationkey.get(kayaModelId),
 				"searchParamaterList" : '[' + fromValue +']',
 				"kvParamaterList" : JSON.stringify(kvParamaterList)
@@ -1099,29 +1118,7 @@ function doSearch(kayaModelId,title,isDownload) {
 					//alert(JSON.stringify(res.data[0]));
 				}
 			});
-			//监听头工具栏事件
-			table.on('toolbar('+ kayaModelIdTab + ')', function(obj){
-				var checkStatus = table.checkStatus(obj.config.id);
-				var data = checkStatus.data; //获取选中的数据
-				switch(obj.event){
-				case 'add':
-					addRow(kayaModelId,title,false);
-					break;
-				case 'update':
-					addRow(kayaModelId,title,true);
-					break;
-				case 'delete':
-					//alert(JSON.stringify(G_BusinessKeyMap.get(kayaModelId)));
-					//alert(kayaModelId + ":" +JSON.stringify(G_BusinessKeyListMap.get(kayaModelId)));
-					deleteRow(kayaModelId,data,title);
-					break;
-				case 'download':
-					//alert(JSON.stringify(G_BusinessKeyMap.get(kayaModelId)));
-					//alert(kayaModelId + ":" +JSON.stringify(G_BusinessKeyListMap.get(kayaModelId)));
-					doSearch(kayaModelId,title,true);
-					break;
-				};
-			});
+
 			
 			//监听排序事件 
 			table.on('sort('+ kayaModelIdTab + ')', function(obj){ //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
@@ -1245,10 +1242,8 @@ function doSearch(kayaModelId,title,isDownload) {
  * @param isEditFlg 更新Flg(true=编辑, false=追加)
  * @returns
  */
-function addRow(kayaModelId,Title,isEditFlg) {
+function addRow(kayaModelId,Title,isEditFlg,wfType) {
 
-
-	//alert(parentKayaModelId);
 	//alert(JSON.stringify(businessKeysData));
 	var rowData={};
 	if (isEditFlg) {
@@ -1452,6 +1447,12 @@ function addRow(kayaModelId,Title,isEditFlg) {
 				columns = data.labelList; // 表列信息
 				businessKeyList = data.businessKeyList;// 取得主键信息
 				workflowList = data.workflowList; // 取得流程信息
+				
+				
+//				
+//				var p=$('#' + kayaModelId).tabs('getSelected'); //获取选择的面板对象
+//				var title=p.panel('options').title;//获取面板标题
+//				
 
 				// 业务流程的情况添加状态
 				if (workflowList.length!=0) {
@@ -1522,7 +1523,6 @@ function addRow(kayaModelId,Title,isEditFlg) {
 		//++++++++++++++++++++++++++++++++新规窗口End++++++++++++++++++++++++++++++++++++++
 
 		contentHtml = contentHtml +"</footer></div>";
-
 
 
 
@@ -1652,7 +1652,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
 						return;
 					}
 
-					inserteOrUpdateRow(kayaModelId,actionId,jsonBusinessSubkey,insertField,Title);
+					inserteOrUpdateRow(kayaModelId,actionId,jsonBusinessSubkey,insertField,Title,wfType);
 				}
 			});
 		}
@@ -1672,7 +1672,7 @@ function addRow(kayaModelId,Title,isEditFlg) {
  * @param Title
  * @returns
  */
-function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title){
+function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,wfType){
 	var insertOrUpdate = "";
 	if(actionId=='cencel'){
 		layer.closeAll();
@@ -1705,7 +1705,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title){
 		},
 		success : function(data) {
 			//alert("Inserted Success");
-			doSearch(kayaModelId,Title,false);
+			doSearch(kayaModelId,Title,false,wfType);
 		}
 	});
 	layer.closeAll();
@@ -1715,7 +1715,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title){
 	// 如果只有一条数据，默认选中状态
 }
 
-function deleteRow(kayaModelId,rowsData,title) {
+function deleteRow(kayaModelId,rowsData,title,wfType) {
 	if(rowsData.length === 0){
 		layer.msg('Please Select One.');
 	} else {
@@ -1762,7 +1762,7 @@ function deleteRow(kayaModelId,rowsData,title) {
 				'kayaModelId' : kayaModelId
 			},
 			success : function(data) {
-				doSearch(kayaModelId,title,false);
+				doSearch(kayaModelId,title,false,wfType);
 			}
 		});
 	}

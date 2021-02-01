@@ -14,7 +14,7 @@ import com.smartkaya.model.KayaMetaModel;
  * @version 1.0.0
  */
 public class KayaModelUtils {
-	public static final String selectString="SELECT gmeid,name,kind,kindtype,kindvalue,parentid,businessid,businesssubid,relid,orientationkey,flowcode,startdate,enddate,withdrawaldate,createdate,createuser,updatedate,updateuser,lockflg,lockuser FROM ";
+	public static final String selectString="SELECT gmeid,name,kind,kindtype,kindvalue,parentid,businessid,businesssubid,relid,orientationkey,flowcode,flowsubcode,startdate,enddate,withdrawaldate,createdate,createuser,updatedate,updateuser,lockflg,lockuser FROM ";
 	public static final String selectStringMain="SELECT m.gmeid,m.name,m.kind,m.kindtype,m.kindvalue,m.parentid,m.businessid,m.businesssubid,m.orientationkey,m.startdate,m.enddate,m.withdrawaldate,m.createdate,m.createuser,m.updatedate,m.updateuser,m.lockflg,m.lockuser FROM ";
 	/**
 	 * Business文字列取得

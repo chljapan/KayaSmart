@@ -542,7 +542,7 @@ public final class ParseKayaModel_XPATH {
 			}
 
 			//TODO 注：在模型中删除表后（可以视做表合并），元数据还会存在原来的表中（可以提供相应的Batch处理。。。暂时未对应，需要手动迁移数据到新的表中）
-			for (String kayaModelId: KayaModelTables) {
+			for (String kayaModelId: WorkFlowTables) {
 
 				switch (DBConnectionInfoMap.get(Constant.DBTYPE)) {
 				case Constant.MYSQL:

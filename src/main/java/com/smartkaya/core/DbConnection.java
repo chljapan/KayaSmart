@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.smartkaya.api.utils.StringUtil;
 import com.smartkaya.constant.Constant;
 import com.smartkaya.entity.KayaEntity;
@@ -499,6 +501,10 @@ public class DbConnection implements Pool {
 							}
 						}
 					}
+					// 流程状态处理（当前状态和接下来的Pending状态）
+				} else if (Constant.G_ROLE.equals(resultSet.getString(Constant.KINDTYPE)) && StringUtils.isNotEmpty(resultSet.getString(Constant.FLOWSUBCODE))) {
+					tempMap.put(AccessKayaModel.getKayaModelId(AccessKayaModel.getParentId(resultSet.getString(Constant.FLOWSUBCODE))).get(Constant.KINDKEY), resultSet.getString(Constant.KINDVALUE));
+					tempMap.put(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.FLOWCODE)).get(Constant.KINDKEY), "Pending");
 				}
 
 				// KayaEntity kayaEntity = new KayaEntity();
