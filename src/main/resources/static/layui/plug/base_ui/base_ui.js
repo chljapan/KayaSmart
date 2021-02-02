@@ -1,6 +1,9 @@
+/**
+ * UI元素的递归处理
+ * Group元素处理
+ */
 layui.define(["jquery"],function (exports) {
 	var obj = {
-
 			/**
 			 * 信息详细的分组处理（Group）s
 			 * @param columns 后台表元素信息
@@ -13,8 +16,6 @@ layui.define(["jquery"],function (exports) {
 				for (x in columns) {
 					if (columns[x].uniquekey) {
 						// 本画面的主键信息
-						//var arr = {columns[x]['field'].val(): rowData[columns[x]['field']].val()};
-						//label = "<span style=\"color:red\">" + columns[x].title + "</span>";
 						businessKeys_Json[columns[x]['field']] = rowData[columns[x]['field']];
 					}
 					contentHtml = contentHtml + "<tr><td>";
@@ -31,22 +32,17 @@ layui.define(["jquery"],function (exports) {
 						}
 						// Group 组件参数处理
 					}else if(columns[x].modeltype=='Group') {
-						//contentHtml = contentHtml + columns[x]['title'] + "</td><td>" + '' + "</td>";
 						// 递归处理Group的子项内容
 						var _contentHtml = "<span style=\"font-size:16px;font-style:italic;font-weight:bold;\">" + columns[x]['title'] +"</span></td><td>" + '' + "</td>";
 
-						//_contentHtml = _contentHtml + "<fieldset class=\"layui-elem-field\"><legend><span style=\"font-size:16px;font-style:italic;font-weight:bold;\">" + label +"</span></legend>";
 						// 递归处理Group的子项内容
 						_contentHtml = this.editeDetailedInfo(columns[x].editor.options.group,rowData,_contentHtml,businessKeys_Json);
-
 						contentHtml = contentHtml + _contentHtml;
 
 						// 其他组件参数通用处理
 					} else {
 						contentHtml = contentHtml + columns[x]['title'] + "</td><td>" + businessKeyText + "</td>";
 					}
-					
-					
 				}
 				return contentHtml;
 			},
@@ -58,7 +54,6 @@ layui.define(["jquery"],function (exports) {
 			 * @returns
 			 */
 			editeTableColumns : function (columns,levelMap) {
-
 				for (x in columns) {
 					var columnStyle = '';
 					// Master名称显示处理（可根据需求更改）
@@ -68,10 +63,7 @@ layui.define(["jquery"],function (exports) {
 					}else if(columns[x].modeltype=='Group' || columns[x].modeltype=='WorkFlow') {
 						columnStyle = "<th lay-data=\"{align:\'center\',field:\'" + columns[x].field + "\'}\"" +  " colspan=\"" +columns[x].colspan + "\">" + columns[x].title + "</th>";
 						this.editeTableColumns(columns[x]['editor'].options.group,levelMap);
-						// 其他组件参数通用处理
-//					} else if(columns[x].modeltype=='WorkFlow') {
-//						columnStyle = "<th lay-data=\"{align:\'center\',field:\'" + columns[x].field + "\'}\"" +  " colspan=\"" +columns[x].colspan + "\">" + columns[x].title + "</th>";
-//						this.editeTableColumns(columns[x]['editor'].options.group,levelMap);
+
 						// 其他组件参数通用处理
 					} else {
 						columnStyle = "<th lay-data=\"{field:\'" + columns[x].field + "\'}\"" +  " rowspan=\"" +columns[x].rowspan + "\">" + columns[x].title + "</th>";
@@ -80,7 +72,6 @@ layui.define(["jquery"],function (exports) {
 					// 最新的层信息更新（存在则替换）
 					if (levelMap.has(columns[x].rowspan)) {
 						levelMap.set(columns[x].rowspan,levelMap.get(columns[x].rowspan) + columnStyle);
-
 					} else {
 						levelMap.set(columns[x].rowspan,columnStyle);
 					}
@@ -100,6 +91,7 @@ layui.define(["jquery"],function (exports) {
 				for (x in columns) {
 					var inputValue= "";
 					var Readonly = "";
+					var Required = "";
 					if (isEditFlg) {
 						inputValue = rowData[columns[x].field];
 						
@@ -111,26 +103,22 @@ layui.define(["jquery"],function (exports) {
 					}
 					var columnsStyle = '';
 					// Master名称显示处理（可根据需求更改）
-					//alert(columns[x].uniquekey + ':' + columns[x].title);
 					var label = "";
 
 					if (columns[x].uniquekey) {
 						// 本画面的主键信息
 						label = "<span style=\"color:red\">" + columns[x].title + "</span>";
+						Required = " lay-verify=\"required\" ";
 					} else {
 						label = columns[x].title;
 					}
 
 					switch(columns[x].modeltype) {
 					case 'MasterReference':
-						contentHtml = contentHtml + "<div class=\"layui-form-item\"  style=\"margin-top: 5px;\">";
-						//contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-inline \" style=\"width:"+ "140" + "\"><select  type=\"text\" class=\"select\""  + " lay-filter=\"" + columns[x].field + "\" id=\"" + columns[x].field +"\" name=\"" + columns[x].field + "\">";
-						contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-block \" style=\"width:"+ "140" + "\"><select type=\"text\" class=\"layui-input\""  + Readonly + " lay-filter=\"" + columns[x].field + "\" id=\"" + columns[x].field +"\" name=\"" + columns[x].field + "\">";
+						contentHtml = contentHtml + "<div class=\"layui-form-item\"  style=\"margin-top: 5px;\">"
+							+  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-block \" style=\"width:"+ "140" + "\"><select type=\"text\" class=\"layui-input\""  + Readonly + Required + " lay-filter=\"" + columns[x].field + "\" id=\"" + columns[x].field +"\" name=\"" + columns[x].field + "\">";
 						for (var key in columns[x].editor.options.data) {
-
-//							alert(columns[x]['editor'].options.data[key].id);
 							if (isEditFlg) {
-								//alert(inputValue);
 								if (inputValue == columns[x].editor.options.data[key].id) {
 									contentHtml = contentHtml + "<option value=\"" + columns[x].editor.options.data[key].id + "\"" + " selected=\"selected\">" + columns[x].editor.options.data[key].text + "</option>";
 								} else {
@@ -145,7 +133,6 @@ layui.define(["jquery"],function (exports) {
 									//contentHtml = contentHtml +  "<option value=\"" + columns[x].editor.options.data[key].id + "\"" + ">" + columns[x].editor.options.data[key].text + "</option>";
 									contentHtml = contentHtml +  "<option value=\"" + columns[x].editor.options.data[key].id + "\""+ " name=\"" + columns[x].field + "_NM\"" + ">" + columns[x].editor.options.data[key].text + "</option>";
 								}
-								//alert(contentHtml);
 							}
 						}
 						contentHtml = contentHtml + "</select></input></div></div>";
@@ -157,8 +144,7 @@ layui.define(["jquery"],function (exports) {
 						// 递归处理Group的子项内容
 						_contentHtml = this.editAddRows(columns[x].editor.options.group,_contentHtml,isEditFlg,rowData,jsonBusinessSubkey)+ "</fieldset>";
 
-						contentHtml = contentHtml + _contentHtml+ "</div>";;
-
+						contentHtml = contentHtml + _contentHtml+ "</div>";
 						break;
 					case 'Role':
 						//continue;
@@ -168,22 +154,22 @@ layui.define(["jquery"],function (exports) {
 						switch(columns[x].datatype){
 						case 'Auto':
 							if (isEditFlg){
-								contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-inline\" style=\"width:"+ "140" + "\"><input hidden = 'true' type=\"text\"" + Readonly + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\" required=\"\"" +
+								contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-inline\" style=\"width:"+ "140" + "\"><input hidden = 'true' type=\"text\"" + Readonly + Required + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\" required=\"\"" +
 								"autocomplete=\"off\" class=\"layui-input\" value=\"" + inputValue + "\"></input></div></div>";
 							} else {
-								contentHtml = contentHtml +  "<div class=\"layui-input-inline\" style=\"width:"+ "140" + "\"><input style=\"display: none\" type=\"text\"" + Readonly + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\"" +
+								contentHtml = contentHtml +  "<div class=\"layui-input-inline\" style=\"width:"+ "140" + "\"><input style=\"display: none\" type=\"text\"" + Readonly + Required + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\"" +
 								"autocomplete=\"off\" class=\"layui-input\" value=\"" + inputValue + "\"></input></div></div>";
 							}
 							break;
 						case 'boolean':
-							contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-inline\"><input type=\"checkbox\" class=\"layui-input\"" + Readonly +  "lay-skin=\"switch\" lay-text=\"ON|OFF\" name = \"" + columns[x].field + "\" id = \"" + columns[x].field + "\"";
+							contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-inline\"><input type=\"checkbox\" class=\"layui-input\"" + Readonly + Required +  "lay-skin=\"switch\" lay-text=\"ON|OFF\" name = \"" + columns[x].field + "\" id = \"" + columns[x].field + "\"";
 							if(inputValue=='on'){
 								contentHtml = contentHtml +  " checked ";
 							}
 							contentHtml = contentHtml +  "/></input></div></div>";
 							break;
 						default:
-							contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-block\" style=\"width:"+ "140" + "\"><input class=\"layui-input\" type=\"text\"" + Readonly + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\" required=\"\"" +
+							contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-block\" style=\"width:"+ "140" + "\"><input class=\"layui-input\" type=\"text\"" + Readonly + Required + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\" required=\"\"" +
 							"autocomplete=\"off\" value=\"" + inputValue + "\"></input></div></div>";
 						} 
 					}
