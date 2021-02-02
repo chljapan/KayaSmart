@@ -1101,7 +1101,7 @@ function doSearch(kayaModelId,title,isDownload,wfType) {
 			kayaModelIdTab = kayaModelId;
 			//+++++++++++++++++++++++++++重新设定TabId End+++++++++++++++++++++++++++++++++++++++++++++++
 			var rest_toolbar = getToolbar(kayaModelId,title,wfType);
-			alert(rest_toolbar);
+
 			form.render('select');
 			table.reload(kayaModelIdTab, {
 				smartReloadModel: true,
