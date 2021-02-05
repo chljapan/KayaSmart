@@ -57,11 +57,11 @@ public class HelloKayaCrud {
 		case E1:
 			
 			roleList.add("E");
-			user.setRoleList(roleList);
+			userMap.put("roles", roleList);
 			user.setUserId("10001");
 
 			permissions.add("E");
-			user.setPermissions(permissions);
+			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10004");
 			userMap.put("BumenCode","20");
@@ -72,10 +72,10 @@ public class HelloKayaCrud {
 			
 			user.setUserId("10002");
 			roleList.add("E");
-			user.setRoleList(roleList);
+			userMap.put("roles", roleList);
 
 			permissions.add("E");
-			user.setPermissions(permissions);
+			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10004");
 			userMap.put("BumenCode","20");
@@ -86,10 +86,10 @@ public class HelloKayaCrud {
 			
 			user.setUserId("10003");
 			roleList.add("EO");
-			user.setRoleList(roleList);
+			userMap.put("roles", roleList);
 
 			permissions.add("E");
-			user.setPermissions(permissions);
+			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10004");
 			userMap.put("BumenCode","20");
@@ -100,11 +100,11 @@ public class HelloKayaCrud {
 			
 			user.setUserId("10004");
 			roleList.add("E");
-			user.setRoleList(roleList);
+			userMap.put("roles", roleList);
 
 			permissions.add("E");
 			permissions.add("PEM");
-			user.setPermissions(permissions);
+			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10006");
 			userMap.put("BumenCode","20");
@@ -115,11 +115,11 @@ public class HelloKayaCrud {
 			
 			user.setUserId("10005");
 			roleList.add("E");
-			user.setRoleList(roleList);
+			userMap.put("roles", roleList);
 
 			permissions.add("E");
 			permissions.add("PM");
-			user.setPermissions(permissions);
+			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10001");
 			userMap.put("BumenCode","20");
@@ -131,12 +131,12 @@ public class HelloKayaCrud {
 			user.setUserId("10006");
 			roleList.add("E");
 			roleList.add("EO");
-			user.setRoleList(roleList);
+			userMap.put("roles", roleList);
 
 			permissions.add("E");
 			permissions.add("PEM");
 			permissions.add("GL");
-			user.setPermissions(permissions);
+			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10008");
 			userMap.put("BumenCode","20");
@@ -147,10 +147,10 @@ public class HelloKayaCrud {
 			
 			user.setUserId("10007");
 			roleList.add("E");
-			user.setRoleList(roleList);
+			userMap.put("roles", roleList);
 
 			permissions.add("E");
-			user.setPermissions(permissions);
+			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10006");
 			userMap.put("BumenCode","20");

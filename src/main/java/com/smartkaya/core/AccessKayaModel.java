@@ -2,12 +2,17 @@ package com.smartkaya.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import com.smartkaya.constant.Constant;
 import com.smartkaya.model.KayaMetaModel;
+import com.smartkaya.model.KayaModelPermissionsItem;
+import com.smartkaya.user.User;
+import com.smartkaya.utils.UtilTools;
 
 
 /**
@@ -90,7 +95,22 @@ public final class AccessKayaModel {
 		}    
 		return kayaModelList;
 	}
-	
+	/**
+	 * Get KayaModel All Element
+	 * @param kayaModelId
+	 * @return
+	 */
+	public static List<KayaMetaModel> getWorkFlowItem(String kayaModelId,List<String> indexNoSet,String wfType){
+		List<KayaMetaModel> kayaModelList=new Vector<>();
+		for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelIdOrientationKeyMap.entrySet()) {
+			if(entity.getValue().indexOf(kayaModelId)>-1 
+					&& !Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())
+					&& indexNoSet.contains(kayaModelAccess.KayaModelMap.get(entity.getKey()).get(Constant.INDEXNO))){
+				kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+			}
+		}    
+		return kayaModelList;
+	}
 	/**
 	 * Get KayaModel All Element
 	 * @param kayaModelId
@@ -425,6 +445,7 @@ public final class AccessKayaModel {
 		return kayaModelAccess.KayaModelTables.contains(kayaModelId);
 	}
 
+
 	/**
 	 * Gets the default language for the system
 	 * @return
@@ -501,6 +522,7 @@ public final class AccessKayaModel {
 				menuTreeList.add(menuTreeWorkFlow);
 			}
 			
+			// 审批者菜单根据权限动态加载
 			for (Map.Entry<String, String> entity : kayaModelAccess.ProductRefMap.entrySet()) {
 				Map<String,Object> menuTreeWorkFlow = new HashMap<String,Object>();
 				menuTreeWorkFlow.put("id", entity.getKey());
@@ -565,6 +587,8 @@ public final class AccessKayaModel {
 	private static void getMenuWorkflow_html5(String kayaModelId,Map<String,Object> menuTree,String wfType) {
 		List<Map<String, Object>> children = new ArrayList<Map<String,Object>>();
 		for (Map.Entry<String, String> entity : kayaModelAccess.WorkFlowItems.entrySet()) {
+			
+			// 菜单权限验证
 			if(kayaModelId.equals(getKayaModelId(entity.getValue()).getParentId())){
 				Map<String,Object> childrenMenuTree = new HashMap<String,Object>();
 				childrenMenuTree.put("id",entity.getKey());
@@ -603,4 +627,65 @@ public final class AccessKayaModel {
 		}
 		return kayaModelList;
 	}
+	
+	/**
+	 * 通过User权限获取User Task
+	 * @param workFlowId
+	 * @param user
+	 * @return kayaMetaModel List
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<KayaMetaModel> chekPermission(String workFlowId, User user) {
+		List<KayaMetaModel> userTaskList = new ArrayList<KayaMetaModel>();
+		List<KayaMetaModel> permissionTaskList = new ArrayList<KayaMetaModel>();
+		
+		for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelParentIdMap.entrySet()) {
+			// 获得指定WorkFlowId的所有UserTask
+			if(entity.getValue().equals(workFlowId) && Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
+				userTaskList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+			}
+		}
+		
+		for (KayaMetaModel metamodel:userTaskList) {
+			
+			// 联合判断结果Set
+			Set<Boolean> checkSet = new HashSet<Boolean>();
+			// 确认所有的Permission
+			for (KayaModelPermissionsItem kp : metamodel.getPermissionsItems()) {
+				// 用户信息同MetaModel中的信息进行匹配
+				// 用户信息中存在模型设定信息的场合
+				if (user.getUserMap().containsKey(kp.getId())) {
+					// List(复数项)的场合
+					if (Constant.EMPTY.equals(kp.getText())) {
+						checkSet.add(((List<String>) user.getUserMap().get(kp.getId())).containsAll(kp.getTextList()));
+						// 单项的场合
+					} else {
+						checkSet.add(user.getUserMap().get(kp.getId()).equals(kp.getText()));
+					}
+					// 不存在的场合
+				} else {
+					checkSet.add(false);
+					// 如果不匹配，短路终止循环
+					break;
+				}
+			}
+			// 如果匹配的场合
+			if (!checkSet.contains(false)) {
+				permissionTaskList.add(metamodel);
+			}
+		}
+		return permissionTaskList;
+	}
+	
+	/**
+	 * 通过User权限获取User Task
+	 * @param workFlowId
+	 * @param user
+	 * @return kayaMetaModel List
+	 */
+	public static List<KayaMetaModel> getActions(String taskStetus, String userTaskId) {
+		List<KayaMetaModel> actionList = new ArrayList<KayaMetaModel>();
+		return actionList;
+	}
+	
 }

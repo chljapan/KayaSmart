@@ -74,7 +74,6 @@ public class HelloKayaInit {
 
 		KayaMetaModel kayamodelReq =  AccessKayaModel.getKayaModelId(kayaModelId);
 
-
 		
 		//Collections.sort(columnsList);
 		// 如果绑定流程则添加流程信息
@@ -114,6 +113,7 @@ public class HelloKayaInit {
 	public Map<String, Object> KayaWindow(final HttpServletRequest request, final HttpServletResponse response) {
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
+		
 		// 表列信息列表
 		List<GridColumn> columnsList = new ArrayList<GridColumn>();
 		// 流程元素信息
@@ -122,7 +122,6 @@ public class HelloKayaInit {
 		List<KayaMetaModel> kayamodelList = AccessKayaModel.getKayaModelByParentIdNoAction_UI(kayaModelId);
 		KayaMetaModel kayamodelReq =  AccessKayaModel.getKayaModelId(kayaModelId);
 		columnsList = editeGridColumn(kayamodelList,kayamodelReq.getRowspan());
-
 
 		JSONArray actionItesm = JSONArray.fromObject(request.getParameter("actionItems"));
 		// 新追加的项目
@@ -140,9 +139,34 @@ public class HelloKayaInit {
 			if (!Constant.EMPTY.equals(workFlowId)) {
 				KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
 				// TODO:验证流程ID
-
-				String startUserTaskId = AccessKayaModel
-						.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
+				
+				// 流程类型
+				String WFType = request.getParameter("wftype");
+				String isEdit = request.getParameter("iseditflg");
+				// 开始流程（Start）
+				String startUserTaskId = "";
+				// 申请者（Add）
+				if(Constant.APPLY.equals(WFType) && "false".equals(isEdit)) {
+					startUserTaskId = AccessKayaModel
+								.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
+					// 申请者（Update）
+				}  else if (Constant.APPLY.equals(WFType) && "true".equals(isEdit)) {
+					startUserTaskId = AccessKayaModel.getParentId(AccessKayaModel
+							.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START)));
+					// 申请流程异常（Err架构验证）
+				} else if (Constant.APPROVAL.equals(WFType)) {
+					// 身份验证获得UserTaskID
+					
+					// 根据当前UserTask状态，确定按钮状态
+					
+					
+					startUserTaskId = AccessKayaModel.getParentId(AccessKayaModel
+							.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START)));
+					// 申请流程异常（Err架构验证）
+				} else {
+					
+				}
+				
 
 				// Set<String> actionItemSet = new HashSet<String>();
 				// actionItemSet.add("0");

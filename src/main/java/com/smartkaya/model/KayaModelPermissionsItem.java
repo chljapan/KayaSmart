@@ -10,20 +10,24 @@ import java.util.List;
  */
 public class KayaModelPermissionsItem {
 	private String id;
-	private List<String> text = new ArrayList<String>();
+	private String text;
+	private List<String> textList = new ArrayList<String>();
 	public String getId() {
 		return id;
 	}
 	public void setId(String id) {
 		this.id = id;
 	}
-	public List<String> getText() {
+	public List<String> getTextList() {
+		return textList;
+	}
+	public void setTextList(List<String> textList) {
+		this.textList = textList;
+	}
+	public String getText() {
 		return text;
 	}
-	public void setText(List<String> text) {
+	public void setText(String text) {
 		this.text = text;
 	}
-
-
-	
 }

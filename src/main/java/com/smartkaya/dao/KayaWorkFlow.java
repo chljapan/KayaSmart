@@ -243,7 +243,7 @@ public final class KayaWorkFlow {
 		String actionName = Constant.EMPTY;
 		// 取得生成workflow数据需要的组织信息
 		KayaMetaModel actionUsrtask = AccessKayaModel.getParentKayaModel(actionId);
-		String emploeeInfoTableId = usrinfo.getUserTableId();
+		
 		List<String> organizationList = new ArrayList<String>();
 		organizationList = actionUsrtask.getOrganizationItems();
 
@@ -445,7 +445,7 @@ public final class KayaWorkFlow {
 					// name
 					// kindValue
 
-					String orgKindkey = AccessKayaModel.isRef(emploeeInfoTableId, orgInfo);
+					String orgKindkey = "";
 					insertSQL.append("'" + orgKindkey + "',");
 
 					insertSQL.append("'" + orgKindkey + "',");
@@ -551,7 +551,7 @@ public final class KayaWorkFlow {
 					boolean perFlag = false;
 					for (KayaModelPermissionsItem permissionsItem : permissions) {
 						String perId = permissionsItem.getId();
-						List<String> perText = permissionsItem.getText();
+						List<String> perText = permissionsItem.getTextList();
 
 						@SuppressWarnings("unchecked")
 						List<Map<String, Object>> roleDbList = (List<Map<String, Object>>) usrMap.get(roleInfoKey);
@@ -657,7 +657,6 @@ public final class KayaWorkFlow {
 	 * @return
 	 */
 	private StringBuilder commonRelidInSQL(List<String> flowcodeList, User userInfo, String tableName) {
-		String emploeeInfoTableId = userInfo.getUserTableId();
 		StringBuilder selectSQL = new StringBuilder("");
 		selectSQL.append("relid IN (");
 		String unionString = "";
@@ -679,7 +678,7 @@ public final class KayaWorkFlow {
 					organizationList = kayamodelSrc.getOrganizationItems();
 					for (int i = 0; i < organizationList.size(); i++) {
 						String orgInfo = organizationList.get(i);
-						String orgKindkey = AccessKayaModel.isRef(emploeeInfoTableId, orgInfo);
+						String orgKindkey = "";
 						// 检索条件个数
 						selectCount = selectCount + 1;
 						selectEmptSQL.append(" OR ");

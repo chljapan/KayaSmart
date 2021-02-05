@@ -11,11 +11,10 @@ var G_BusinessKeyMap = new Map();
 var G_BusinessSubkeyListMap = new Map();
 /** 父页面选择行信息 */
 var G_DataRowListMap = new Map();
+/** 重新排序Index */
 var G_SelectDataRowIndexMap = new Map();
 /** OrientationKey 多表关联信息 */
 var G_Orientationkey = new Map();
-/** workflow key关联信息 */
-var G_WorkflowBusinessKey = new Map();
 /** 登录用户信息 */
 var loginUserInfo = parent.loginUserInfo;
 
@@ -154,13 +153,13 @@ layui.config({
 			var data = checkStatus.data; //获取选中的数据
 			switch(obj.event){
 			case 'add':// 追加
-				addRow(kayaModelId,title,false);
+				addRow(kayaModelId,title,false,wfType);
 				break;
 			case 'update':// 更新
-				addRow(kayaModelId,title,true);
+				addRow(kayaModelId,title,true,wfType);
 				break;
 			case 'delete':// 删除
-				deleteRow(kayaModelId,data,title);
+				deleteRow(kayaModelId,data,title,wfType);
 				break;
 			};
 		});
@@ -747,13 +746,13 @@ function EditDetailedInfo(parentKayaModelId,kayaModelId,title,parentTitle) {
 			var data = checkStatus.data; //获取选中的数据
 			switch(obj.event){
 			case 'add':
-				addRow(kayaModelId,title,false);
+				addRow(kayaModelId,title,false,'');
 				break;
 			case 'update':
-				addRow(kayaModelId,title,true);
+				addRow(kayaModelId,title,true,'');
 				break;
 			case 'delete':
-				deleteRow(kayaModelId,data,title);
+				deleteRow(kayaModelId,data,title,'');
 				break;
 			};
 		});
@@ -866,7 +865,6 @@ function doSearch(kayaModelId,title,isDownload,wfType) {
 				}
 			});
 
-
 			//监听排序事件 
 			table.on('sort('+ kayaModelIdTab + ')', function(obj){ //注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
 				Layui_SetDataTableRowColor(kayaModelId,0, '#2F4056', '#fff');
@@ -884,20 +882,14 @@ function doSearch(kayaModelId,title,isDownload,wfType) {
 				table.reload(kayaModelId, {
 					done: function (res, curr, count) {
 						// 设置第一行为默认选择状态，更改背景色以及字体颜色
-
 						// 取得被选择行数据
 						//G_DataRowListMap.set(kayaModelId,res.data[G_SelectDataRowIndexMap.get(kayaModelId)]);
 						//G_SelectDataRowIndexMap.set(kayaModelId,res.data[0]['LAY_TABLE_INDEX']);
-
-
 						alert(JSON.stringify(G_DataRowListMap.get(kayaModelId)));
 						alert(JSON.stringify(res.data[0]['LAY_TABLE_INDEX']));
 						//G_SelectDataRowIndexMap.set(kayaModelId,res.data[0]['LAY_TABLE_INDEX']);
 					}
-
-
 				});
-
 			});
 
 			//监听行单击事件（双击事件为：rowDouble）
@@ -993,6 +985,7 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
 	if (isEditFlg) {
 		// 如果存在迁移数据
 		rowData = G_DataRowListMap.get(kayaModelId);
+		//alert(JSON.stringify(rowData));
 		if(rowData.length ==0 || rowData ==null) {
 			return;
 			// 动态设置题目
@@ -1031,6 +1024,9 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
 			async: false, //改为同步方式
 			data : {
 				'kayaModelId' : kayaModelId,
+				'iseditflg' : isEditFlg,
+				'wftype' : wfType,
+				'rowdata' : rowData,
 				'actionItems' : JSON.stringify(actionItems)
 			},
 			success : function(data) {
@@ -1060,20 +1056,22 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
 				var _contentHtml = "";
 				_contentHtml = base_ui.editAddRows(columns,_contentHtml,isEditFlg,rowData,jsonBusinessSubkey);
 				contentHtml = contentHtml +_contentHtml;
-				contentHtml = contentHtml +"</main><div align=\"right\" style=\"border:15px solid #fff;bottom:0;left:50;\"><footer style=\"height:70px;background-color: #eee;\"> <div style=\"height:15px\"></div>";
+				contentHtml = contentHtml +"</main><div align=\"right\" style=\"border:3px solid #fff;bottom:0;left:50;\"><footer style=\"height:100px;background-color: #eee;\">";
 				insertField = insertField + "]";
 				// 按钮内容编辑
 				// 流程元素处理
 				var buttonItems = "";
 				var propertyItem= "";
-				if (isEditFlg) {
+				if (isEditFlg && wfType == '') {
+					contentHtml = contentHtml +  "<div style=\"height:60px\"></div>";
 					contentHtml = contentHtml + "<button class=\"layui-btn\" lay-submit id=\"update\">Update</button>";
-				} else {			
-					for (x in workflowList) {					
+				} else {
+					contentHtml = contentHtml +  "<div style=\"height:px\"></div>";
+					for (x in workflowList) {				
 						switch(workflowList[x]['editor'])
 						{
 						case 'Action':
-							buttonItems = buttonItems + "<button class=\"layui-btn\" top=\"50%\" lay-submit=\"\" actionid=\"insert\"  id=\"" + workflowList[x]['kayamodelid'] + "\">" + workflowList[x]['label'] + "</button>";
+							buttonItems = buttonItems + "<button class=\"layui-btn\" top=\"10%\" lay-submit=\"\" actionid=\"insert\"  id=\"" + workflowList[x]['kayamodelid'] + "\">" + workflowList[x]['label'] + "</button>";
 							break;
 						case 'Property':
 							propertyItem = propertyItem + "<div class=\"layui-form-item\">" +
@@ -1093,6 +1091,7 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
 
 				// 没有绑定WorkFlow的场合
 				if (workflowList.length==0) {
+					//contentHtml = contentHtml +"<div style=\"height:50px\"></div>";
 					if (isEditFlg) {
 						//contentHtml = contentHtml + "<button class=\"layui-btn\" lay-submit id=\"update\">Update</button>";
 					} else {
@@ -1116,7 +1115,7 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
 			//,area: 'auto'
 			//,area: ['500px', '\'' + hi + 'px\'']
 			,area:'900px'
-				,maxHeight:660
+				,maxHeight:860
 				,offset:[60,0]
 		,shade: 0.8
 		,id: 'add_'+kayaModelId //设定一个id，防止重复弹出

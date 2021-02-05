@@ -54,6 +54,7 @@ import com.smartkaya.constant.Constant;
 import com.smartkaya.log.KayaLogManager;
 import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelMasterItem;
+import com.smartkaya.model.KayaModelOrganizationItem;
 import com.smartkaya.model.KayaModelPermissionsItem;
 import com.smartkaya.utils.UtilTools;
 
@@ -814,14 +815,27 @@ public final class ParseKayaModel_XPATH {
 			// Attributes
 			MgaAttributes modelMgaAttributes = new MgaAttributes(((Dispatch)obj.get(Constant.ATTRIBUTES)));
 			for (int j=0; j<modelMgaAttributes.getCount(); j++) {
-				// ORGANIZATION
+				// Orgnizations
 				if (Constant.ORGANIZATION.equals(modelMgaAttributes.getItem(j).getMeta().getName())) {
-					List<String> organizationItems = new ArrayList<String>();
+					List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
 					for (String organizationItem : modelMgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
-						organizationItems.add(organizationItem);
+						KayaModelOrganizationItem kayaModelOrganizationItem = new KayaModelOrganizationItem();
+						if(organizationItem.startsWith("{") || organizationItem.startsWith("[") ){
+							List<String> valueList = Arrays.asList(organizationItem.split(","));
+							kayaModelOrganizationItem.setRef(true);
+							kayaModelOrganizationItem.setRefSrc(valueList.get(0));
+							kayaModelOrganizationItem.setRefDst(valueList.get(1));
+							kayaModelOrganizationItem.setText(Constant.EMPTY);
+						} else {
+							kayaModelOrganizationItem.setRef(false);
+							kayaModelOrganizationItem.setRefSrc(Constant.EMPTY);
+							kayaModelOrganizationItem.setRefDst(Constant.EMPTY);
+							kayaModelOrganizationItem.setText(organizationItem);
+						}
+						organizationItems.add(kayaModelOrganizationItem);
 					}
 					modelAttributesMap.put(modelMgaAttributes.getItem(j).getMeta().getName(), organizationItems);
-					// 
+					// Permissions
 				} else if (Constant.WF_PERMISSIONS.equals(modelMgaAttributes.getItem(j).getMeta().getName())) {
 					List<KayaModelPermissionsItem> permissionItems = new ArrayList<KayaModelPermissionsItem>();
 					for (String permissionItem : modelMgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
@@ -835,7 +849,10 @@ public final class ParseKayaModel_XPATH {
 								if(perValue.startsWith("{") || perValue.startsWith("[") ){
 									String newString = perValue.substring(1, perValue.length() - 1);
 									List<String> valueList = Arrays.asList(newString.split(","));
-									perItem.setText(valueList);
+									perItem.setText(Constant.EMPTY);
+									perItem.setTextList(valueList);
+								} else {
+									perItem.setText(perValue);
 								}
 								permissionItems.add(perItem);
 							} else {								
@@ -923,9 +940,21 @@ public final class ParseKayaModel_XPATH {
 					atomAttributesMap.put(mgaAttributes.getItem(j).getMeta().getName(), MasterItemList);
 					// 
 				} else if (Constant.ORGANIZATION.equals(mgaAttributes.getItem(j).getMeta().getName())) {
-					List<String> organizationItems = new ArrayList<String>();
+					List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
 					for (String organizationItem : mgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
-						organizationItems.add(organizationItem);
+						KayaModelOrganizationItem kayaModelOrganizationItem = new KayaModelOrganizationItem();
+						if(organizationItem.startsWith("{") || organizationItem.startsWith("[") ){
+							List<String> valueList = Arrays.asList(organizationItem.split(","));
+							kayaModelOrganizationItem.setRef(true);
+							kayaModelOrganizationItem.setRefSrc(valueList.get(0));
+							kayaModelOrganizationItem.setRefDst(valueList.get(1));
+						} else {
+							kayaModelOrganizationItem.setRef(false);
+							kayaModelOrganizationItem.setRefSrc(Constant.EMPTY);
+							kayaModelOrganizationItem.setRefDst(Constant.EMPTY);
+							kayaModelOrganizationItem.setText(organizationItem);
+						}
+						organizationItems.add(kayaModelOrganizationItem);
 					}
 					atomAttributesMap.put(mgaAttributes.getItem(j).getMeta().getName(), organizationItems);
 					// 
@@ -942,7 +971,10 @@ public final class ParseKayaModel_XPATH {
 								if(perValue.startsWith("{") || perValue.startsWith("[") ){
 									String newString = perValue.substring(1, perValue.length() - 1);
 									List<String> valueList = Arrays.asList(newString.split(","));
-									perItem.setText(valueList);
+									perItem.setText(Constant.EMPTY);
+									perItem.setTextList(valueList);
+								}else {
+									perItem.setText(perValue);
 								}
 								permissionItems.add(perItem);
 							} else {								
@@ -1491,9 +1523,21 @@ public final class ParseKayaModel_XPATH {
 									atomAttributesMap.put(attributeElement.getAttribute(Constant.KIND), MasterItemList);
 									// Other
 								} else if (Constant.ORGANIZATION.equals(attributeElement.getAttribute(Constant.KIND))) {
-									List<String> organizationItems = new ArrayList<String>();
+									List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
 									for (String organizationItem : attributeElement.getTextContent().trim().split("\n")) {
-										organizationItems.add(organizationItem);
+										KayaModelOrganizationItem kayaModelOrganizationItem = new KayaModelOrganizationItem();
+										if(organizationItem.startsWith("{") || organizationItem.startsWith("[") ){
+											List<String> valueList = Arrays.asList(organizationItem.split(","));
+											kayaModelOrganizationItem.setRef(true);
+											kayaModelOrganizationItem.setRefSrc(valueList.get(0));
+											kayaModelOrganizationItem.setRefDst(valueList.get(1));
+										} else {
+											kayaModelOrganizationItem.setRef(false);
+											kayaModelOrganizationItem.setRefSrc(Constant.EMPTY);
+											kayaModelOrganizationItem.setRefDst(Constant.EMPTY);
+											kayaModelOrganizationItem.setText(organizationItem);
+										}
+										organizationItems.add(kayaModelOrganizationItem);
 									}
 									atomAttributesMap.put(attributeElement.getAttribute(Constant.KIND), organizationItems);
 									// 
@@ -1510,7 +1554,10 @@ public final class ParseKayaModel_XPATH {
 												if(perValue.startsWith("{") || perValue.startsWith("[") ){
 													String newString = perValue.substring(1, perValue.length() - 1);
 													List<String> valueList = Arrays.asList(newString.split(","));
-													perItem.setText(valueList);
+													perItem.setText(Constant.EMPTY);
+													perItem.setTextList(valueList);
+												}else {
+													perItem.setText(perValue);
 												}
 												permissionItems.add(perItem);
 											} else {								
