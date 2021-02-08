@@ -8,7 +8,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +25,6 @@ import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaWorkFlow;
 import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelMasterItem;
-import com.smartkaya.user.User;
 import com.smartkaya.utils.UtilTools;
 
 import net.sf.json.JSONArray;
@@ -63,9 +61,6 @@ public class HelloKayaInit {
 
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
-		String searchUsr = request.getParameter("searchUser");
-		HttpSession session = request.getSession();
-		User userInfo = (User) session.getAttribute("user");
 
 		// 表列信息列表
 		List<GridColumn> columnsList = new ArrayList<GridColumn>();
@@ -114,6 +109,8 @@ public class HelloKayaInit {
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
 		
+		Object rowdata = request.getParameter("rowdata");
+		
 		// 表列信息列表
 		List<GridColumn> columnsList = new ArrayList<GridColumn>();
 		// 流程元素信息
@@ -136,35 +133,46 @@ public class HelloKayaInit {
 			// AccessKayaModel.getKayaModelByParentIdNoAction(kayaModelId);
 			// 监听业务流程处理
 			String workFlowId = AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId();
+			
+			
 			if (!Constant.EMPTY.equals(workFlowId)) {
 				KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
 				// TODO:验证流程ID
-				
+				List<KayaMetaModel> kayaModelList = new ArrayList<KayaMetaModel>();
 				// 流程类型
 				String WFType = request.getParameter("wftype");
 				String isEdit = request.getParameter("iseditflg");
-				// 开始流程（Start）
-				String startUserTaskId = "";
+				// 流程Pending状态的TaskId取得处理
+				
+
+
+				JSONArray jsonarray = JSONArray.fromObject(request.getParameter("kvParamaterList"));
+
+				@SuppressWarnings("unchecked")
+				List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
+						Map.class);
+				
+				
+				
 				// 申请者（Add）
 				if(Constant.APPLY.equals(WFType) && "false".equals(isEdit)) {
-					startUserTaskId = AccessKayaModel
-								.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
-					// 申请者（Update）
+					// 取得活性化Actions（开始Action和指向自己的Action）
+					kayaModelList = AccessKayaModel.getWorkFlowItemByStartKayaModelId(workFlowId);
+					// 申请者（Edit）
 				}  else if (Constant.APPLY.equals(WFType) && "true".equals(isEdit)) {
-					startUserTaskId = AccessKayaModel.getParentId(AccessKayaModel
-							.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START)));
-					// 申请流程异常（Err架构验证）
+					
+					
+					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,"id-0065-00000013","aaply");
+					// 审批者（ReView）
 				} else if (Constant.APPROVAL.equals(WFType)) {
 					// 身份验证获得UserTaskID
-					
+					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,"id-0065-00000013","");
 					// 根据当前UserTask状态，确定按钮状态
-					
-					
-					startUserTaskId = AccessKayaModel.getParentId(AccessKayaModel
-							.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START)));
+					//kayaModelList = getWorkFlowItemByNextKayaModelId(workFlowId,"");
 					// 申请流程异常（Err架构验证）
 				} else {
-					
+					//startUserTaskId = AccessKayaModel
+						//	.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
 				}
 				
 
@@ -172,8 +180,7 @@ public class HelloKayaInit {
 				// actionItemSet.add("0");
 				// actionItemSet.add("1");
 				// actionItemSet.add("3");
-				List<KayaMetaModel> kayaModelList = AccessKayaModel.getWorkFlowItemByKayaModelId(startUserTaskId,
-						actionItemList);
+				
 				for (KayaMetaModel kayaModel : kayaModelList) {
 					Map<String, Object> workflowItem = new HashMap<String, Object>();
 					// System.out.println(kayaModel.getName());

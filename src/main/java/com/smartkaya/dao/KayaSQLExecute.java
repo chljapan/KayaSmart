@@ -1596,7 +1596,7 @@ public final class KayaSQLExecute {
 		//组织信息插入
 		for(int i = 0;i < organizationList.size();i++) {
 
-			String orgInfo =  organizationList.get(i);
+			//String orgInfo =  organizationList.get(i);
 			// gmeid
 			insertSQL.append(",(");
 

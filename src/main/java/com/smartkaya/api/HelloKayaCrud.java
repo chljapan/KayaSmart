@@ -171,7 +171,7 @@ public class HelloKayaCrud {
 		// 获取前台参数
 		String searchName = request.getParameter("searchname");
 		String searchValue = request.getParameter("searchvalue");
-		String wftype = request.getParameter("wftype");
+		//String wftype = request.getParameter("wftype");
 
 		Paramater paramater = new Paramater();
 		paramater.setId(kayaModelId);

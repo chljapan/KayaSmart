@@ -677,7 +677,7 @@ public final class KayaWorkFlow {
 					List<String> organizationList = new ArrayList<String>();
 					organizationList = kayamodelSrc.getOrganizationItems();
 					for (int i = 0; i < organizationList.size(); i++) {
-						String orgInfo = organizationList.get(i);
+					//	String orgInfo = organizationList.get(i);
 						String orgKindkey = "";
 						// 检索条件个数
 						selectCount = selectCount + 1;

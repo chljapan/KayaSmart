@@ -12,7 +12,6 @@ import com.smartkaya.constant.Constant;
 import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelPermissionsItem;
 import com.smartkaya.user.User;
-import com.smartkaya.utils.UtilTools;
 
 
 /**
@@ -23,13 +22,13 @@ import com.smartkaya.utils.UtilTools;
 public final class AccessKayaModel {
 	private static ParseKayaModel_XPATH kayaModelAccess= null;
 	public DbConnection dbConnection; 
-	
+
 
 	public static void ResetKayaModel() {
 		//ParseKayaModel_XPATH.resetXPATH();
 		kayaModelAccess = ParseKayaModel_XPATH.getInstance();
 	}
-	
+
 	public AccessKayaModel() {
 		//kayaModelAccess = ParseKayaModel_XPATH.getInstance();
 	}
@@ -40,14 +39,14 @@ public final class AccessKayaModel {
 		return ParseKayaModel_XPATH.getDbConnection();
 	}
 
-//	public static String getLanguage() {
-//		if (ParseKayaModel_XPATH.DBConnectionInfoMap == null) {
-//			return Constant.EMPTY;
-//		} else {
-//			ParseKayaModel_XPATH.DBConnectionInfoMap.get(Constant.LANGUAGE);
-//		}
-//		//return ParseKayaModel_XPATH.DBConnectionInfoMap;
-//	}
+	//	public static String getLanguage() {
+	//		if (ParseKayaModel_XPATH.DBConnectionInfoMap == null) {
+	//			return Constant.EMPTY;
+	//		} else {
+	//			ParseKayaModel_XPATH.DBConnectionInfoMap.get(Constant.LANGUAGE);
+	//		}
+	//		//return ParseKayaModel_XPATH.DBConnectionInfoMap;
+	//	}
 
 	/**
 	 * Get KayaModel All Element
@@ -63,7 +62,7 @@ public final class AccessKayaModel {
 		}    
 		return kayaModelList;
 	}
-	
+
 	/**
 	 * Get KayaModel All Element
 	 * @param kayaModelId
@@ -78,7 +77,99 @@ public final class AccessKayaModel {
 		}    
 		return kayaModelList;
 	}
-	
+
+	/**
+	 * Get WF Start Actions And Property
+	 * @param workFlowId
+	 * @param type(add,edit,review)
+	 * @return
+	 */
+	public static List<KayaMetaModel> getWorkFlowItemByStartKayaModelId(String workFlowId){
+
+		// Start 指向的Action 
+
+		KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
+		String startUserTaskId = kayaModelAccess.KayaModelMap.get(AccessKayaModel
+				.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START))).getParentId();
+
+		List<KayaMetaModel> kayaModelList=new Vector<>();
+
+		// Start Action(Start 指向的Action)
+		kayaModelList.add(kayaModelAccess.KayaModelMap.get(kayaModelAccess.ConnectionMap.get(kayaMetaWorkFlowModel.get(Constant.START))));
+
+		for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelIdOrientationKeyMap.entrySet()) {
+			if(entity.getValue().indexOf(startUserTaskId)>-1 && !Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
+				// 指向自己的Action
+				if (Constant.ACTION.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType()) && kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).getKayaModelId().equals(startUserTaskId)) {
+					kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+					// 所有的Property
+				} else if (Constant.G_PROPERTY.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())) {
+					kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+				}
+
+			}
+		}    
+		return kayaModelList;
+	}
+
+	/**
+	 * Get KayaModel All Element
+	 * @param kayaModelId
+	 * @return
+	 */
+	public static List<KayaMetaModel> getWorkFlowItemByNextKayaModelId(String workFlowId,String pendingKayaModelId,String wfType){
+		List<KayaMetaModel> kayaModelList=new Vector<>();
+		KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
+		String startUserTaskId = kayaModelAccess.KayaModelMap.get(AccessKayaModel
+				.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START))).getParentId();
+
+
+		// 申请者
+		if (Constant.APPLY.equals(wfType)) {
+			if (pendingKayaModelId.equals(startUserTaskId)) {
+				kayaModelList = getWorkFlowItemByStartKayaModelId(workFlowId);
+			} else {
+				// 判断自身的Action是否能够操作的User Task
+				for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelIdOrientationKeyMap.entrySet()) {
+					if(entity.getValue().indexOf(startUserTaskId)>-1 && !Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
+						// 指向自己的Action
+						if (Constant.ACTION.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType()) && kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).isReverse() && kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).getKayaModelId().equals(pendingKayaModelId)) {
+							kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+							// 所有的Property
+						} else if (Constant.G_PROPERTY.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())) {
+							kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+						}
+
+					}
+				}       
+			}
+		} else {
+			// 判断自身的Action是否能够操作的User Task
+			for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelIdOrientationKeyMap.entrySet()) {
+				if(entity.getValue().indexOf(startUserTaskId)>-1 && !Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
+					// 指向自己的Action
+					if (Constant.ACTION.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType()) && kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).isReverse() && kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).getKayaModelId().equals(pendingKayaModelId)) {
+						kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+						// 所有的Property
+					} else if (Constant.G_PROPERTY.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())) {
+						kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+					}
+
+				}
+			}  
+		}
+
+
+
+		// 审批者
+		// 等于自身的User Task的场合
+
+
+
+
+		return kayaModelList;
+	}
+
 	/**
 	 * Get KayaModel All Element
 	 * @param kayaModelId
@@ -169,8 +260,8 @@ public final class AccessKayaModel {
 			if(entity.getValue().equals(parentId)
 					&& kayaModelAccess.KayaModelMap.get(entity.getKey()).getGroupId()==null
 					&& !Constant.ACTION.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
-				
-				
+
+
 				if (Constant.G_GROUP.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())) {
 					kayaModelAccess.KayaModelMap.get(entity.getKey()).getAttributesMap().put(Constant.G_GROUP, getGroupItems(entity.getKey()));
 				}
@@ -179,7 +270,7 @@ public final class AccessKayaModel {
 		}    
 		return kayaModelList;
 	}
-	
+
 	// Like by GmeModelId
 	/**
 	 * Gets all child elements (without child roles), but with their own roles
@@ -268,7 +359,7 @@ public final class AccessKayaModel {
 		}    
 		return kayaModelList;
 	}
-	
+
 	/**
 	 * Gets all of the business flow child elements (not including child roles), but including their own roles
 	 * @param parentId
@@ -285,7 +376,7 @@ public final class AccessKayaModel {
 			if(wfKayaModelId.equals(entity.getValue()) 
 					&& Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
 				kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
-				
+
 				colspan++;
 			}
 		}
@@ -334,7 +425,7 @@ public final class AccessKayaModel {
 	 */
 	public List<KayaMetaModel> getGouprModel(String kayaGroupId) {
 		List<KayaMetaModel> kayaModelList=new Vector<>();
-		
+
 		for (Map.Entry<String, String> entity : kayaModelAccess.kayaGroupConnectionsMap.entrySet()) {
 			if(entity.getValue().equals(kayaGroupId)){
 				kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
@@ -351,7 +442,7 @@ public final class AccessKayaModel {
 	public static KayaMetaModel getKayaModelId(String kayaModelId){
 		return kayaModelAccess.KayaModelMap.get(kayaModelId);
 	}
-	
+
 
 	/**
 	 * The superclass Model retrieves the method
@@ -387,7 +478,7 @@ public final class AccessKayaModel {
 			return kayaModelAccess.ConnectionMap.get(kayaModelId);
 		}
 	}
-	
+
 	/**
 	 * Gets the information for all former userTasks of UserTask
 	 * @param userTaskId
@@ -403,16 +494,16 @@ public final class AccessKayaModel {
 				}
 			} else {
 				if (userTaskId.equals(entity.getValue().getKayaModelId())) {
-					
+
 					kayaModelList.add(kayaModelAccess.KayaModelMap.get(kayaModelAccess.KayaModelMap.get(entity.getKey()).getParentId()));
 				} 
 			}
-			
+
 		}
 
 		return kayaModelList;
 	}
-	
+
 	/**
 	 * Gets the action object element
 	 * @param kayaModelId  ActionId
@@ -428,7 +519,7 @@ public final class AccessKayaModel {
 			return kayaModelAccess.KayaModelMap.get(kayaModelId).getParentId();
 		}
 	}
-	
+
 	/**
 	 * Table exists confirmation method
 	 * @param kayaModelId TableID
@@ -456,7 +547,7 @@ public final class AccessKayaModel {
 		} else {
 			return kayaModelAccess.Language;
 		}
-		
+
 	}
 
 	/**
@@ -477,12 +568,12 @@ public final class AccessKayaModel {
 					kindkeyRet = FilesStr;
 				}
 			}
-			
+
 		}
-		
+
 		return kindkeyRet;
 	}
-	
+
 	/**
 	 * Get the Menu tree structure information (for LayUI)
 	 * @return
@@ -492,7 +583,7 @@ public final class AccessKayaModel {
 		if (kayaModelAccess != null) {
 			Map<String,Object> menuTree = new HashMap<String,Object>();
 			String KaYaDiagramId = kayaModelAccess.KaYaDiagramId;
-			
+
 			for (Map.Entry<String, String> entity : kayaModelAccess.ConnectionMap.entrySet()) {
 				if(KaYaDiagramId.equals(entity.getValue())){
 					menuTree.put("id", entity.getKey());
@@ -503,13 +594,13 @@ public final class AccessKayaModel {
 					if (Constant.G_PRODUCT.equals(getKayaModelId(entity.getKey()).getMetaModelType())) {
 						getMenu(entity.getKey(),menuTree);
 					}
-					
-					
+
+
 				}
 			}
 			menuTreeList.add(menuTree);
-			
-			
+
+
 			for (Map.Entry<String, String> entity : kayaModelAccess.ProductRefMap.entrySet()) {
 				Map<String,Object> menuTreeWorkFlow = new HashMap<String,Object>();
 				menuTreeWorkFlow.put("id", entity.getKey());
@@ -517,11 +608,11 @@ public final class AccessKayaModel {
 				menuTreeWorkFlow.put("kindtype",getKayaModelId(entity.getKey()).getMetaModelType());
 				menuTreeWorkFlow.put("wftype",Constant.APPLY);
 				menuTreeWorkFlow.put("attributes",getKayaModelId(entity.getKey()).getAttributesMap());
-				
+
 				getMenuWorkflow_html5(entity.getKey(),menuTreeWorkFlow,Constant.APPLY);
 				menuTreeList.add(menuTreeWorkFlow);
 			}
-			
+
 			// 审批者菜单根据权限动态加载
 			for (Map.Entry<String, String> entity : kayaModelAccess.ProductRefMap.entrySet()) {
 				Map<String,Object> menuTreeWorkFlow = new HashMap<String,Object>();
@@ -530,17 +621,17 @@ public final class AccessKayaModel {
 				menuTreeWorkFlow.put("kindtype",getKayaModelId(entity.getKey()).getMetaModelType());
 				menuTreeWorkFlow.put("wftype",Constant.APPROVAL);
 				menuTreeWorkFlow.put("attributes",getKayaModelId(entity.getKey()).getAttributesMap());
-				
+
 				getMenuWorkflow_html5(entity.getKey(),menuTreeWorkFlow,Constant.APPROVAL);
 				menuTreeList.add(menuTreeWorkFlow);
 			}
-			
+
 		}
-				
+
 
 		return menuTreeList;
 	}
-	
+
 	/**
 	 * Get the Menu item for the Menu (LayUI)
 	 * @param kayaModelId
@@ -567,7 +658,7 @@ public final class AccessKayaModel {
 				if (!Constant.G_ROLE.equals(getKayaModelId(entity.getKey()).getMetaModelType())) {
 					getMenu(entity.getKey(),childrenMenuTree);
 				}
-				
+
 			}
 		} 
 		if (children.size() > 0) {
@@ -587,7 +678,7 @@ public final class AccessKayaModel {
 	private static void getMenuWorkflow_html5(String kayaModelId,Map<String,Object> menuTree,String wfType) {
 		List<Map<String, Object>> children = new ArrayList<Map<String,Object>>();
 		for (Map.Entry<String, String> entity : kayaModelAccess.WorkFlowItems.entrySet()) {
-			
+
 			// 菜单权限验证
 			if(kayaModelId.equals(getKayaModelId(entity.getValue()).getParentId())){
 				Map<String,Object> childrenMenuTree = new HashMap<String,Object>();
@@ -606,11 +697,11 @@ public final class AccessKayaModel {
 		} else {
 			menuTree.put("state","open");
 		}
-		
+
 		//return menuTree;
 	}
-	
-	
+
+
 	/*
 	 * Get the Group Items
 	 * @param groupId
@@ -627,7 +718,8 @@ public final class AccessKayaModel {
 		}
 		return kayaModelList;
 	}
-	
+
+
 	/**
 	 * 通过User权限获取User Task
 	 * @param workFlowId
@@ -635,19 +727,19 @@ public final class AccessKayaModel {
 	 * @return kayaMetaModel List
 	 */
 	@SuppressWarnings("unchecked")
-	public static List<KayaMetaModel> chekPermission(String workFlowId, User user) {
+	public static KayaMetaModel chekPermission(String workFlowId, User user, Map<String,String> rowData) {
 		List<KayaMetaModel> userTaskList = new ArrayList<KayaMetaModel>();
-		List<KayaMetaModel> permissionTaskList = new ArrayList<KayaMetaModel>();
-		
+		KayaMetaModel permissionTask = new KayaMetaModel();
+
 		for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelParentIdMap.entrySet()) {
 			// 获得指定WorkFlowId的所有UserTask
 			if(entity.getValue().equals(workFlowId) && Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
 				userTaskList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
 			}
 		}
-		
+
 		for (KayaMetaModel metamodel:userTaskList) {
-			
+
 			// 联合判断结果Set
 			Set<Boolean> checkSet = new HashSet<Boolean>();
 			// 确认所有的Permission
@@ -670,13 +762,14 @@ public final class AccessKayaModel {
 				}
 			}
 			// 如果匹配的场合
-			if (!checkSet.contains(false)) {
-				permissionTaskList.add(metamodel);
+			if (!checkSet.contains(false) && "Pending".equals(rowData.get(metamodel.get(Constant.KINDKEY)))) {
+				permissionTask = metamodel;
 			}
 		}
-		return permissionTaskList;
+		return permissionTask;
 	}
-	
+
+
 	/**
 	 * 通过User权限获取User Task
 	 * @param workFlowId
@@ -687,5 +780,5 @@ public final class AccessKayaModel {
 		List<KayaMetaModel> actionList = new ArrayList<KayaMetaModel>();
 		return actionList;
 	}
-	
+
 }

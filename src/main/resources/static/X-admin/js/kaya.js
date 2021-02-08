@@ -1018,6 +1018,11 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
 		var width = '300px';
 
 		var actionItems = ['0'];
+		
+		var kvParamaterList = [];
+		kvParamaterList.push(rowData);
+		
+		
 		$.ajax({
 			url : "/kayainitwindow",
 			method : "POST",
@@ -1026,7 +1031,7 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
 				'kayaModelId' : kayaModelId,
 				'iseditflg' : isEditFlg,
 				'wftype' : wfType,
-				'rowdata' : rowData,
+				"kvParamaterList" : JSON.stringify(kvParamaterList),
 				'actionItems' : JSON.stringify(actionItems)
 			},
 			success : function(data) {
@@ -1229,7 +1234,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,wfType){
 		insertOrUpdate = "/kayainsert";
 	}
 
-	var kvParamaterList = [];
+	//var kvParamaterList = [];
 	var kvParamaterList = [];
 	kvParamaterList.push(data);
 	// 更新
