@@ -27,6 +27,7 @@ import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.dao.KayaWorkFlow;
 import com.smartkaya.model.KayaModelMasterItem;
 import com.smartkaya.user.User;
+import com.smartkaya.user.User.UserType;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -42,127 +43,6 @@ import net.sf.json.JSONObject;
 public class HelloKayaCrud {
 	// 用户信息初期化（测试用）
 
-	private enum UserType {
-
-		E1,E2,E3,EO,PEM,PM,GL,PL;
-	};
-	private User initUserInfo(UserType userType) {
-		User user = new User();
-
-		List<String> roleList = new ArrayList<String>();
-		List<String> permissions = new ArrayList<String>();
-		Map<String, Object> userMap = new HashMap<String, Object>();
-		
-		switch (userType){
-		case E1:
-			
-			roleList.add("E");
-			userMap.put("roles", roleList);
-			user.setUserId("10001");
-
-			permissions.add("E");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10004");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","1");
-			user.setUserMap(userMap);
-			break;
-		case E2:
-			
-			user.setUserId("10002");
-			roleList.add("E");
-			userMap.put("roles", roleList);
-
-			permissions.add("E");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10004");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","1");
-			user.setUserMap(userMap);
-			break;
-		case EO:
-			
-			user.setUserId("10003");
-			roleList.add("EO");
-			userMap.put("roles", roleList);
-
-			permissions.add("E");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10004");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","0");
-			user.setUserMap(userMap);
-			break;
-		case PEM:
-			
-			user.setUserId("10004");
-			roleList.add("E");
-			userMap.put("roles", roleList);
-
-			permissions.add("E");
-			permissions.add("PEM");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10006");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","4");
-			user.setUserMap(userMap);
-			break;
-		case PM:
-			
-			user.setUserId("10005");
-			roleList.add("E");
-			userMap.put("roles", roleList);
-
-			permissions.add("E");
-			permissions.add("PM");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10001");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","3");
-			user.setUserMap(userMap);
-			break;
-		case GL:
-			
-			user.setUserId("10006");
-			roleList.add("E");
-			roleList.add("EO");
-			userMap.put("roles", roleList);
-
-			permissions.add("E");
-			permissions.add("PEM");
-			permissions.add("GL");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10008");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","5");
-			user.setUserMap(userMap);
-			break;
-		case PL:
-			
-			user.setUserId("10007");
-			roleList.add("E");
-			userMap.put("roles", roleList);
-
-			permissions.add("E");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10006");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","2");
-			user.setUserMap(userMap);
-			break;
-		default:
-			break;
-		}
-		
-		return user;
-	}
 	@RequestMapping(value = "/kayaselect", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKayaSelect(final HttpServletRequest request, final HttpServletResponse response) {
@@ -177,7 +57,9 @@ public class HelloKayaCrud {
 		paramater.setId(kayaModelId);
 		paramater.setMapping(new Mapping());
 		
-		paramater.setUsrinfo(initUserInfo(UserType.E1));
+		
+		User user = new User();
+		paramater.setUsrinfo(user.initUserInfo(UserType.E1));
 		
 		// 检索Map
 		Map<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
@@ -242,10 +124,10 @@ public class HelloKayaCrud {
 
 		Paramaters paramaters = new Paramaters();
 		
-		// 普通用户
+		// TODO:普通用户(E1)
+		User user = new User();
 		
-		
-		paramaters.setUsrinfo(initUserInfo(UserType.E1));
+		paramaters.setUsrinfo(user.initUserInfo(UserType.E1));
 		
 		
 		paramaters.setId(kayaModelId);

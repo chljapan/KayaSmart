@@ -25,6 +25,8 @@ import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaWorkFlow;
 import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelMasterItem;
+import com.smartkaya.user.User;
+import com.smartkaya.user.User.UserType;
 import com.smartkaya.utils.UtilTools;
 
 import net.sf.json.JSONArray;
@@ -160,13 +162,13 @@ public class HelloKayaInit {
 					kayaModelList = AccessKayaModel.getWorkFlowItemByStartKayaModelId(workFlowId);
 					// 申请者（Edit）
 				}  else if (Constant.APPLY.equals(WFType) && "true".equals(isEdit)) {
-					
-					
-					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,"id-0065-00000013","aaply");
+					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,kvParamaterList.get(0));
 					// 审批者（ReView）
 				} else if (Constant.APPROVAL.equals(WFType)) {
+					User user=new User();
+					kayaModelList = AccessKayaModel.chekPermission(workFlowId,user.initUserInfo(UserType.PEM),kvParamaterList.get(0));
 					// 身份验证获得UserTaskID
-					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,"id-0065-00000013","");
+				//	kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,userTaskId,"",kvParamaterList.get(0));
 					// 根据当前UserTask状态，确定按钮状态
 					//kayaModelList = getWorkFlowItemByNextKayaModelId(workFlowId,"");
 					// 申请流程异常（Err架构验证）
