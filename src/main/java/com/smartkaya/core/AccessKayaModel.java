@@ -635,7 +635,7 @@ public final class AccessKayaModel {
 	 * @param type(add,edit,review)
 	 * @return
 	 */
-	public static List<KayaMetaModel> getWorkFlowItemByStartKayaModelId(String workFlowId){
+	public static List<KayaMetaModel> getWorkFlowItemByStartKayaModelId(String workFlowId,User user){
 
 		// Start 指向的Action 
 
@@ -647,19 +647,21 @@ public final class AccessKayaModel {
 
 		// Start Action(Start 指向的Action)
 		kayaModelList.add(kayaModelAccess.KayaModelMap.get(kayaModelAccess.ConnectionMap.get(kayaMetaWorkFlowModel.get(Constant.START))));
+		if (!checkUserPermission(user,AccessKayaModel.getKayaModelId(startUserTaskId)).contains(false)) {
+			for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelIdOrientationKeyMap.entrySet()) {
+				if(entity.getValue().indexOf(startUserTaskId)>-1 && !Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
+					// 指向自己的Action
+					if (Constant.ACTION.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType()) && kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).getKayaModelId().equals(startUserTaskId)) {
+						kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+						// 所有的Property
+					} else if (Constant.G_PROPERTY.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())) {
+						kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
+					}
 
-		for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelIdOrientationKeyMap.entrySet()) {
-			if(entity.getValue().indexOf(startUserTaskId)>-1 && !Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
-				// 指向自己的Action
-				if (Constant.ACTION.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType()) && kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).getKayaModelId().equals(startUserTaskId)) {
-					kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
-					// 所有的Property
-				} else if (Constant.G_PROPERTY.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())) {
-					kayaModelList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
 				}
-
-			}
-		}    
+			}    
+		}
+		
 		return kayaModelList;
 	}
 
@@ -668,7 +670,7 @@ public final class AccessKayaModel {
 	 * @param kayaModelId
 	 * @return
 	 */
-	public static List<KayaMetaModel> getWorkFlowItemByNextKayaModelId(String workFlowId,Map<String,Object> rowData){
+	public static List<KayaMetaModel> getWorkFlowItemByNextKayaModelId(String workFlowId,User user,Map<String,Object> rowData){
 		List<KayaMetaModel> kayaModelList=new Vector<>();
 		KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
 		String startUserTaskId = kayaModelAccess.KayaModelMap.get(AccessKayaModel
@@ -676,9 +678,10 @@ public final class AccessKayaModel {
 
 		// 申请者
 
-			if ("Pending".equals(rowData.get(AccessKayaModel.getKayaModelId(startUserTaskId).get(Constant.KINDKEY)))) {
-				kayaModelList = getWorkFlowItemByStartKayaModelId(workFlowId);
-			} else {
+		if ("Pending".equals(rowData.get(AccessKayaModel.getKayaModelId(startUserTaskId).get(Constant.KINDKEY)))) {
+			kayaModelList = getWorkFlowItemByStartKayaModelId(workFlowId,user);
+		} else {
+			if (!checkUserPermission(user,AccessKayaModel.getKayaModelId(startUserTaskId)).contains(false)) {
 				for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelIdOrientationKeyMap.entrySet()) {
 					if(entity.getValue().indexOf(startUserTaskId)>-1 && !Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
 						// 指向自己的Action
@@ -695,6 +698,8 @@ public final class AccessKayaModel {
 					}
 				}    
 			}
+			
+		}
 
 
 
@@ -712,9 +717,8 @@ public final class AccessKayaModel {
 	 * @param user
 	 * @return kayaMetaModel List
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<KayaMetaModel> chekPermission(String workFlowId, User user, Map<String,Object> rowData) {
-		
+
 		List<KayaMetaModel> userTaskList = new ArrayList<KayaMetaModel>();
 		for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelParentIdMap.entrySet()) {
 			// 获得指定WorkFlowId的所有UserTask
@@ -724,34 +728,11 @@ public final class AccessKayaModel {
 		}
 		// 是否是开始User Task
 		List<KayaMetaModel> actionList = new ArrayList<KayaMetaModel>();
-		
-		for (KayaMetaModel metamodel:userTaskList) {
 
-			// 联合判断结果Set
-			Set<Boolean> checkSet = new HashSet<Boolean>();
-			// 确认所有的Permission
-//			for (KayaModelPermissionsItem kp : metamodel.getPermissionsItems()) {
-//				// 用户信息同MetaModel中的信息进行匹配
-//				// 用户信息中存在模型设定信息的场合
-//				if (user.getUserMap().containsKey(kp.getId())) {
-//					// List(复数项)的场合
-//					if (Constant.EMPTY.equals(kp.getText())) {
-//						checkSet.add(((List<String>) user.getUserMap().get(kp.getId())).containsAll(kp.getTextList()));
-//						// 单项的场合
-//					} else {
-//						checkSet.add(user.getUserMap().get(kp.getId()).equals(kp.getText()));
-//					}
-//					// 不存在的场合
-//				} else {
-//					checkSet.add(false);
-//					// 如果不匹配，短路终止循环
-//					break;
-//				}
-//			}
-			checkUserPermission(user,metamodel,checkSet);
+		for (KayaMetaModel metamodel:userTaskList) {
 			// 如果匹配的场合1(Pending的是自身User TaskId)
 			//if (!checkSet.contains(false) && "Pending".equals(rowData.get(metamodel.get(Constant.KINDKEY)))) {
-			if (!checkSet.contains(false)) {
+			if (!checkUserPermission(user,metamodel).contains(false) && "Pending".equals(rowData.get(metamodel.get(Constant.KINDKEY)))) {
 				for (Map.Entry<String, String> entity : kayaModelAccess.KayaModelIdOrientationKeyMap.entrySet()) {
 					if(entity.getValue().indexOf(metamodel.getGmeId())>-1 && !Constant.USERTASK.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())){
 						// 指向自己的Action
@@ -762,20 +743,22 @@ public final class AccessKayaModel {
 							continue;
 							// 所有的Property
 						} else if (Constant.ACTION.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())
-								&& !kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).isReverse()) {
+								&& !kayaModelAccess.WorkFlowConnectionMap.get(entity.getKey()).isReverse() && "Pending".equals(rowData.get(metamodel.get(Constant.KINDKEY)))) {
 							actionList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
-						}else if (Constant.G_PROPERTY.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType())) {
+						}else if (Constant.G_PROPERTY.equals(kayaModelAccess.KayaModelMap.get(entity.getKey()).getMetaModelType()) && "Pending".equals(rowData.get(metamodel.get(Constant.KINDKEY)))) {
 							actionList.add(kayaModelAccess.KayaModelMap.get(entity.getKey()));
 						}
 					}
 				}  
-			}
+			} 
+			
 		}
 		return actionList;
 	}
 
 	@SuppressWarnings("unchecked")
-	private static void checkUserPermission(User user,KayaMetaModel kayaMetaModel,Set<Boolean> checkSet) {
+	private static Set<Boolean> checkUserPermission(User user,KayaMetaModel kayaMetaModel) {
+		Set<Boolean> checkSet = new HashSet<Boolean>();
 		for (KayaModelPermissionsItem kp : kayaMetaModel.getPermissionsItems()) {
 			// 用户信息同MetaModel中的信息进行匹配
 			// 用户信息中存在模型设定信息的场合
@@ -794,7 +777,7 @@ public final class AccessKayaModel {
 				break;
 			}
 		}
-
+		return checkSet;
 	}
 	/**
 	 * 通过User权限获取User Task

@@ -143,7 +143,6 @@ public class User implements Serializable {
 			roleList.add("E");
 			userMap.put("roles", roleList);
 			user.setUserId("10001");
-
 			permissions.add("E");
 			userMap.put("permissions", permissions);
 			
@@ -151,6 +150,7 @@ public class User implements Serializable {
 			bumencodeList.add("12");
 			bumencodeList.add("13");
 			userMap.put("BumenCode",bumencodeList);
+			
 			userMap.put("ZhiweiCode","1");
 			user.setUserMap(userMap);
 			break;

@@ -111,8 +111,6 @@ public class HelloKayaInit {
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
 		
-		Object rowdata = request.getParameter("rowdata");
-		
 		// 表列信息列表
 		List<GridColumn> columnsList = new ArrayList<GridColumn>();
 		// 流程元素信息
@@ -122,66 +120,44 @@ public class HelloKayaInit {
 		KayaMetaModel kayamodelReq =  AccessKayaModel.getKayaModelId(kayaModelId);
 		columnsList = editeGridColumn(kayamodelList,kayamodelReq.getRowspan());
 
-		JSONArray actionItesm = JSONArray.fromObject(request.getParameter("actionItems"));
-		// 新追加的项目
-		@SuppressWarnings("unchecked")
-		List<String> actionItemList = (List<String>) JSONArray.toCollection(actionItesm);
-
 		// 监听业务流程处理
 		if (!Constant.EMPTY.equals(AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId())) {
 			// TODO:验证流程ID
 			// 从元模型中取出表信息
-			// List<KayaMetaModel> kayamodelList =
-			// AccessKayaModel.getKayaModelByParentIdNoAction(kayaModelId);
 			// 监听业务流程处理
 			String workFlowId = AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId();
 			
 			
 			if (!Constant.EMPTY.equals(workFlowId)) {
-				KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
 				// TODO:验证流程ID
 				List<KayaMetaModel> kayaModelList = new ArrayList<KayaMetaModel>();
 				// 流程类型
 				String WFType = request.getParameter("wftype");
 				String isEdit = request.getParameter("iseditflg");
 				// 流程Pending状态的TaskId取得处理
-				
-
-
 				JSONArray jsonarray = JSONArray.fromObject(request.getParameter("kvParamaterList"));
 
 				@SuppressWarnings("unchecked")
 				List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
 						Map.class);
-				
-				
-				
+
 				// 申请者（Add）
 				if(Constant.APPLY.equals(WFType) && "false".equals(isEdit)) {
+					User user=new User();
 					// 取得活性化Actions（开始Action和指向自己的Action）
-					kayaModelList = AccessKayaModel.getWorkFlowItemByStartKayaModelId(workFlowId);
+					kayaModelList = AccessKayaModel.getWorkFlowItemByStartKayaModelId(workFlowId,user.initUserInfo(UserType.E1));
 					// 申请者（Edit）
 				}  else if (Constant.APPLY.equals(WFType) && "true".equals(isEdit)) {
-					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,kvParamaterList.get(0));
+					User user=new User();
+					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,user.initUserInfo(UserType.E1),kvParamaterList.get(0));
 					// 审批者（ReView）
 				} else if (Constant.APPROVAL.equals(WFType)) {
 					User user=new User();
 					kayaModelList = AccessKayaModel.chekPermission(workFlowId,user.initUserInfo(UserType.PEM),kvParamaterList.get(0));
-					// 身份验证获得UserTaskID
-				//	kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,userTaskId,"",kvParamaterList.get(0));
-					// 根据当前UserTask状态，确定按钮状态
-					//kayaModelList = getWorkFlowItemByNextKayaModelId(workFlowId,"");
-					// 申请流程异常（Err架构验证）
 				} else {
-					//startUserTaskId = AccessKayaModel
-						//	.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
+					// TODO： 例外处理
 				}
-				
 
-				// Set<String> actionItemSet = new HashSet<String>();
-				// actionItemSet.add("0");
-				// actionItemSet.add("1");
-				// actionItemSet.add("3");
 				
 				for (KayaMetaModel kayaModel : kayaModelList) {
 					Map<String, Object> workflowItem = new HashMap<String, Object>();
@@ -341,13 +317,6 @@ public class HelloKayaInit {
 					}
 				} 
 
-				//startUserTaskId = "id-0065-00000010";
-				// Set<String> actionItemSet = new HashSet<String>();
-				// actionItemSet.add("0");
-				// actionItemSet.add("1");
-				// actionItemSet.add("3");
-				//				List<KayaMetaModel> kayaModelListWF = AccessKayaModel.getWorkFlowItemByKayaModelId(startUserTaskId,
-				//						actionItemList);
 				for (KayaMetaModel kayaModel : kayaModelListWF) {
 					Map<String, Object> workflowItem = new HashMap<String, Object>();
 					// System.out.println(kayaModel.getName());
@@ -509,10 +478,8 @@ public class HelloKayaInit {
 				gridColumn.setEncryption(kayamodel.get(Constant.ISENCRYPTION)==null?false:Boolean.valueOf(kayamodel.get(Constant.ISENCRYPTION)));
 				break;
 			}
-			
-			//System.out.println(gridColumn.toString());
+
 			columnsList.add(gridColumn);
-			// columnsList.add(column);
 		}
 
 		Collections.sort(columnsList);
