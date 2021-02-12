@@ -387,10 +387,11 @@ layui.config({
 
 					for (var i = levelMap.size;i>0;i--) {
 						if (i ==levelMap.size) {
+							//html = html + "<th lay-data=\"{type:'checkbox'}\" rowspan=\"" + levelMap.size + "\" style=\"width:18px\"></th>";
+							
 							html = html + "<tr><th lay-data=\"{type:'numbers'}\" rowspan=\"" + levelMap.size + "\" style=\"width:10px\">No.</th>";
-
 							html = html + "<th lay-data=\"{type:'checkbox'}\" rowspan=\"" + levelMap.size + "\" style=\"width:18px\"></th>";
-
+							html = html + "<th lay-data=\"{field:'orientationkey',hide:true}\" rowspan=\"" + levelMap.size + "\">orientationkey</th>"
 							html = html + levelMap.get(i) + "</tr>";
 						}　else {
 							html = html + "<tr>" + levelMap.get(i) + "</tr>";
@@ -1204,7 +1205,7 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
 					if(!validation()){
 						return;
 					}
-					inserteOrUpdateRow(kayaModelId,actionId,jsonBusinessSubkey,insertField,Title,wfType);
+					inserteOrUpdateRow(kayaModelId,actionId,jsonBusinessSubkey,insertField,Title,isEditFlg,wfType);
 				}
 			});
 		}
@@ -1221,7 +1222,7 @@ function addRow(kayaModelId,Title,isEditFlg,wfType) {
  * @param Title
  * @returns
  */
-function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,wfType){
+function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,isEditFlg,wfType){
 	var insertOrUpdate = "";
 	if(actionId=='cencel'){
 		layer.closeAll();
@@ -1237,6 +1238,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,wfType){
 	//var kvParamaterList = [];
 	var kvParamaterList = [];
 	kvParamaterList.push(data);
+	//alert(G_Orientationkey.get(kayaModelId));
 	// 更新
 	$.ajax({
 		url : insertOrUpdate,
@@ -1246,6 +1248,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,wfType){
 			"kvParamaterList" : JSON.stringify(kvParamaterList),
 			'kayaModelId' : kayaModelId,
 			'actionId' : actionId,
+			'isEdit' : isEditFlg,
 			'orientationKey' : G_Orientationkey.get(kayaModelId),
 			'insertField': insertField
 		},

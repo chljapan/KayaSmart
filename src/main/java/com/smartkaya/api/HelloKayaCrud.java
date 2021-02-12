@@ -1,6 +1,5 @@
 package com.smartkaya.api;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smartkaya.api.utils.StringUtil;
-import com.smartkaya.bean.CalendarTaskVo;
 import com.smartkaya.bean.Mapping;
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
@@ -123,6 +121,11 @@ public class HelloKayaCrud {
 				Map.class);
 
 		Paramaters paramaters = new Paramaters();
+		if (Constant.TRUE.equals(request.getParameter("isEdit"))) {
+			paramaters.setCrud(Constant.UPDATE);
+		} else {
+			paramaters.setCrud(Constant.INSERT);
+		}
 		
 		// TODO:普通用户(E1)
 		User user = new User();
@@ -328,35 +331,6 @@ public class HelloKayaCrud {
 		kayaWorkflow.excuteKayaWorkFlow(paramaters);
 
 		RestHelper helper = new RestHelper();
-		return helper.getSimpleSuccess();
-	}
-
-	@RequestMapping(value = "/getCalenderList", method = RequestMethod.GET, produces = "application/json;charset=utf-8")
-	@ResponseBody
-	public Map<String, Object> getCalendarList(final HttpServletRequest request, final HttpServletResponse response)
-			throws ParseException {
-		// 获取前台参数
-		String kayaModelId = request.getParameter("kayaModelId");
-		// 获取前台参数
-		String userId = request.getParameter("userId");
-		String stime = request.getParameter("stime");
-		String etime = request.getParameter("etime");
-		Paramater paramater = new Paramater();
-		paramater.setId(kayaModelId);
-		paramater.setMapping(new Mapping());
-		// 检索Map
-		HashMap<String, Object> propertys = new HashMap<String, Object>();
-		propertys.put("userId", userId);
-		propertys.put("stime", stime);
-		propertys.put("etime", etime);
-
-		// 业务Map
-		paramater.getMapping().setPropertys(propertys);
-
-		KayaSQLExecute dao = new KayaSQLExecute();
-
-		List<CalendarTaskVo> data = dao.getCalendarList(paramater);
-		RestHelper helper = new RestHelper(null, data);
 		return helper.getSimpleSuccess();
 	}
 

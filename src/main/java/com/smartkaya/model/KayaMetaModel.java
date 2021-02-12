@@ -94,12 +94,12 @@ public class KayaMetaModel implements java.io.Serializable,Comparable<Object>{
 		return attributesMap.get(key) == null?"":attributesMap.get(key).toString();
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public List<String> getOrganizationItems(){
+	@SuppressWarnings({ "unchecked"})
+	public List<KayaModelOrganizationItem> getOrganizationItems(){
 		if (StringUtils.isEmpty(attributesMap.get(Constant.ORGANIZATION))) {
-			return new ArrayList();
+			return new ArrayList<KayaModelOrganizationItem>();
 		} else {
-			return ((List<String>)attributesMap.get(Constant.ORGANIZATION));
+			return ((List<KayaModelOrganizationItem>) attributesMap.get(Constant.ORGANIZATION));
 		}
 	}
 	@SuppressWarnings("unchecked")

@@ -87,7 +87,7 @@ layui.define(["jquery"],function (exports) {
 			 * @returns
 			 */
 			editAddRows : function (columns, contentHtml,isEditFlg,rowData,jsonBusinessSubkey) {
-
+				jsonBusinessSubkey.orientationkey = rowData.orientationkey;
 				for (x in columns) {
 					var inputValue= "";
 					var Readonly = "";

@@ -20,6 +20,7 @@ import com.smartkaya.core.DbConnection;
 import com.smartkaya.core.ParseKayaModel_XPATH;
 import com.smartkaya.entity.KayaEntity;
 import com.smartkaya.model.KayaMetaModel;
+import com.smartkaya.model.KayaModelOrganizationItem;
 import com.smartkaya.model.KayaModelPermissionsItem;
 import com.smartkaya.script.ScriptEXE;
 import com.smartkaya.user.User;
@@ -36,7 +37,7 @@ public final class KayaWorkFlow {
 	private DbConnection dBConnection = AccessKayaModel.getDbConnection();
 	Properties properties = ParseKayaModel_XPATH.getProperties("kayaconfig.properties");
 	// 读取必要的表
-	String roleInfoKey = properties.getProperty(Constant.P_ROLES);
+	//String roleInfoKey = properties.getProperty(Constant.P_ROLES);
 
 	public KayaWorkFlow() {
 		// TODO:不需要？
@@ -122,17 +123,17 @@ public final class KayaWorkFlow {
 	 * @return
 	 */
 	public int excuteKayaWorkFlow(Paramaters paramaters) {
-		// WorkFlow处理类型判断
-		if (!Constant.WORKFLOW.equals(paramaters.getCrud())) {
-			paramaters.setError(true);
-			Message message = new Message();
-			message.setLever(Lever.ERROR);
-			message.setCode("10001");
-			message.setMesage("Please confirm the status of the process.");
-			paramaters.setMessages(message);
-			return 0;
-			// 开始WorkFlow处理（参数WorkFlowID的场合）
-		}
+//		// WorkFlow处理类型判断
+//		if (!Constant.WORKFLOW.equals(paramaters.getCrud())) {
+//			paramaters.setError(true);
+//			Message message = new Message();
+//			message.setLever(Lever.ERROR);
+//			message.setCode("10001");
+//			message.setMesage("Please confirm the status of the process.");
+//			paramaters.setMessages(message);
+//			return 0;
+//			// 开始WorkFlow处理（参数WorkFlowID的场合）
+//		}
 		// TODO： 权限控制处理
 
 		// TODO:验证目前的WorkFlow状态（确认该Action属于本流程的下一个状态）
@@ -141,8 +142,11 @@ public final class KayaWorkFlow {
 
 		String kayaModelId = paramaters.getId();
 
-		HashMap<String, String> businessKeyMap = paramaters.getBusinessKeyMap();
-		businessKeyMap.put(Constant.ORIENTATIONKEY, paramaters.getOrientationKey());
+		HashMap<String, String> businessKeyMap = new HashMap<String,String>();
+		businessKeyMap.put(Constant.ORIENTATIONKEY, paramaters.getMappings().get(0).getPropertys().get(Constant.ORIENTATIONKEY).toString());
+		
+		
+		
 		// 取得Role信息
 		String tableName = AccessKayaModel.getKayaModelId(actionId).getTableId();
 
@@ -244,8 +248,8 @@ public final class KayaWorkFlow {
 		// 取得生成workflow数据需要的组织信息
 		KayaMetaModel actionUsrtask = AccessKayaModel.getParentKayaModel(actionId);
 		
-		List<String> organizationList = new ArrayList<String>();
-		organizationList = actionUsrtask.getOrganizationItems();
+		List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
+		organizationItems = actionUsrtask.getOrganizationItems();
 
 		// NextStape
 		String nextWorkFlowId = "";
@@ -426,9 +430,13 @@ public final class KayaWorkFlow {
 
 			} else {
 				// 组织信息插入
-				for (int i = 0; i < organizationList.size(); i++) {
-
-					String orgInfo = organizationList.get(i);
+				for (int i = 0; i < organizationItems.size(); i++) {
+					String orgInfo = "";
+					if (organizationItems.get(i).isRef()) {
+						orgInfo = organizationItems.get(i).getRefSrc();
+					} else {
+						orgInfo = organizationItems.get(i).getText();
+					}
 					// gmeid
 					insertSQL.append(",(");
 
@@ -554,7 +562,8 @@ public final class KayaWorkFlow {
 						List<String> perText = permissionsItem.getTextList();
 
 						@SuppressWarnings("unchecked")
-						List<Map<String, Object>> roleDbList = (List<Map<String, Object>>) usrMap.get(roleInfoKey);
+						//List<Map<String, Object>> roleDbList = (List<Map<String, Object>>) usrMap.get(roleInfoKey);
+						List<Map<String, Object>> roleDbList = (List<Map<String, Object>>) usrMap.get("");
 						for (Map<String, Object> tempRole : roleDbList) {
 							if (perText.contains(tempRole.get(perId))) {
 								perFlag = true;
@@ -674,16 +683,21 @@ public final class KayaWorkFlow {
 				selectEmptSQL.append("(kindtype = 'Role' AND flowcode = '" + flowcode + "') ");
 				if (kayamodelSrc.getOrganizationItems() != null) {
 					// 取得生成workflow数据需要的组织信息
-					List<String> organizationList = new ArrayList<String>();
-					organizationList = kayamodelSrc.getOrganizationItems();
-					for (int i = 0; i < organizationList.size(); i++) {
-					//	String orgInfo = organizationList.get(i);
-						String orgKindkey = "";
+					List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
+					organizationItems = kayamodelSrc.getOrganizationItems();
+					for (int i = 0; i < organizationItems.size(); i++) {
+						String orgInfo = Constant.EMPTY;
+						if (organizationItems.get(i).isRef()) {
+							orgInfo = organizationItems.get(i).getRefDst();
+						} else {
+							orgInfo = organizationItems.get(i).getText();
+						}
+						//String orgKindkey = "";
 						// 检索条件个数
 						selectCount = selectCount + 1;
 						selectEmptSQL.append(" OR ");
-						selectEmptSQL.append("(kind = '" + orgKindkey)
-								.append("' AND kindvalue = '" + userInfo.getUserMap().get(orgKindkey) + "')");
+						selectEmptSQL.append("(kind = '" + orgInfo)
+								.append("' AND kindvalue = '" + userInfo.getUserMap().get(orgInfo) + "')");
 					}
 				}
 				selectEmptSQL.append(" OR ");

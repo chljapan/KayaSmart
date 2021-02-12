@@ -14,7 +14,8 @@ import com.smartkaya.model.KayaMetaModel;
  * @version 1.0.0
  */
 public class KayaModelUtils {
-	public static final String selectString="SELECT gmeid,name,kind,kindtype,kindvalue,parentid,businessid,businesssubid,relid,orientationkey,flowcode,flowsubcode,startdate,enddate,withdrawaldate,createdate,createuser,updatedate,updateuser,lockflg,lockuser FROM ";
+	public static final String selectString="SELECT gmeid,name,kind,kindtype,kindvalue,parentid,relid,orientationkey,flowcode,flowsubcode,startdate,enddate,withdrawaldate,createdate,createuser,updatedate,updateuser,lockflg,lockuser FROM ";
+	public static final String selectWorkFlowString="SELECT gmeid,name,kind,kindtype,kindvalue,parentid,relid,orientationkey,flowcode,flowsubcode,startdate,enddate,withdrawaldate,createdate,createuser,updatedate,updateuser,lockflg,lockuser FROM ";
 	public static final String selectStringMain="SELECT m.gmeid,m.name,m.kind,m.kindtype,m.kindvalue,m.parentid,m.businessid,m.businesssubid,m.orientationkey,m.startdate,m.enddate,m.withdrawaldate,m.createdate,m.createuser,m.updatedate,m.updateuser,m.lockflg,m.lockuser FROM ";
 	/**
 	 * Business文字列取得
@@ -117,6 +118,15 @@ public class KayaModelUtils {
 	public static StringBuilder getInsertSql(String tableName){
 		StringBuilder insertSQL = new StringBuilder("INSERT INTO " + tableName + " ("
 				+ "businessid,businesssubid,orientationkey,relid,gmeid,kind,name,kindvalue,kindtype,securitycode,"
+				+ "flowcode,flowsubcode,startdate,enddate,withdrawaldate,parentid,createdate,createuser,updatemachine"
+				+ ") VALUES ");
+		return insertSQL;
+	}
+	
+	// Insert 字符串编辑方法
+	public static StringBuilder getWorkFlowInsertSql(String tableName){
+		StringBuilder insertSQL = new StringBuilder("INSERT INTO " + tableName + " ("
+				+ "orientationkey,relid,gmeid,kind,name,kindvalue,kindtype,securitycode,"
 				+ "flowcode,flowsubcode,startdate,enddate,withdrawaldate,parentid,createdate,createuser,updatemachine"
 				+ ") VALUES ");
 		return insertSQL;

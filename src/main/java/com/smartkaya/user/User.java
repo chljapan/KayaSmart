@@ -150,6 +150,7 @@ public class User implements Serializable {
 			bumencodeList.add("12");
 			bumencodeList.add("13");
 			userMap.put("BumenCode",bumencodeList);
+			userMap.put("YuanGongId", user.getUserId());
 			
 			userMap.put("ZhiweiCode","1");
 			user.setUserMap(userMap);
@@ -175,7 +176,7 @@ public class User implements Serializable {
 			user.setUserId("10003");
 			roleList.add("EO");
 			userMap.put("roles", roleList);
-
+			userMap.put("YuanGongId", user.getUserId());
 			permissions.add("E");
 			userMap.put("permissions", permissions);
 			
@@ -190,7 +191,7 @@ public class User implements Serializable {
 			roleList.add("E");
 			roleList.add("PEM");
 			userMap.put("roles", roleList);
-
+			userMap.put("YuanGongId", user.getUserId());
 			permissions.add("E");
 			permissions.add("PEM");
 			userMap.put("permissions", permissions);
@@ -207,7 +208,7 @@ public class User implements Serializable {
 			user.setUserId("10005");
 			roleList.add("E");
 			userMap.put("roles", roleList);
-
+			userMap.put("YuanGongId", user.getUserId());
 			permissions.add("E");
 			permissions.add("PM");
 			userMap.put("permissions", permissions);
@@ -223,7 +224,7 @@ public class User implements Serializable {
 			roleList.add("E");
 			roleList.add("EO");
 			userMap.put("roles", roleList);
-
+			userMap.put("YuanGongId", user.getUserId());
 			permissions.add("E");
 			permissions.add("PEM");
 			permissions.add("GL");
@@ -239,7 +240,7 @@ public class User implements Serializable {
 			user.setUserId("10007");
 			roleList.add("E");
 			userMap.put("roles", roleList);
-
+			userMap.put("YuanGongId", user.getUserId());
 			permissions.add("E");
 			userMap.put("permissions", permissions);
 			

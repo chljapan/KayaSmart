@@ -820,8 +820,8 @@ public final class ParseKayaModel_XPATH {
 					List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
 					for (String organizationItem : modelMgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
 						KayaModelOrganizationItem kayaModelOrganizationItem = new KayaModelOrganizationItem();
-						if(organizationItem.startsWith("{") || organizationItem.startsWith("[") ){
-							List<String> valueList = Arrays.asList(organizationItem.split(","));
+						List<String> valueList = Arrays.asList(organizationItem.split("="));
+						if(valueList.size()>1){
 							kayaModelOrganizationItem.setRef(true);
 							kayaModelOrganizationItem.setRefSrc(valueList.get(0));
 							kayaModelOrganizationItem.setRefDst(valueList.get(1));
@@ -943,8 +943,8 @@ public final class ParseKayaModel_XPATH {
 					List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
 					for (String organizationItem : mgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
 						KayaModelOrganizationItem kayaModelOrganizationItem = new KayaModelOrganizationItem();
-						if(organizationItem.startsWith("{") || organizationItem.startsWith("[") ){
-							List<String> valueList = Arrays.asList(organizationItem.split(","));
+						List<String> valueList = Arrays.asList(organizationItem.split("="));
+						if(valueList.size()>1){
 							kayaModelOrganizationItem.setRef(true);
 							kayaModelOrganizationItem.setRefSrc(valueList.get(0));
 							kayaModelOrganizationItem.setRefDst(valueList.get(1));
@@ -1526,8 +1526,8 @@ public final class ParseKayaModel_XPATH {
 									List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
 									for (String organizationItem : attributeElement.getTextContent().trim().split("\n")) {
 										KayaModelOrganizationItem kayaModelOrganizationItem = new KayaModelOrganizationItem();
-										if(organizationItem.startsWith("{") || organizationItem.startsWith("[") ){
-											List<String> valueList = Arrays.asList(organizationItem.split(","));
+										List<String> valueList = Arrays.asList(organizationItem.split("="));
+										if(valueList.size()>1){
 											kayaModelOrganizationItem.setRef(true);
 											kayaModelOrganizationItem.setRefSrc(valueList.get(0));
 											kayaModelOrganizationItem.setRefDst(valueList.get(1));
@@ -1980,8 +1980,6 @@ public final class ParseKayaModel_XPATH {
 		createTablseSQL = createTablseSQL 
 				+ "CREATE TABLE IF NOT Exists " + tableName + "("
 				+   "gmeid           VARCHAR(16) CHARSET utf8 COLLATE utf8_general_ci    NOT NULL,"
-				+   "businessid      VARCHAR(125) CHARSET utf8 COLLATE utf8_general_ci    NOT NULL,"
-				+   "businesssubid      VARCHAR(125) CHARSET utf8 COLLATE utf8_general_ci,"
 				+   "relid      VARCHAR(25) CHARSET utf8 COLLATE utf8_general_ci,"
 				+   "kind            VARCHAR(40) CHARSET utf8 COLLATE utf8_general_ci,"
 				+   "name            VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci,"
@@ -1993,7 +1991,7 @@ public final class ParseKayaModel_XPATH {
 				+   "startdate       DATETIME                                            NOT NULL,"
 				+   "enddate         DATETIME                                            NOT NULL,"
 				+   "withdrawaldate  DATETIME                                            NOT NULL,"
-				+   "orientationkey  VARCHAR(500) CHARSET utf8 COLLATE utf8_general_ci,"
+				+   "orientationkey  VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci    NOT NULL,"
 				+   "parentid        VARCHAR(16) CHARSET utf8 COLLATE utf8_general_ci,"
 				+   "groupid        VARCHAR(16) CHARSET utf8 COLLATE utf8_general_ci,"
 				+   "createdate      DATETIME,"
@@ -2004,7 +2002,7 @@ public final class ParseKayaModel_XPATH {
 				+   "lockuser        VARCHAR(25) CHARSET utf8 COLLATE utf8_general_ci,"
 				+   "lockdate        DATETIME,"
 				+   "updatemachine   VARCHAR(25) CHARSET utf8 COLLATE utf8_general_ci,"
-				+   "PRIMARY KEY (businessid,gmeid,businesssubid,relid))"
+				+   "PRIMARY KEY (gmeid,relid,orientationkey)) "
 				+   "ENGINE=MyISAM,"
 				+   "COLLATE=utf8_general_ci;";
 		return createTablseSQL;
@@ -2029,7 +2027,7 @@ public final class ParseKayaModel_XPATH {
 				+ "startdate       DATE      NOT NULL,"
 				+ "enddate         DATE      NOT NULL,"
 				+ "withdrawaldate  DATE     NOT NULL,"
-				+ "orientationkey  VARCHAR(500) ,"
+				+ "orientationkey  VARCHAR(255) ,"
 				+ "parentid        VARCHAR(16) ,"
 				+ "groupid        VARCHAR(16) ,"
 				+ "createdate      DATE,"
