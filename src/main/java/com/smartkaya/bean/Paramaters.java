@@ -10,20 +10,17 @@ import com.smartkaya.user.User;
  * @version 1.0.0
  */
 public class Paramaters implements java.io.Serializable {
-	
 	private static final long serialVersionUID = 1L;
-	// RoleID
-	private String id;
+	
+	private String id;// RoleID
 	private String text;
 	private String crud;
-	private HashMap<String,String> businessKeyMap;
-//	private String workflowid;
+	private HashMap<String,Object> businessKeyMap;
 	private String actionid;
 	private List<String> targetTableList = new ArrayList<String>();
 	private List<Message> messages = new ArrayList<Message>();
-	//private String message;
 	private boolean error;
-	private List<Mapping> mappings = new ArrayList<Mapping>();
+	private List<HashMap<String,Object>> listPropertys = new ArrayList<HashMap<String,Object>>();
 	private String orientationKey;
 	private User usrinfo;
 	
@@ -47,10 +44,10 @@ public class Paramaters implements java.io.Serializable {
 		this.crud = crud;
 	}
 	
-	public HashMap<String, String> getBusinessKeyMap() {
+	public HashMap<String, Object> getBusinessKeyMap() {
 		return businessKeyMap;
 	}
-	public void setBusinessKeyMap(HashMap<String, String> businessKeyMap) {
+	public void setBusinessKeyMap(HashMap<String, Object> businessKeyMap) {
 		this.businessKeyMap = businessKeyMap;
 	}
 	//	public String getWorkflowid() {
@@ -130,19 +127,19 @@ public class Paramaters implements java.io.Serializable {
 	public void setError(boolean error) {
 		this.error = error;
 	}
-	public List<Mapping> getMappings() {
-		return mappings;
+	public List<HashMap<String,Object>> getListPropertys() {
+		return listPropertys;
 	}
-	public void setMappings(List<Mapping> mappings) {
-		this.mappings = mappings;
-	}
-	
-	public void setMapping(Mapping mapping) {
-		this.mappings.add(mapping);
+	public void setListPropertys(List<HashMap<String,Object>> listPropertys) {
+		this.listPropertys = listPropertys;
 	}
 	
-	public void removeMapping(int i) {
-		this.mappings.remove(i);
+	public void addPropertys(HashMap<String,Object> propertys) {
+		this.listPropertys.add(propertys);
+	}
+	
+	public void removePropertys(int i) {
+		this.listPropertys.remove(i);
 	}
 	public List<String> getTargetTableList() {
 		return targetTableList;

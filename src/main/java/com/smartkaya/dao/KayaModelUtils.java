@@ -1,5 +1,5 @@
 package com.smartkaya.dao;
-import java.util.Map;
+import java.util.HashMap;
 
 import com.smartkaya.bean.Message;
 import com.smartkaya.bean.Paramater;
@@ -23,7 +23,7 @@ public class KayaModelUtils {
 	 * @param subEntity
 	 * @return
 	 */
-	public static String getBusinessKey(KayaMetaModel kayaMetaModel,Map<String,Object> subEntity){
+	public static String getBusinessKey(KayaMetaModel kayaMetaModel,HashMap<String,Object> subEntity){
 		StringBuilder businessValue = new StringBuilder("^");
 		for (String businessStr:kayaMetaModel.getBusinessKeys()) {
 			businessValue.append(subEntity.get(businessStr) + "^");
@@ -37,7 +37,7 @@ public class KayaModelUtils {
 	 * @param subEntity
 	 * @return
 	 */
-	public static String getOrientationKey(KayaMetaModel kayaMetaModel,Map<String,Object> subEntity){
+	public static String getOrientationKey(KayaMetaModel kayaMetaModel,HashMap<String,Object> subEntity){
 		StringBuilder businessValue = new StringBuilder("");
 		if (Constant.G_ROLE.equals(AccessKayaModel.getParentKayaModel(kayaMetaModel.getGmeId()).getMetaModelType())) {
 			for (String businessStr:kayaMetaModel.getBusinessKeys()) {
@@ -54,13 +54,14 @@ public class KayaModelUtils {
 		return businessValue.toString();
 	}
 	
+	
 	/**
 	 * 关系Key 取得方法
 	 * @param kayaMetaModel
 	 * @param subEntity
 	 * @return
 	 */
-	public static String editOrientationKey(KayaMetaModel kayaMetaModel,String orientationKey,Map<String,Object> subEntity){
+	public static String editOrientationKey(KayaMetaModel kayaMetaModel,String orientationKey,HashMap<String,Object> subEntity){
 		StringBuilder businessValue = new StringBuilder("");
 		// 主表
 		if (!Constant.G_ROLE.equals(AccessKayaModel.getParentKayaModel(kayaMetaModel.getGmeId()).getMetaModelType())) {
@@ -78,6 +79,7 @@ public class KayaModelUtils {
 
 		return businessValue.toString();
 	}
+	
 	
 	/**
 	 * 表存在Check

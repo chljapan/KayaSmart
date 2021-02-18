@@ -50,10 +50,10 @@ public class SqlTextSelectEdit {
 		// 主次表处理
 		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())){
 			for (KayaMetaModel kayaModel: kayaModelList) {
-				if (paramater.getMapping().getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))){
+				if (paramater.getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))){
 					selectEmptSQL.append("SELECT orientationkey FROM " + tableName 
 							+ " WHERE (kind = '" + kayaModel.get(Constant.KINDKEY) + "' AND kindvalue LIKE '"
-							+ paramater.getMapping().getPropertys().get(kayaModel.get(Constant.KINDKEY))
+							+ paramater.getPropertys().get(kayaModel.get(Constant.KINDKEY))
 							+ "%')");
 				}
 			}
@@ -61,19 +61,19 @@ public class SqlTextSelectEdit {
 		} else {
 			// orientationkey
 			for (KayaMetaModel kayaModel: kayaModelList) {
-				if (paramater.getMapping().getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))){
+				if (paramater.getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))){
 					if(flg) {
 
 						selectEmptSQL.append("SELECT orientationkey FROM " + tableName 
 								+ " WHERE (kind = '" + kayaModel.get(Constant.KINDKEY) + "' AND kindvalue LIKE '"
-								+ paramater.getMapping().getPropertys().get(kayaModel.get(Constant.KINDKEY))
+								+ paramater.getPropertys().get(kayaModel.get(Constant.KINDKEY))
 								+ "%' AND businessid = '" +  paramater.getOrientationKey()  + "')");
 
 						flg = false;
 					}else {
 						selectEmptSQL.insert(0, " SELECT orientationkey FROM " + tableName + " WHERE (orientationkey IN (");
 						selectEmptSQL.append(")) AND (kind='" + kayaModel.get(Constant.KINDKEY) 
-								+ "' AND kindvalue LIKE '" + paramater.getMapping().getPropertys().get(kayaModel.get(Constant.KINDKEY)) + "%' AND businessid = '" +  paramater.getOrientationKey()  + "')");
+								+ "' AND kindvalue LIKE '" + paramater.getPropertys().get(kayaModel.get(Constant.KINDKEY)) + "%' AND businessid = '" +  paramater.getOrientationKey()  + "')");
 					}
 				}
 			}
@@ -111,12 +111,12 @@ public class SqlTextSelectEdit {
 		// 主次表处理
 		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())){
 			for (KayaMetaModel kayaModel: kayaModelList) {
-				if (paramater.getMapping().getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))){
+				if (paramater.getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))){
 					// 检索条件个数
 					selectCount = selectCount + 1;
 					selectEmptSQL.append(orString);
 					selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY) + "' AND kindvalue LIKE '"
-							+ paramater.getMapping().getPropertys().get(kayaModel.get(Constant.KINDKEY))
+							+ paramater.getPropertys().get(kayaModel.get(Constant.KINDKEY))
 							+ "%' AND parentid='" + kayaModelId + "')");
 					orString = " OR ";
 				}
@@ -125,12 +125,12 @@ public class SqlTextSelectEdit {
 		} else {
 			// orientationkey
 			for (KayaMetaModel kayaModel: kayaModelList) {
-				if (paramater.getMapping().getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))){
+				if (paramater.getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))){
 					// 检索条件个数
 					selectCount = selectCount + 1;
 					selectEmptSQL.append(orString);
 					selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY) + "' AND kindvalue LIKE '"
-								+ paramater.getMapping().getPropertys().get(kayaModel.get(Constant.KINDKEY))
+								+ paramater.getPropertys().get(kayaModel.get(Constant.KINDKEY))
 							//	+ "%' AND businessid = '" +  businessId  + "')");
 								+ "%' AND businessid = '" +  paramater.getOrientationKey()  + "' AND parentid='" + kayaModelId + "')");
 					orString = " OR ";
@@ -154,7 +154,7 @@ public class SqlTextSelectEdit {
 
 		String kayaModelId= paramater.getId();
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId().replace('-','_');
-		String businessId = KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),paramater.getMapping().getKeys());
+		String businessId = KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),paramater.getPropertys());
 		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName);
 		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
 			selectSQL.append(" WHERE parentid = '" + kayaModelId + "' AND businessid = '" + businessId + "'");

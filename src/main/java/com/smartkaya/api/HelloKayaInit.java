@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.smartkaya.api.utils.MapUtils;
 import com.smartkaya.bean.Editor;
 import com.smartkaya.bean.GridColumn;
-import com.smartkaya.bean.Mapping;
 import com.smartkaya.bean.Options;
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.constant.Constant;
@@ -197,158 +196,158 @@ public class HelloKayaInit {
 		ret.put(APIConstant.ITEMS, true);
 		return ret;
 	}
-	@RequestMapping(value = "/kayainitWFDetail", produces = "application/json;charset=utf-8")
-	@ResponseBody
-	public Map<String, Object> HelloKayaWFDetail(final HttpServletRequest request, final HttpServletResponse response) {
-
-		// 获取前台参数
-		String kayaModelId = request.getParameter("kayaModelId");
-		String orientationKey = request.getParameter("orientationKey");
-		String workflowId = request.getParameter("workflowId");
-		String flowcode = request.getParameter("flowcode");
-		// 表列信息列表
-		List<GridColumn> columnsList = new ArrayList<GridColumn>();
-		// 从元模型中取出表信息
-		List<KayaMetaModel> kayamodelList = AccessKayaModel.getKayaModelByParentIdNoAction(kayaModelId);
-
-		// 流程元素信息
-		List<Map<String, Object>> workflowItemList = new ArrayList<Map<String, Object>>();
-		// 新追加的项目
-
-		Paramater paramater = new Paramater();
-		paramater.setId(kayaModelId);
-		paramater.setMapping(new Mapping());
-		paramater.setOrientationKey(orientationKey);
-		List<String> targetTableList = new ArrayList<String>();
-		if(workflowId != null) {
-			targetTableList.add(workflowId);
-		}
-		paramater.setTargetTableList(targetTableList);
-		// 检索Map
-		Map<String, Object> propertys = new HashMap<String, Object>();
-
-		// 业务Map
-		//paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
-		paramater.getMapping().setPropertys(propertys);
-		//paramater.setOrientationKey(request.getParameter("orientationKey"));
-		KayaWorkFlow dao = new KayaWorkFlow();
-
-		Map<String, Object> mapResult = dao.selectForWorkflowDetail(paramater);
-		@SuppressWarnings("unchecked")
-		List<Map<String, String>> resultList = (List<Map<String, String>>) mapResult.get("kayaEntityList");		
-		@SuppressWarnings("unchecked")
-		List<Map<String, String>> workflowList = (List<Map<String, String>>) mapResult.get("workflowList");
-		//Map<String, String> resultInit = resultList.get(0);
-
-
-		for (KayaMetaModel kayamodel : kayamodelList) {
-			GridColumn gridColumn = new GridColumn();
-			Editor editor = new Editor();
-			gridColumn.setEditor(editor);
-			gridColumn.setTitle(kayamodel.getName());
-
-			gridColumn.setWidth("140");
-
-			gridColumn.setField(kayamodel.get(Constant.KINDKEY));
-			gridColumn.setIndex(kayamodel.get(Constant.INDEXNO));
-			if (Constant.G_ROLE.equals(kayamodel.getMetaModelType())) {
-				editor.setType("textbox");
-				gridColumn.setHidden(true);
-				gridColumn.setRole(true);
-				gridColumn.setKayamodelid(kayamodel.getGmeId());
-			} else if (Constant.PROPERTYREF.equals(kayamodel.getMetaModelType())) {
-				gridColumn
-				.setDatatype(AccessKayaModel.getKayaModelId(kayamodel.get(Constant.REFERRED))
-						.get(Constant.DATATYPE));
-				editor.setType(kayamodel.get(Constant.COMPONENTTYPE));
-				gridColumn.setRole(false);
-				gridColumn.setHidden(!Boolean.valueOf(kayamodel.get(Constant.DISPLAY)));
-				gridColumn.setSearchFlg(Boolean.valueOf(kayamodel.get(Constant.ISSEARCHKEY)));
-
-
-			} else if (Constant.MASTER_REFERNCE.equals(kayamodel.getMetaModelType())) {
-				Options options = new Options();
-				editor.setType(kayamodel.get(Constant.COMPONENTTYPE));
-				gridColumn.setRole(false);
-				gridColumn.setDatatype(Constant.MASTER);
-				gridColumn.setHidden(!Boolean.valueOf(kayamodel.get(Constant.DISPLAY)));
-				gridColumn.setSearchFlg(Boolean.valueOf(kayamodel.get(Constant.ISSEARCHKEY)));
-				List<KayaModelMasterItem> MasterItemList = AccessKayaModel.getKayaModelId(kayamodel.get(Constant.REFERRED)).getMasterItems();
-				options.setData(MasterItemList);
-
-				editor.setOptions(options);
-			} else {
-
-				editor.setType(kayamodel.get(Constant.COMPONENTTYPE));
-				gridColumn.setRole(false);
-				gridColumn.setDatatype(kayamodel.get(Constant.DATATYPE));
-				gridColumn.setHidden(!Boolean.valueOf(kayamodel.get(Constant.DISPLAY)));
-				gridColumn.setSearchFlg(Boolean.valueOf(kayamodel.get(Constant.ISSEARCHKEY)));
-
-			}
-			columnsList.add(gridColumn);
-			// columnsList.add(column);
-		}
-		Collections.sort(columnsList);
-
-		// 监听业务流程处理
-		if (!Constant.EMPTY.equals(AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId())) {
-			// TODO:验证流程ID
-			// 从元模型中取出表信息
-			// List<KayaMetaModel> kayamodelList =
-			// AccessKayaModel.getKayaModelByParentIdNoAction(kayaModelId);
-			// 监听业务流程处理
-			String workFlowIdTmp = AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId();
-			if (!Constant.EMPTY.equals(workFlowIdTmp)) {
-				KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowIdTmp);
-				// TODO:验证流程ID
-				List<KayaMetaModel> kayaModelListWF = new ArrayList<>();
-				if(workflowId != null && workflowId.length()>3){
-					if("mg".equals(workflowId.substring(0,2))) {
-
-						kayaModelListWF = AccessKayaModel.getWorkFlowItemByKayaModelId(flowcode);
-
-					} else {
-						if(!flowcode.equals(kayaMetaWorkFlowModel.get(Constant.END))) {
-							String startUserTaskId = AccessKayaModel
-									.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
-							kayaModelListWF = AccessKayaModel.getWorkFlowItemByKayaModelId(startUserTaskId);
-						}
-					}
-				} 
-
-				for (KayaMetaModel kayaModel : kayaModelListWF) {
-					Map<String, Object> workflowItem = new HashMap<String, Object>();
-					// System.out.println(kayaModel.getName());
-					workflowItem.put(Constant.LABEL, kayaModel.getName());
-					workflowItem.put(Constant.KAYAMODELID, kayaModel.getGmeId());
-					workflowItem.put(Constant.EDITOR, kayaModel.getMetaModelType());
-					workflowItem.put(Constant.FIELD, kayaModel.get(Constant.KINDKEY));
-					workflowItem.put(Constant.INDEX, kayaModel.get(Constant.INDEXNO));
-					workflowItemList.add(workflowItem);
-				}
-			}
-		}
-
-		Collections.sort(workflowItemList, new MapUtils.MapComparatorAsc());
-		RestHelper helper = new RestHelper(null, null);
-		Map<String, Object> ret = helper.getSimpleSuccess();
-		ret.put(Constant.COLUMNSLIST, columnsList);
-
-		ret.put("resultList", resultList);
-		ret.put("workflowList", workflowList);
-		ret.put("actionItemList", workflowItemList);
-
-		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
-			ret.put(Constant.BUSINESSKEYLIST, AccessKayaModel.getKayaModelId(kayaModelId).getBusinessKeys());
-		} else {
-			ret.put(Constant.BUSINESSKEYLIST, AccessKayaModel.getParentKayaModel(kayaModelId).getBusinessKeys());			
-			ret.put(Constant.BUSINESSSUBKEYLIST, AccessKayaModel.getKayaModelId(kayaModelId).getBusinessKeys());
-		}
-
-		ret.put(APIConstant.ITEMS, true);
-		return ret;
-	}
+//	@RequestMapping(value = "/kayainitWFDetail", produces = "application/json;charset=utf-8")
+//	@ResponseBody
+//	public Map<String, Object> HelloKayaWFDetail(final HttpServletRequest request, final HttpServletResponse response) {
+//
+//		// 获取前台参数
+//		String kayaModelId = request.getParameter("kayaModelId");
+//		String orientationKey = request.getParameter("orientationKey");
+//		String workflowId = request.getParameter("workflowId");
+//		String flowcode = request.getParameter("flowcode");
+//		// 表列信息列表
+//		List<GridColumn> columnsList = new ArrayList<GridColumn>();
+//		// 从元模型中取出表信息
+//		List<KayaMetaModel> kayamodelList = AccessKayaModel.getKayaModelByParentIdNoAction(kayaModelId);
+//
+//		// 流程元素信息
+//		List<Map<String, Object>> workflowItemList = new ArrayList<Map<String, Object>>();
+//		// 新追加的项目
+//
+//		Paramater paramater = new Paramater();
+//		paramater.setId(kayaModelId);
+//		paramater.setMapping(new Propertys());
+//		paramater.setOrientationKey(orientationKey);
+//		List<String> targetTableList = new ArrayList<String>();
+//		if(workflowId != null) {
+//			targetTableList.add(workflowId);
+//		}
+//		paramater.setTargetTableList(targetTableList);
+//		// 检索Map
+//		Map<String, Object> propertys = new HashMap<String, Object>();
+//
+//		// 业务Map
+//		//paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
+//		paramater.getMapping().setPropertys(propertys);
+//		//paramater.setOrientationKey(request.getParameter("orientationKey"));
+//		KayaWorkFlow dao = new KayaWorkFlow();
+//
+//		Map<String, Object> mapResult = dao.selectForWorkflowDetail(paramater);
+//		@SuppressWarnings("unchecked")
+//		List<Map<String, String>> resultList = (List<Map<String, String>>) mapResult.get("kayaEntityList");		
+//		@SuppressWarnings("unchecked")
+//		List<Map<String, String>> workflowList = (List<Map<String, String>>) mapResult.get("workflowList");
+//		//Map<String, String> resultInit = resultList.get(0);
+//
+//
+//		for (KayaMetaModel kayamodel : kayamodelList) {
+//			GridColumn gridColumn = new GridColumn();
+//			Editor editor = new Editor();
+//			gridColumn.setEditor(editor);
+//			gridColumn.setTitle(kayamodel.getName());
+//
+//			gridColumn.setWidth("140");
+//
+//			gridColumn.setField(kayamodel.get(Constant.KINDKEY));
+//			gridColumn.setIndex(kayamodel.get(Constant.INDEXNO));
+//			if (Constant.G_ROLE.equals(kayamodel.getMetaModelType())) {
+//				editor.setType("textbox");
+//				gridColumn.setHidden(true);
+//				gridColumn.setRole(true);
+//				gridColumn.setKayamodelid(kayamodel.getGmeId());
+//			} else if (Constant.PROPERTYREF.equals(kayamodel.getMetaModelType())) {
+//				gridColumn
+//				.setDatatype(AccessKayaModel.getKayaModelId(kayamodel.get(Constant.REFERRED))
+//						.get(Constant.DATATYPE));
+//				editor.setType(kayamodel.get(Constant.COMPONENTTYPE));
+//				gridColumn.setRole(false);
+//				gridColumn.setHidden(!Boolean.valueOf(kayamodel.get(Constant.DISPLAY)));
+//				gridColumn.setSearchFlg(Boolean.valueOf(kayamodel.get(Constant.ISSEARCHKEY)));
+//
+//
+//			} else if (Constant.MASTER_REFERNCE.equals(kayamodel.getMetaModelType())) {
+//				Options options = new Options();
+//				editor.setType(kayamodel.get(Constant.COMPONENTTYPE));
+//				gridColumn.setRole(false);
+//				gridColumn.setDatatype(Constant.MASTER);
+//				gridColumn.setHidden(!Boolean.valueOf(kayamodel.get(Constant.DISPLAY)));
+//				gridColumn.setSearchFlg(Boolean.valueOf(kayamodel.get(Constant.ISSEARCHKEY)));
+//				List<KayaModelMasterItem> MasterItemList = AccessKayaModel.getKayaModelId(kayamodel.get(Constant.REFERRED)).getMasterItems();
+//				options.setData(MasterItemList);
+//
+//				editor.setOptions(options);
+//			} else {
+//
+//				editor.setType(kayamodel.get(Constant.COMPONENTTYPE));
+//				gridColumn.setRole(false);
+//				gridColumn.setDatatype(kayamodel.get(Constant.DATATYPE));
+//				gridColumn.setHidden(!Boolean.valueOf(kayamodel.get(Constant.DISPLAY)));
+//				gridColumn.setSearchFlg(Boolean.valueOf(kayamodel.get(Constant.ISSEARCHKEY)));
+//
+//			}
+//			columnsList.add(gridColumn);
+//			// columnsList.add(column);
+//		}
+//		Collections.sort(columnsList);
+//
+//		// 监听业务流程处理
+//		if (!Constant.EMPTY.equals(AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId())) {
+//			// TODO:验证流程ID
+//			// 从元模型中取出表信息
+//			// List<KayaMetaModel> kayamodelList =
+//			// AccessKayaModel.getKayaModelByParentIdNoAction(kayaModelId);
+//			// 监听业务流程处理
+//			String workFlowIdTmp = AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId();
+//			if (!Constant.EMPTY.equals(workFlowIdTmp)) {
+//				KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowIdTmp);
+//				// TODO:验证流程ID
+//				List<KayaMetaModel> kayaModelListWF = new ArrayList<>();
+//				if(workflowId != null && workflowId.length()>3){
+//					if("mg".equals(workflowId.substring(0,2))) {
+//
+//						kayaModelListWF = AccessKayaModel.getWorkFlowItemByKayaModelId(flowcode);
+//
+//					} else {
+//						if(!flowcode.equals(kayaMetaWorkFlowModel.get(Constant.END))) {
+//							String startUserTaskId = AccessKayaModel
+//									.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
+//							kayaModelListWF = AccessKayaModel.getWorkFlowItemByKayaModelId(startUserTaskId);
+//						}
+//					}
+//				} 
+//
+//				for (KayaMetaModel kayaModel : kayaModelListWF) {
+//					Map<String, Object> workflowItem = new HashMap<String, Object>();
+//					// System.out.println(kayaModel.getName());
+//					workflowItem.put(Constant.LABEL, kayaModel.getName());
+//					workflowItem.put(Constant.KAYAMODELID, kayaModel.getGmeId());
+//					workflowItem.put(Constant.EDITOR, kayaModel.getMetaModelType());
+//					workflowItem.put(Constant.FIELD, kayaModel.get(Constant.KINDKEY));
+//					workflowItem.put(Constant.INDEX, kayaModel.get(Constant.INDEXNO));
+//					workflowItemList.add(workflowItem);
+//				}
+//			}
+//		}
+//
+//		Collections.sort(workflowItemList, new MapUtils.MapComparatorAsc());
+//		RestHelper helper = new RestHelper(null, null);
+//		Map<String, Object> ret = helper.getSimpleSuccess();
+//		ret.put(Constant.COLUMNSLIST, columnsList);
+//
+//		ret.put("resultList", resultList);
+//		ret.put("workflowList", workflowList);
+//		ret.put("actionItemList", workflowItemList);
+//
+//		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+//			ret.put(Constant.BUSINESSKEYLIST, AccessKayaModel.getKayaModelId(kayaModelId).getBusinessKeys());
+//		} else {
+//			ret.put(Constant.BUSINESSKEYLIST, AccessKayaModel.getParentKayaModel(kayaModelId).getBusinessKeys());			
+//			ret.put(Constant.BUSINESSSUBKEYLIST, AccessKayaModel.getKayaModelId(kayaModelId).getBusinessKeys());
+//		}
+//
+//		ret.put(APIConstant.ITEMS, true);
+//		return ret;
+//	}
 
 
 	/*

@@ -2,10 +2,10 @@ package com.smartkaya.dao;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.smartkaya.bean.Mapping;
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
 import com.smartkaya.constant.Constant;
@@ -31,7 +31,7 @@ public class SqlTextUpdateEdit {
 		List<String> sqlStringList = new ArrayList<String>();
 		
 		String kayaModelId= paramater.getId();
-		getUpdateSqlString(paramater.getMapping(),kayaModelId,sqlStringList,paramater.getOrientationKey());
+		getUpdateSqlString(paramater.getPropertys(),kayaModelId,sqlStringList,paramater.getOrientationKey());
 		return sqlStringList;
 	}
 
@@ -46,8 +46,8 @@ public class SqlTextUpdateEdit {
 		List<String> sqlStringList = new ArrayList<String>();
 		String kayaModelId= paramaters.getId();
 
-		for(Mapping mapping:paramaters.getMappings()) {
-			getUpdateSqlString(mapping,kayaModelId,sqlStringList,paramaters.getOrientationKey());
+		for(HashMap<String,Object> propertys:paramaters.getListPropertys()) {
+			getUpdateSqlString(propertys,kayaModelId,sqlStringList,paramaters.getOrientationKey());
 		}
 
 		return sqlStringList;
@@ -61,7 +61,7 @@ public class SqlTextUpdateEdit {
 	 * @param sqlStringList
 	 * @param orientationKey
 	 */
-	private void getUpdateSqlString(Mapping maping,String kayaModelId,List<String> sqlStringList,String orientationKey){
+	private void getUpdateSqlString(HashMap<String,Object> maping,String kayaModelId,List<String> sqlStringList,String orientationKey){
 
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId().replace('-','_');
@@ -91,10 +91,10 @@ public class SqlTextUpdateEdit {
 			// 参照的情况下，取参照元的KindKey，设置的时候利用参照本身的KindKey
 			if (Constant.PROPERTYREF.equals(kayaModel.getMetaModelType())){
 				// 只处理更新字段
-				if (maping.getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))) {
+				if (maping.containsKey(kayaModel.get(Constant.KINDKEY))) {
 					updateSQL.append(" WHEN '" 
 							+ kayaModel.get(Constant.KINDKEY)
-							+ "' THEN '" + maping.getPropertys().get(kayaModel.get(Constant.KINDKEY)) + "'");
+							+ "' THEN '" + maping.get(kayaModel.get(Constant.KINDKEY)) + "'");
 					if(keyOnlyflg) {
 						updateKeyOnlyWhere.append("'" + kayaModel.get(Constant.KINDKEY) + "'");
 						keyOnlyflg = false;
@@ -108,7 +108,7 @@ public class SqlTextUpdateEdit {
 						+ "' THEN '"+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping,newBusinessKey) + "'");
 				updateOrientationKeySQL.append(" WHEN '"   
 						+ kayaModel.get(Constant.KINDKEY)  
-						+ "' THEN replace(orientationkey,"+ "'" + KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys()) + "'," 
+						+ "' THEN replace(orientationkey,"+ "'" + KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping) + "'," 
 						+ "'" + getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping,newBusinessKey)  + "')");
 				if(flg) {
 					updateWhere.append("'"  
@@ -122,11 +122,11 @@ public class SqlTextUpdateEdit {
 				}
 			} else {
 				// 只处理更新字段
-				if (maping.getPropertys().containsKey(kayaModel.get(Constant.KINDKEY))) {
+				if (maping.containsKey(kayaModel.get(Constant.KINDKEY))) {
 					updateSQL.append(" WHEN '" 
 							+ kayaModel.get(Constant.KINDKEY) 
 							+ "' THEN '" 
-							+ maping.getPropertys().get(kayaModel.get(Constant.KINDKEY)) + "'");
+							+ maping.get(kayaModel.get(Constant.KINDKEY)) + "'");
 					if(keyOnlyflg) {
 						updateKeyOnlyWhere.append("'" + kayaModel.get(Constant.KINDKEY) + "'");
 						keyOnlyflg = false;
@@ -139,7 +139,7 @@ public class SqlTextUpdateEdit {
 						+ "' THEN '" 
 						+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping,newBusinessKey) + "'");
 				updateOrientationKeySQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY) 
-						+ "' THEN replace(orientationkey,"+ "'" + KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys()) + "'," 
+						+ "' THEN replace(orientationkey,"+ "'" + KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping) + "'," 
 						+ "'" + getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping,newBusinessKey)  + "')");
 
 				if(flg) {
@@ -160,12 +160,12 @@ public class SqlTextUpdateEdit {
 				// 更新日时，更新者
 				updateSQL.append(updateUserInfoSQL.toString());
 				updateSQL.append(updateWhere.append(") AND businessid = '" 
-						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys())) + "'");
+						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping)) + "'");
 			} else {
 				// 更新日时，更新者
 				updateSQL.append(updateUserInfoSQL.toString());
 				updateSQL.append(updateKeyOnlyWhere.append(") AND businessid = '" 
-						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys())) + "'");
+						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping)) + "'");
 			}
 
 		} else {			
@@ -178,7 +178,7 @@ public class SqlTextUpdateEdit {
 						//						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys()) 
 						+ orientationKey
 						+ "' AND businesssubid = '" 
-						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys())) + "'");
+						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping)) + "'");
 			} else {
 				// 更新日时，更新者
 				updateSQL.append(updateUserInfoSQL.toString());
@@ -186,7 +186,7 @@ public class SqlTextUpdateEdit {
 						//						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys()) 
 						+ orientationKey
 						+ "' AND businesssubid = '" 
-						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys())) + "'");
+						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping)) + "'");
 			}
 		}
 		updateSQL.append(" AND parentid = '" + kayaModelId + "';");
@@ -196,28 +196,27 @@ public class SqlTextUpdateEdit {
 		// OrientationKey更新（主键被更新时）
 		if (newBusinessKey.isFlg()) {
 			String _updateOrientationKeySQL = "UPDATE " + tableName + " SET orientationkey = REPLACE(orientationkey,'" 
-					+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys()) + "','"
+					+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping) + "','"
 					+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping,newBusinessKey)
-					+ "'),businessid = (CASE businessid WHEN '" + KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys()) 
+					+ "'),businessid = (CASE businessid WHEN '" + KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping) 
 					+ "' THEN '" + getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping,newBusinessKey) + "' ELSE businessid END)"
 					+ updateUserInfoSQL.toString()
-					+ " WHERE orientationkey LIKE '" + KayaModelUtils.getOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys()) + "%'";
+					+ " WHERE orientationkey LIKE '" + KayaModelUtils.getOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),maping) + "%'";
 			kayaLoger.info(_updateOrientationKeySQL);
 			sqlStringList.add(_updateOrientationKeySQL);
 		}
 	}
 
 	// Business文字列取得
-	private String getNewBusinessKey(KayaMetaModel kayaMetaModel,Mapping mapping ,NewBusinessKey newBusinessKey){
+	private String getNewBusinessKey(KayaMetaModel kayaMetaModel,HashMap<String,Object> propertys ,NewBusinessKey newBusinessKey){
 		StringBuilder businessValue = new StringBuilder("^");
-		Map<String,Object> subEntity = mapping.getPropertys();
 		for (String businessStr:kayaMetaModel.getBusinessKeys()) {
-			if (subEntity.containsKey(businessStr)) {
-				businessValue.append(subEntity.get(businessStr) + "^");
+			if (propertys.containsKey(businessStr)) {
+				businessValue.append(propertys.get(businessStr) + "^");
 
 				newBusinessKey.setFlg(true);;
 			} else {
-				businessValue.append(mapping.getKeys().get(businessStr) + "^");
+				businessValue.append(propertys.get(businessStr) + "^");
 			}
 		}
 		return businessValue.toString();

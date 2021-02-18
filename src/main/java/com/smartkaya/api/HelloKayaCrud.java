@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,13 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.smartkaya.api.utils.StringUtil;
-import com.smartkaya.bean.Mapping;
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
 import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaSQLExecute;
-import com.smartkaya.dao.KayaWorkFlow;
 import com.smartkaya.model.KayaModelMasterItem;
 import com.smartkaya.user.User;
 import com.smartkaya.user.User.UserType;
@@ -53,19 +50,19 @@ public class HelloKayaCrud {
 
 		Paramater paramater = new Paramater();
 		paramater.setId(kayaModelId);
-		paramater.setMapping(new Mapping());
+		paramater.setPropertys(new HashMap<String,Object>());
 		
 		
 		User user = new User();
 		paramater.setUsrinfo(user.initUserInfo(UserType.E1));
 		
 		// 检索Map
-		Map<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
+		HashMap<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
 		propertys.put(searchName, searchValue == null ? "" : searchValue);
 
 		// 业务Map
 		paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
-		paramater.getMapping().setPropertys(propertys);
+		paramater.setPropertys(propertys);
 		paramater.setOrientationKey(request.getParameter("orientationKey"));
 		KayaSQLExecute dao = new KayaSQLExecute();
 
@@ -88,14 +85,14 @@ public class HelloKayaCrud {
 
 		Paramater paramater = new Paramater();
 		paramater.setId(kayaModelId);
-		paramater.setMapping(new Mapping());
+		paramater.setPropertys(new HashMap<String,Object>());
 		// 检索Map
-		Map<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
+		HashMap<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
 		propertys.put(searchName, searchValue == null ? "" : searchValue);
 
 		// 业务Map
 		paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
-		paramater.getMapping().setPropertys(propertys);
+		paramater.setPropertys(propertys);
 		paramater.setOrientationKey(request.getParameter("orientationKey"));
 		KayaSQLExecute dao = new KayaSQLExecute();
 
@@ -117,10 +114,45 @@ public class HelloKayaCrud {
 		JSONArray jsonarray = JSONArray.fromObject(request.getParameter("kvParamaterList"));
 
 		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
-				Map.class);
+		List<HashMap<String, Object>> kvParamaterList = (List<HashMap<String, Object>>) JSONArray.toCollection(jsonarray,
+				HashMap.class);
 
+		
 		Paramaters paramaters = new Paramaters();
+		String WFType = request.getParameter("wftype");
+		// 流程Pending状态的TaskId取得处理
+
+
+		// 申请者（Add）
+		if(Constant.APPLY.equals(WFType) && !Constant.TRUE.equals(request.getParameter("isEdit"))) {
+			//User user=new User();
+			// 取得活性化Actions（开始Action和指向自己的Action）
+			
+			
+			// Set Orientationkey
+
+			
+			
+			
+			// 申请者（Edit）
+		}  else if (Constant.APPLY.equals(WFType) && "true".equals(request.getParameter("isEdit"))) {
+			//User user=new User();
+			
+			// 审批者（ReView）
+		} else if (Constant.APPROVAL.equals(WFType)) {
+			//User user=new User();
+			
+		} else if (Constant.EMPTY.equals(WFType)) {
+			paramaters.setOrientationKey(request.getParameter("orientationKey"));
+		}
+		
+		
+		
+		
+		
+		
+		
+		
 		if (Constant.TRUE.equals(request.getParameter("isEdit"))) {
 			paramaters.setCrud(Constant.UPDATE);
 		} else {
@@ -134,16 +166,13 @@ public class HelloKayaCrud {
 		
 		
 		paramaters.setId(kayaModelId);
-		paramaters.setOrientationKey(request.getParameter("orientationKey"));
+		
 		//paramaters.setUsrinfo(user);
-		List<Mapping> mappings = new ArrayList<Mapping>();
-		paramaters.setMappings(mappings);
-		for (Map<String, Object> emptyMap : kvParamaterList) {
-			Mapping mapping = new Mapping();
-			mapping.setPropertys(emptyMap);
-			paramaters.setMapping(mapping);
-			paramaters.setActionid(actionId);
-		}
+
+		paramaters.setListPropertys(kvParamaterList);
+		paramaters.setActionid(actionId);
+		paramaters.setBusinessKeyMap(user.getUserMap());
+		
 		KayaSQLExecute dao = new KayaSQLExecute();
 		dao.insert(paramaters);
 
@@ -164,8 +193,8 @@ public class HelloKayaCrud {
 		JSONArray insertField = JSONArray.fromObject(request.getParameter("insertField"));
 
 		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
-				Map.class);
+		List<HashMap<String, Object>> kvParamaterList = (List<HashMap<String, Object>>) JSONArray.toCollection(jsonarray,
+				HashMap.class);
 
 		// 新追加的项目
 		@SuppressWarnings("unchecked")
@@ -174,14 +203,8 @@ public class HelloKayaCrud {
 		paramaters.setId(kayaModelId);
 		// multipleParamater.setKvParamaterList(kvParamaterList);
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
-		List<Mapping> mappings = new ArrayList<Mapping>();
-		paramaters.setMappings(mappings);
+		paramaters.setListPropertys(kvParamaterList);
 
-		for (Map<String, Object> emptyMap : kvParamaterList) {
-			Mapping mapping = new Mapping();
-			mapping.setPropertys(emptyMap);
-			paramaters.setMapping(mapping);
-		}
 
 		// 有新追加项目时
 		if (insertFieldList.size() > 0) {
@@ -209,28 +232,29 @@ public class HelloKayaCrud {
 		JSONArray businessKeyList = JSONArray.fromObject(request.getParameter("kvBusinessKeyList"));
 
 		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
-				Map.class);
+		List<HashMap<String, Object>> kvParamaterList = (List<HashMap<String, Object>>) JSONArray.toCollection(jsonarray,
+				HashMap.class);
 
 		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> kvBusinessKeyList = (List<Map<String, Object>>) JSONArray
+		List<HashMap<String, Object>> kvBusinessKeyList = (List<HashMap<String, Object>>) JSONArray
 				.toCollection(businessKeyList, Map.class);
 
 		paramaters.setId(kayaModelId);
 		// multipleParamater.setKvParamaterList(kvParamaterList);
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
-		List<Mapping> mappings = new ArrayList<Mapping>();
-		paramaters.setMappings(mappings);
 
-		for (Map<String, Object> bisinessKeys : kvParamaterList) {
-			Mapping mapping = new Mapping();
-			for (Map<String, Object> parentBisinessKeys : kvBusinessKeyList) {
-				bisinessKeys.putAll(parentBisinessKeys);
-			}
-			mapping.setPropertys(bisinessKeys);
-			paramaters.setMapping(mapping);
+		paramaters.setListPropertys(kvParamaterList);
+		paramaters.setBusinessKeyMap(kvBusinessKeyList.get(0));
 
-		}
+//		for (Map<String, Object> bisinessKeys : kvParamaterList) {
+//			Propertys propertys = new Propertys();
+//			for (Map<String, Object> parentBisinessKeys : kvBusinessKeyList) {
+//				bisinessKeys.putAll(parentBisinessKeys);
+//			}
+//			propertys.setPropertys(bisinessKeys);
+//			paramaters.setMapping(propertys);
+//
+//		}
 
 		dao.delete(paramaters);
 
@@ -238,47 +262,47 @@ public class HelloKayaCrud {
 		return helper.getSimpleSuccess();
 	}
 	
-	@RequestMapping(value = "/workflowselect", produces = "application/json;charset=utf-8")
-	@ResponseBody
-	public Map<String, Object> HelloKayaWorkflowSelect(final HttpServletRequest request, final HttpServletResponse response) {
-		// 获取前台参数
-		String kayaModelId = request.getParameter("kayaModelId");
-		// 获取前台参数
-		String searchUsr = request.getParameter("searchUser");
-		String searchName = request.getParameter("searchname");
-		String searchValue = request.getParameter("searchvalue");
-		HttpSession session = request.getSession();
-		User userInfo = (User) session.getAttribute("user");
-		boolean mgrFlg = false;
-		if(kayaModelId.length()>3){
-			if("mg".equals(kayaModelId.substring(0,2))) {
-				kayaModelId = kayaModelId.substring(3);
-				mgrFlg = true;
-			}			
-		}
-
-		Paramater paramater = new Paramater();
-		paramater.setId(kayaModelId);
-		paramater.setMapping(new Mapping());
-		// 检索Map
-		Map<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
-		propertys.put("searchUser", searchUsr);
-		propertys.put("kind", searchName);
-		propertys.put("kindvalue", searchValue);
-				
-
-		// 业务Map
-		paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
-		paramater.getMapping().setPropertys(propertys);
-		paramater.setOrientationKey(request.getParameter("orientationKey"));
-		KayaWorkFlow dao = new KayaWorkFlow();
-
-		// List<Map<String,String>> mapList = dao.selectByFreeKind(paramater);
-		List<Map<String, String>> resultList = dao.selectForWorkflow(paramater,mgrFlg,userInfo);
-
-		RestHelper helper = new RestHelper(null, resultList);
-		return helper.getSimpleSuccess();
-	}
+//	@RequestMapping(value = "/workflowselect", produces = "application/json;charset=utf-8")
+//	@ResponseBody
+//	public Map<String, Object> HelloKayaWorkflowSelect(final HttpServletRequest request, final HttpServletResponse response) {
+//		// 获取前台参数
+//		String kayaModelId = request.getParameter("kayaModelId");
+//		// 获取前台参数
+//		String searchUsr = request.getParameter("searchUser");
+//		String searchName = request.getParameter("searchname");
+//		String searchValue = request.getParameter("searchvalue");
+//		HttpSession session = request.getSession();
+//		User userInfo = (User) session.getAttribute("user");
+//		boolean mgrFlg = false;
+//		if(kayaModelId.length()>3){
+//			if("mg".equals(kayaModelId.substring(0,2))) {
+//				kayaModelId = kayaModelId.substring(3);
+//				mgrFlg = true;
+//			}			
+//		}
+//
+//		Paramater paramater = new Paramater();
+//		paramater.setId(kayaModelId);
+//		paramater.setMapping(new Propertys());
+//		// 检索Map
+//		Map<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
+//		propertys.put("searchUser", searchUsr);
+//		propertys.put("kind", searchName);
+//		propertys.put("kindvalue", searchValue);
+//				
+//
+//		// 业务Map
+//		paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
+//		paramater.getMapping().setPropertys(propertys);
+//		paramater.setOrientationKey(request.getParameter("orientationKey"));
+//		KayaWorkFlow dao = new KayaWorkFlow();
+//
+//		// List<Map<String,String>> mapList = dao.selectByFreeKind(paramater);
+//		List<Map<String, String>> resultList = dao.selectForWorkflow(paramater,mgrFlg,userInfo);
+//
+//		RestHelper helper = new RestHelper(null, resultList);
+//		return helper.getSimpleSuccess();
+//	}
 
 	private HashMap<String, Object> reqParaToMap(Object paramater) {
 
@@ -286,7 +310,7 @@ public class HelloKayaCrud {
 		if (paramater != null) {
 			@SuppressWarnings("unchecked")
 			List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray
-					.toCollection(JSONArray.fromObject(paramater), Map.class);
+					.toCollection(JSONArray.fromObject(paramater), HashMap.class);
 			for (Map<String, Object> emptyMap : kvParamaterList) {
 				keyMap.putAll(emptyMap);
 			}
@@ -295,44 +319,44 @@ public class HelloKayaCrud {
 		return keyMap;
 	}
 
-	@RequestMapping(value = "/workflowhandle", produces = "text/html;charset=UTF-8")
-	@ResponseBody
-	public Map<String, Object> WorkflowHandle(HttpServletRequest request, HttpServletResponse response) {
-
-		String kayaModelId = request.getParameter("kayaModelId");
-
-		Paramaters paramaters = new Paramaters();
-		JSONArray jsonarray = JSONArray.fromObject(request.getParameter("kvParamaterList"));
-		@SuppressWarnings("unchecked")
-		List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
-				Map.class);
-
-		// 画面值设定
-		paramaters.setId(kayaModelId);
-		paramaters.setCrud(Constant.WORKFLOW);
-		paramaters.setActionid((request.getParameter("actionId")));
-		HashMap<String, String> businessKeyMap = new HashMap<String, String>();
-		businessKeyMap.put(Constant.BUSINESSID, request.getParameter(Constant.BUSINESSID));
-		businessKeyMap.put("businesssubid", request.getParameter("businesssubid"));
-		paramaters.setBusinessKeyMap(businessKeyMap);
-		// multipleParamater.setKvParamaterList(kvParamaterList);
-		paramaters.setOrientationKey(request.getParameter(Constant.ORIENTATIONKEY));
-		List<Mapping> mappings = new ArrayList<Mapping>();
-		paramaters.setMappings(mappings);
-
-		for (Map<String, Object> emptyMap : kvParamaterList) {
-			Mapping mapping = new Mapping();
-			mapping.setPropertys(emptyMap);
-			paramaters.setMapping(mapping);
-		}
-
-		// workflow实行
-		KayaWorkFlow kayaWorkflow = new KayaWorkFlow();
-		kayaWorkflow.excuteKayaWorkFlow(paramaters);
-
-		RestHelper helper = new RestHelper();
-		return helper.getSimpleSuccess();
-	}
+//	@RequestMapping(value = "/workflowhandle", produces = "text/html;charset=UTF-8")
+//	@ResponseBody
+//	public Map<String, Object> WorkflowHandle(HttpServletRequest request, HttpServletResponse response) {
+//
+//		String kayaModelId = request.getParameter("kayaModelId");
+//
+//		Paramaters paramaters = new Paramaters();
+//		JSONArray jsonarray = JSONArray.fromObject(request.getParameter("kvParamaterList"));
+//		@SuppressWarnings("unchecked")
+//		List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
+//				Map.class);
+//
+//		// 画面值设定
+//		paramaters.setId(kayaModelId);
+//		paramaters.setCrud(Constant.WORKFLOW);
+//		paramaters.setActionid((request.getParameter("actionId")));
+//		HashMap<String, Object> businessKeyMap = new HashMap<String, Object>();
+//		businessKeyMap.put(Constant.BUSINESSID, request.getParameter(Constant.BUSINESSID));
+//		businessKeyMap.put("businesssubid", request.getParameter("businesssubid"));
+//		paramaters.setBusinessKeyMap(businessKeyMap);
+//		// multipleParamater.setKvParamaterList(kvParamaterList);
+//		paramaters.setOrientationKey(request.getParameter(Constant.ORIENTATIONKEY));
+//		List<Propertys> propertys = new ArrayList<Propertys>();
+//		paramaters.setMappings(propertys);
+//
+//		for (Map<String, Object> emptyMap : kvParamaterList) {
+//			Propertys propertys = new Propertys();
+//			propertys.setPropertys(emptyMap);
+//			paramaters.setMapping(propertys);
+//		}
+//
+//		// workflow实行
+//		KayaWorkFlow kayaWorkflow = new KayaWorkFlow();
+//		kayaWorkflow.excuteKayaWorkFlow(paramaters);
+//
+//		RestHelper helper = new RestHelper();
+//		return helper.getSimpleSuccess();
+//	}
 
 	@RequestMapping(value = "/kayagetmaster", produces = "application/json;charset=utf-8")
 	@ResponseBody
@@ -378,8 +402,8 @@ public class HelloKayaCrud {
 		for (int i = 0; i < parameterSize; i++) {
 			JSONObject jsonarraySub = JSONObject.fromObject(jsonarray.get(i));
 			@SuppressWarnings("unchecked")
-			List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray
-					.toCollection(jsonarraySub.getJSONArray("propertys"), Map.class);
+			List<HashMap<String, Object>> kvParamaterList = (List<HashMap<String, Object>>) JSONArray
+					.toCollection(jsonarraySub.getJSONArray("propertys"), HashMap.class);
 			String kayaModelId = getInputValue(jsonarraySub, "kayaModelId");
 			String actionId = getInputValue(jsonarraySub, "actionId");
 			String orientationKey = getInputValue(jsonarraySub, "orientationKey");
@@ -398,11 +422,13 @@ public class HelloKayaCrud {
 			paramaters.setActionid(actionId);
 			paramaters.setOrientationKey(orientationKey);
 			paramaters.setTargetTableList(targetTableList);
-			for (Map<String, Object> emptyMap : kvParamaterList) {
-				Mapping mapping = new Mapping();
-				mapping.setPropertys(emptyMap);
-				paramaters.setMapping(mapping);
-			}
+			
+			paramaters.setListPropertys(kvParamaterList);
+//			for (Map<String, Object> emptyMap : kvParamaterList) {
+//				Propertys propertys = new Propertys();
+//				propertys.setPropertys(emptyMap);
+//				paramaters.setMapping(propertys);
+//			}
 			paramatersList.add(paramaters);
 
 		}

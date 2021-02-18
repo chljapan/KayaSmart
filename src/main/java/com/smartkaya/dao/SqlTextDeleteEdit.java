@@ -1,9 +1,9 @@
 package com.smartkaya.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import com.smartkaya.bean.Mapping;
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
 import com.smartkaya.constant.Constant;
@@ -28,7 +28,7 @@ public class SqlTextDeleteEdit {
 		List<String> sqlStringList = new ArrayList<String>();
 		
 		String kayaModelId= paramater.getId();
-		editSqlTextdelete(paramater.getMapping(),kayaModelId,sqlStringList,paramater.getOrientationKey());
+		editSqlTextdelete(paramater.getPropertys(),kayaModelId,sqlStringList,paramater.getOrientationKey());
 		return sqlStringList;
 	}
 
@@ -43,8 +43,8 @@ public class SqlTextDeleteEdit {
 		List<String> sqlStringList = new ArrayList<String>();
 		String kayaModelId= paramaters.getId();
 
-		for(Mapping mapping:paramaters.getMappings()) {
-			editSqlTextdelete(mapping,kayaModelId,sqlStringList,paramaters.getOrientationKey());
+		for(HashMap<String,Object> propertys:paramaters.getListPropertys()) {
+			editSqlTextdelete(propertys,kayaModelId,sqlStringList,paramaters.getOrientationKey());
 		}
 
 		return sqlStringList;
@@ -56,7 +56,7 @@ public class SqlTextDeleteEdit {
 	 * @param paramater
 	 * @return
 	 */
-	private void editSqlTextdelete(Mapping maping,String kayaModelId,List<String> sqlStringList,String orientationKey) {
+	private void editSqlTextdelete(HashMap<String,Object> propertys,String kayaModelId,List<String> sqlStringList,String orientationKey) {
 		
 		
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId().replace('-','_');
@@ -64,11 +64,11 @@ public class SqlTextDeleteEdit {
 				+ "FROM " + tableName);
 		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())){
 			// orientationkey
-			orientationKey =  KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),maping.getPropertys());
+			orientationKey =  KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),propertys);
 			// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
 		} else {
 			// orientationkey
-			orientationKey =   KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),orientationKey,maping.getPropertys());
+			orientationKey =   KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),orientationKey,propertys);
 			
 		}
 		

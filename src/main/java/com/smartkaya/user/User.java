@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class User implements Serializable {
@@ -58,7 +57,7 @@ public class User implements Serializable {
     /**
      * 密码
      */
-    private Map<String, Object> userMap = new HashMap<String, Object>();
+    private HashMap<String, Object> userMap = new HashMap<String, Object>();
 
 
     
@@ -113,11 +112,11 @@ public class User implements Serializable {
 //		this.permissions = permissions;
 //	}
 
-    public Map<String, Object> getUserMap() {
+    public HashMap<String, Object> getUserMap() {
 		return userMap;
 	}
 
-	public void setUserMap(Map<String, Object> userMap) {
+	public void setUserMap(HashMap<String, Object> userMap) {
 		this.userMap = userMap;
 	}
 	
@@ -135,7 +134,7 @@ public class User implements Serializable {
 		List<String> roleList = new ArrayList<String>();
 		List<String> bumencodeList = new ArrayList<String>();
 		List<String> permissions = new ArrayList<String>();
-		Map<String, Object> userMap = new HashMap<String, Object>();
+		HashMap<String, Object> userMap = new HashMap<String, Object>();
 		
 		switch (userType){
 		case E1:

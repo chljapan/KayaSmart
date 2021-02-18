@@ -36,7 +36,7 @@ public class Paramater implements java.io.Serializable {
 	/** 返回信息（错误信息等）*/
 	private List<Message> messages = new ArrayList<Message>();
 	/** 模型（对象）属性信息*/
-	private Mapping mapping;
+	private HashMap<String,Object> propertys;
 	/** 联合主键信息（判断是否主键重复）*/
 	private Set<String> orientationKeySet;
 	/** 错误状态(true:有错误  )*/
@@ -119,27 +119,12 @@ public class Paramater implements java.io.Serializable {
 	public void setMessages(Message message) {
 		this.messages.add(message);
 	}
-	public Mapping getMapping() {
-		return mapping;
+
+	public HashMap<String, Object> getPropertys() {
+		return propertys;
 	}
-	public void setMapping(Mapping mapping) {
-		this.mapping = mapping;
-	}
-	
-	public void setProperty(String key, String value) {
-		this.mapping.setProperty(key, value);
-	}
-	
-	public Object getProperty(String key) {
-		return this.mapping.getProperty(key);
-	}
-	
-	public void setKey(String key, String value) {
-		this.mapping.setKey(key, value);
-	}
-	
-	public Object getKey(String key) {
-		return this.mapping.getProperty(key);
+	public void setPropertys(HashMap<String, Object> propertys) {
+		this.propertys = propertys;
 	}
 	
 	public Set<String> getOrientationKeySet() {
