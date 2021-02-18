@@ -1231,6 +1231,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,isEditFl
 		insertOrUpdate = "/kayainsert";
 	} else if(actionId=='update'){
 		insertOrUpdate = "/kayaupdate";
+		// WF 相关处理
 	} else {
 		insertOrUpdate = "/kayainsert";
 	}
@@ -1238,7 +1239,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,isEditFl
 	//var kvParamaterList = [];
 	var kvParamaterList = [];
 	kvParamaterList.push(data);
-	//alert(G_Orientationkey.get(kayaModelId));
+	alert(G_Orientationkey.get(kayaModelId));
 	// 更新
 	$.ajax({
 		url : insertOrUpdate,
@@ -1248,6 +1249,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,isEditFl
 			"kvParamaterList" : JSON.stringify(kvParamaterList),
 			'kayaModelId' : kayaModelId,
 			'actionId' : actionId,
+			'wftype' : wfType,
 			'isEdit' : isEditFlg,
 			'orientationKey' : G_Orientationkey.get(kayaModelId),
 			'insertField': insertField

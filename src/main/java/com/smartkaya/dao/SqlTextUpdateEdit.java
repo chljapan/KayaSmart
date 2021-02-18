@@ -4,8 +4,6 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
 import com.smartkaya.constant.Constant;

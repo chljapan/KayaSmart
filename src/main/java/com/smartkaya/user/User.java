@@ -5,41 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.smartkaya.constant.Constant;
+
 
 public class User implements Serializable {
-	 /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
-
-	/**
-     * 数据库主键
-     */
-    private String userId;
-
-    /**
-     * 用户名（登录名）
-     */
-    private String userName;
-
-    /**
-     * 密码
-     */
-    private String password;
-
-    /**
-     * 改账户是否启用
-     * true为启用 false为禁用
-     */
-    private Boolean enabled;
-
-    /**
-     * 一个用户对应一个角色的情况
-     * 该用户对应的角色
-     * 这个与下方的情况 二选一即可
-     */
-    //private SysRole role;
 
 //    /**
 //     * 一个用户对应多个角色的情况
@@ -62,35 +33,35 @@ public class User implements Serializable {
 
     
 	public String getUserId() {
-		return userId;
+		return this.userMap.get(Constant.USER_ID).toString();
 	}
 
 	public void setUserId(String userId) {
-		this.userId = userId;
+		this.userMap.put(Constant.USER_ID, userId);
 	}
 
 	public String getUserName() {
-		return userName;
+		return this.userMap.get(Constant.USER_NAME).toString();
 	}
 
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.userMap.put(Constant.USER_NAME,userName);
 	}
 
 	public String getPassword() {
-		return password;
+		return this.userMap.get(Constant.USER_PASSWORD).toString();
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.userMap.put(Constant.USER_PASSWORD,password);
 	}
 
 	public Boolean getEnabled() {
-		return enabled;
+		return (Boolean)this.userMap.get(Constant.USER_ENABLED);
 	}
 
 	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
+		this.userMap.put(Constant.USER_ENABLED, enabled);
 	}
 
 //	public List<String> getRoleList() {
@@ -118,6 +89,14 @@ public class User implements Serializable {
 
 	public void setUserMap(HashMap<String, Object> userMap) {
 		this.userMap = userMap;
+	}
+	
+    public Object getUserProperty(String propertyKey) {
+		return userMap.get(propertyKey);
+	}
+
+	public void setUserProperty(String propertyKey, Object propertyValue) {
+		this.userMap.put(propertyKey, propertyValue);
 	}
 	
 	

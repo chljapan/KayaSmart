@@ -292,6 +292,13 @@ public class Constant {
 	// Message
 	public static final String MSG_TABLECHECK="Table does not exist.";
 
+	
+	// UserInfo
+	public static final String USER_ID = "userid";
+	public static final String USER_NAME = "username";
+	public static final String USER_PASSWORD = "password";
+	public static final String USER_ENABLED = "enabled";
+	
 
     /**
      * shiro采用加密算法
