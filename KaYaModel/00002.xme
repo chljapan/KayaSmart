@@ -1,0 +1,4695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project SYSTEM "mga.dtd">
+
+<project guid="{1CFCA682-2650-4B29-8573-FC959A8BE4EF}" cdate="Thu Jan 28 14:23:48 2021" mdate="Thu Jan 28 14:23:48 2021" version="" metaguid="{8DD44B5A-A80D-441D-8900-1548C7E016A4}" metaversion="1.0.2" metaname="KaYaModel">
+	<name>RootFolder</name>
+	<comment></comment>
+	<author></author>
+	<folder id="id-006a-00000001" relid="0x1" childrelidcntr="0x2" kind="RootFolder" guid="{b809803c-97d9-4b3c-ab71-1650d5f8cf3e}">
+		<name>RootFolder</name>
+		<model id="id-0065-00000001" kind="KaYaDiagram" guid="{4cfa1fd2-b404-425a-98a6-07e2b5562a93}" relid="0x1" childrelidcntr="0x23">
+			<name>KaYaDiagram</name>
+			<attribute kind="Comments" status="meta">
+				<value></value>
+			</attribute>
+			<attribute kind="DataStructureType" status="meta">
+				<value>Tree</value>
+			</attribute>
+			<attribute kind="DatabaseName">
+				<value>best_ecommerce</value>
+			</attribute>
+			<attribute kind="DbPropertys">
+				<value>useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf8</value>
+			</attribute>
+			<attribute kind="DbType" status="meta">
+				<value>MySql</value>
+			</attribute>
+			<attribute kind="Driver">
+				<value>com.mysql.cj.jdbc.Driver</value>
+			</attribute>
+			<attribute kind="Host">
+				<value>127.0.0.1:3306</value>
+			</attribute>
+			<attribute kind="Language" status="meta">
+				<value>Default</value>
+			</attribute>
+			<attribute kind="Password">
+				<value>csjie123</value>
+			</attribute>
+			<attribute kind="Schema">
+				<value>Test1</value>
+			</attribute>
+			<attribute kind="UserName">
+				<value>myuser</value>
+			</attribute>
+			<attribute kind="Version" status="meta">
+				<value>1.0</value>
+			</attribute>
+			<model id="id-0065-00000007" kind="Role" role="Role" guid="{10025f30-44ed-41a8-a7ef-a191c74e0ffb}" relid="0x7" childrelidcntr="0x1">
+				<name>更新情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>588,868</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>GengXin</value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>更新信息</value>
+				</attribute>
+				<attribute kind="Language2" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-0000000b" kind="UniqueProperty" role="UniqueProperty" guid="{d2334f23-7d04-4668-a66b-0f5ebdc64612}" relid="0x1">
+					<name>UniqueProperty</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>147,49</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000008" kind="Role" role="Role" guid="{9c3984f1-bba0-4084-b23a-174772890df4}" relid="0x8" childrelidcntr="0x0">
+				<name>廃棄情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>553,1029</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>FeiQi</value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>废弃信息</value>
+				</attribute>
+				<attribute kind="Language2">
+					<value>Waste Information</value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+			</model>
+			<model id="id-0065-00000009" kind="Role" role="Role" guid="{5195aec7-dbe3-4e9a-9c5f-5445c411c887}" relid="0x9" childrelidcntr="0x2">
+				<name>特別休暇情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>840,497</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>Teshuxiujia</value>
+				</attribute>
+				<attribute kind="Language1" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Language2" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-0000000c" kind="UniqueProperty" role="UniqueProperty" guid="{9f30a8a8-8b28-4167-a865-ac5485a9169c}" relid="0x1">
+					<name>UniqueProperty</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>112,77</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Zhu</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000000d" kind="Property" role="Property" guid="{597cd1af-d198-4788-9b7b-0c71379cca47}" relid="0x2">
+					<name>Property</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,77</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>1</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Fu</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-0000000a" kind="Role" role="Role" guid="{5cf761d8-b842-4650-b2f5-5bf1c7e51838}" relid="0xa" childrelidcntr="0x1">
+				<name>物流情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>896,945</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>WuLiuInfo</value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>物流信息</value>
+				</attribute>
+				<attribute kind="Language2">
+					<value>Logistics Information</value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-0000000e" kind="UniqueProperty" role="UniqueProperty" guid="{23e2dd2f-72ef-4a73-a83b-eadd7fe50b4d}" relid="0x1">
+					<name>单号</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>133,91</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Danhao</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-0000000b" kind="Role" role="Role" guid="{1c9b5140-72b5-43a0-a95d-68daa14cdc26}" relid="0xb" childrelidcntr="0x4">
+				<name>在庫情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>861,735</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>ZaikuInfo</value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>在库管理</value>
+				</attribute>
+				<attribute kind="Language2">
+					<value> Inventory Information</value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-0000000f" kind="UniqueProperty" role="UniqueProperty" guid="{45e75b8c-6409-4397-a16f-b771e15b6174}" relid="0x1">
+					<name>编号</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>35,21</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Bianghao</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000010" kind="Property" role="Property" guid="{932fc0ae-ba78-4a49-a5eb-84a28a988285}" relid="0x2">
+					<name>数量</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>560,28</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>3</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Shuliang</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000003" kind="MasterReference" role="MasterReference" guid="{36f64e5c-63a5-4e92-8408-67a7db2ebad0}" relid="0x3" referred="id-0066-00000033">
+					<name>仓库</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>210,21</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>1</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsUniqueKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>CangKu</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceType" status="meta">
+						<value>Textbox</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000004" kind="MasterReference" role="MasterReference" guid="{9d7a0c7f-e58b-44a9-977e-ec1f8cf9c6dd}" relid="0x4" referred="id-0066-00000034">
+					<name>货架</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>392,21</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>2</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsUniqueKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Huojia</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceType" status="meta">
+						<value>Textbox</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+				</reference>
+			</model>
+			<model id="id-0065-0000000c" kind="Role" role="Role" guid="{5a68ab6f-7522-4781-b65c-725501d66c5d}" relid="0xc" childrelidcntr="0x3">
+				<name>給料情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>595,399</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo">
+					<value>2</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>GongZi</value>
+				</attribute>
+				<attribute kind="Language1" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Language2" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-00000011" kind="UniqueProperty" role="UniqueProperty" guid="{86a96e64-6f15-4b60-8284-278c8fc3e653}" relid="0x1">
+					<name>月份</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>56,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>NianYue</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000012" kind="Property" role="Property" guid="{4c84ce3c-a919-4bd7-a338-7ffb367846fe}" relid="0x2">
+					<name>金额</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>448,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>JinE</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000005" kind="MasterReference" role="MasterReference" guid="{36ba445f-fe84-4da4-b14f-4957207ff635}" relid="0x3" referred="id-0066-00000032">
+					<name>工资类型</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsUniqueKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>GongZiType</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceType" status="meta">
+						<value>Textbox</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+				</reference>
+			</model>
+			<model id="id-0065-0000000d" kind="Role" role="Role" guid="{7b51dd25-1c92-481f-af65-0434b8d63030}" relid="0xd" childrelidcntr="0x3">
+				<name>休暇情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>588,504</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo">
+					<value>1</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>XiuJia</value>
+				</attribute>
+				<attribute kind="Language1" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Language2" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId">
+					<value>id-0065-00000004</value>
+				</attribute>
+				<atom id="id-0066-00000013" kind="UniqueProperty" role="UniqueProperty" guid="{c5c2249c-722f-4547-a5cf-82a155bbdb9b}" relid="0x1">
+					<name>休假日期</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>56,28</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>XiuJiaRiQi</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required">
+						<value>true</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000046" kind="Property" role="Property" guid="{84328ac7-0694-475b-a6eb-5a1b891c36f0}" relid="0x3">
+					<name>补充信息</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>434,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>2</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Buchong</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000006" kind="MasterReference" role="MasterReference" guid="{20d61b94-6945-4ee1-bcde-6ba43796a725}" relid="0x2" referred="id-0066-00000031">
+					<name>休假类型</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>245,28</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>1</value>
+					</attribute>
+					<attribute kind="IsSearchKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="IsUniqueKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>XiuJiaType</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceType" status="meta">
+						<value>Textbox</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+				</reference>
+			</model>
+			<model id="id-0065-0000000e" kind="Role" role="Role" guid="{59e5efc5-e91b-4fe0-a44e-8cc89853cedd}" relid="0xe" childrelidcntr="0x3">
+				<name>商品情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>532,679</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>ShangpinInfo</value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>商品信息</value>
+				</attribute>
+				<attribute kind="Language2">
+					<value>Commodity Information</value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-00000014" kind="UniqueProperty" role="UniqueProperty" guid="{1db38d31-bdbb-4cff-83ca-beae137d8019}" relid="0x1">
+					<name>商品CODE</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>70,49</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>ShangPinCode</value>
+					</attribute>
+					<attribute kind="Language1">
+						<value>商品Code</value>
+					</attribute>
+					<attribute kind="Language2">
+						<value>Commodity</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000015" kind="Property" role="Property" guid="{e03482ba-a84a-4146-a966-5adb2b0639ef}" relid="0x2">
+					<name>商品名称</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>252,49</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>ShangPinName</value>
+					</attribute>
+					<attribute kind="Language1">
+						<value>商品名</value>
+					</attribute>
+					<attribute kind="Language2">
+						<value>Commodity Name</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000016" kind="Property" role="Property" guid="{f5bee2ac-019e-48b3-9db8-23ad7bd73e53}" relid="0x3">
+					<name>そのた</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>448,49</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>BuChong</value>
+					</attribute>
+					<attribute kind="Language1">
+						<value>其他</value>
+					</attribute>
+					<attribute kind="Language2">
+						<value>Other</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-0000000f" kind="Role" role="Role" guid="{ec358c4f-3e8f-4595-a639-57edbbaff567}" relid="0xf" childrelidcntr="0x5">
+				<name>手当情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>630,301</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo">
+					<value>3</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>BaoXiao</value>
+				</attribute>
+				<attribute kind="Language1" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Language2" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-00000017" kind="UniqueProperty" role="UniqueProperty" guid="{408d25ff-4b0c-4ed0-ba2c-d256b2ae1c1c}" relid="0x1">
+					<name>报销No.</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>35,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType">
+						<value>Auto</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>BaoXiaoDanHao</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000018" kind="Property" role="Property" guid="{e14dac14-d006-4b11-90a9-4758cb568d0c}" relid="0x2">
+					<name>报销金额</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>371,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>BaoXiaoJinE</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000019" kind="Property" role="Property" guid="{1e007b45-3dde-42cb-aec3-a831db45b213}" relid="0x3">
+					<name>补充信息</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>532,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>BuChong</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001a" kind="Property" role="Property" guid="{b9e1e265-2da6-48c8-8802-34574076176c}" relid="0x4">
+					<name>消费日期</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>700,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>FaShengRiQi</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000007" kind="MasterReference" role="MasterReference" guid="{541e0378-87a6-4b72-bb52-b4a33510f333}" relid="0x5" referred="id-0066-00000030">
+					<name>报销种类</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>189,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsUniqueKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>BaoXiaoType</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceType" status="meta">
+						<value>Textbox</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+				</reference>
+			</model>
+			<model id="id-0065-00000010" kind="Role" role="Role" guid="{84222adb-dd6b-44fe-94bf-87f714b0004a}" relid="0x10" childrelidcntr="0x25">
+				<name>社員情報</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>553,196</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<regnode name="isTypeShown" isopaque="yes">
+					<value>false</value>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo">
+					<value>9</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>YuanGongXinXi</value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>员工信息</value>
+				</attribute>
+				<attribute kind="Language2">
+					<value>EmployeeInfomation</value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version">
+					<value>2.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-0000001b" kind="Property" role="Property" guid="{0055881b-675f-4889-a597-69e92cc25a62}" relid="0x1">
+					<name>住所</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>728,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>7</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>ZhuZhi</value>
+					</attribute>
+					<attribute kind="Language1">
+						<value>住址</value>
+					</attribute>
+					<attribute kind="Language2">
+						<value>Address</value>
+					</attribute>
+					<attribute kind="Required">
+						<value>true</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001c" kind="Property" role="Property" guid="{43240853-b12f-429f-bc27-cc00f37275e7}" relid="0x2">
+					<name>名前</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>574,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>6</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Name</value>
+					</attribute>
+					<attribute kind="Language1">
+						<value>名字</value>
+					</attribute>
+					<attribute kind="Language2">
+						<value>Name</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001d" kind="UniqueProperty" role="UniqueProperty" guid="{b644c300-c1ed-491f-818a-c02d73483991}" relid="0x3">
+					<name>社員ID</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>42,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>4</value>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey">
+						<value>true</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>YuanGongId</value>
+					</attribute>
+					<attribute kind="Language1">
+						<value>员工ID</value>
+					</attribute>
+					<attribute kind="Language2">
+						<value>Employee　Id</value>
+					</attribute>
+					<attribute kind="Required">
+						<value>true</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001e" kind="Property" role="Property" guid="{f475cfdd-e14c-4518-b426-6471c4bbe757}" relid="0x4">
+					<name>映画</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>77,154</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType">
+						<value>boolean</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>2</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>DianYing</value>
+					</attribute>
+					<attribute kind="Language1">
+						<value>电影</value>
+					</attribute>
+					<attribute kind="Language2">
+						<value>Movie</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000001f" kind="Property" role="Property" guid="{6f4af2c1-6979-40de-b1fc-de1d2cb8ce8c}" relid="0x5">
+					<name>音楽</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>70,217</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType">
+						<value>boolean</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>3</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>YinYue</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000020" kind="Group" role="Group" guid="{45861210-623f-4f87-aca2-4f71b710a3a8}" relid="0x6">
+					<name>興味</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>231,28</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType">
+						<value>Panel</value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>10</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>XingQu</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000021" kind="Property" role="Property" guid="{976c266c-f9b2-4d88-92cb-ca64dc61e280}" relid="0x7">
+					<name>其の他</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>49,301</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>5</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Qita</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000022" kind="Property" role="Property" guid="{663e5a94-ae5b-4953-b4f6-540d9a28112b}" relid="0x8">
+					<name>部门CODE</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>910,140</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>9</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>BumenCOde</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000023" kind="Group" role="Group" guid="{ef1da4ea-1ebd-4a06-9faa-6cf87a12e797}" relid="0x9">
+					<name>组Group21</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>91,378</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>6</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group21</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000024" kind="Group" role="Group" guid="{f5cbf1c7-7e5d-45c8-bc4d-c919bda2ff9d}" relid="0xa">
+					<name>组Group22</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>385,392</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<regnode name="namePosition" isopaque="yes">
+						<value>0</value>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>7</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group22</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000025" kind="Property" role="Property" guid="{bb0b6ab6-3f52-4412-a4c4-e41a362121f7}" relid="0xb">
+					<name>Group211</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>161,476</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group211</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000026" kind="Group" role="Group" guid="{322680de-588e-4ae4-a9b2-a5b09059d9a4}" relid="0xc">
+					<name>组GroupXX</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>11</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>GroupXX</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000027" kind="Property" role="Property" guid="{e757e484-8e5e-48e8-8355-3f2e7d106516}" relid="0xd">
+					<name>GroupXX1</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>308,147</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>GroupXX1</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000028" kind="Property" role="Property" guid="{d33903e0-65c0-4556-ac2e-8d699adfa2bf}" relid="0xe">
+					<name>GroupXX2</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>308,217</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>GroupXX2</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000029" kind="Property" role="Property" guid="{44f69f71-6703-4a8a-8c65-d72706d82242}" relid="0xf">
+					<name>Group221</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>189,546</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group221</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002a" kind="Property" role="Property" guid="{83481b02-a414-4ee1-a18b-211d086b6855}" relid="0x10">
+					<name>Group222</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>189,623</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group222</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002b" kind="Property" role="Property" guid="{55a108ab-6afa-4937-a828-8630751a9ec0}" relid="0x11">
+					<name>Group212</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>175,378</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group212</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002c" kind="Group" role="Group" guid="{4509215c-ab2d-47f9-84dd-45f8e57aa1c0}" relid="0x12">
+					<name>组Group31</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>532,602</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group31</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002d" kind="Property" role="Property" guid="{8bd571c7-4345-44db-970a-4f616714743d}" relid="0x13">
+					<name>Group311</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>413,679</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group311</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-0000002e" kind="Property" role="Property" guid="{9e079c50-c066-4946-9ceb-ca1b4250c8fc}" relid="0x14">
+					<name>Group312</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>686,616</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group312</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version">
+						<value>2.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<reference id="id-0067-00000002" kind="PropertyReference" role="PropertyReference" guid="{1dc7f28a-64a7-44f3-926f-eaeddcdd3e30}" relid="0x15" referred="id-0066-0000002a">
+					<name>Group222Ref</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>903,231</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>12</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsUniqueKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Group222Ref</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceCode" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceType" status="meta">
+						<value>Textbox</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-00000008" kind="MasterReference" role="MasterReference" guid="{8bb207fb-cee4-43c2-80f8-6ae911381c72}" relid="0x24" referred="id-0066-0000002f">
+					<name>性别</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>910,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>8</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsUniqueKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Sex</value>
+					</attribute>
+					<attribute kind="Language1">
+						<value>性别</value>
+					</attribute>
+					<attribute kind="Language2">
+						<value>SEX</value>
+					</attribute>
+					<attribute kind="ReferenceType" status="meta">
+						<value>Textbox</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+				</reference>
+				<reference id="id-0067-0000000a" kind="PropertyReference" role="PropertyReference" guid="{8c88dda9-d06b-41d6-90fc-9e4b65a831c6}" relid="0x25" referred="id-0066-0000001d">
+					<name>PeMID</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>651,147</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>13</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsUniqueKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>PemId</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceCode" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ReferenceType" status="meta">
+						<value>Textbox</value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+				</reference>
+				<connection id="id-0068-00000005" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{f95e20c2-4a93-458e-a906-859ee2b97d41}" relid="0x16">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="src" target="id-0066-0000001e"/>
+					<connpoint role="dst" target="id-0066-00000020"/>
+				</connection>
+				<connection id="id-0068-00000006" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{2357ffd8-ad7d-4ddf-82bf-377d81c2acf6}" relid="0x17">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="src" target="id-0066-0000001f"/>
+					<connpoint role="dst" target="id-0066-00000020"/>
+				</connection>
+				<connection id="id-0068-00000007" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{57415417-2158-4fb3-9797-bf38e5de1231}" relid="0x18">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-00000020"/>
+					<connpoint role="src" target="id-0066-00000021"/>
+				</connection>
+				<connection id="id-0068-00000008" kind="GroupToGroupConnection" role="GroupToGroupConnection" guid="{495b689f-1296-4e99-a859-c389b6b1908d}" relid="0x19">
+					<name>GroupToGroupConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>W</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000020"/>
+					<connpoint role="src" target="id-0066-00000023"/>
+				</connection>
+				<connection id="id-0068-00000009" kind="GroupToGroupConnection" role="GroupToGroupConnection" guid="{5a23cc8d-3959-45ef-923d-506298c8f784}" relid="0x1a">
+					<name>GroupToGroupConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>S</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000020"/>
+					<connpoint role="src" target="id-0066-00000024"/>
+				</connection>
+				<connection id="id-0068-0000000a" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{7fca8864-4f09-4f2d-9e1f-14b3326cf987}" relid="0x1b">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-00000023"/>
+					<connpoint role="src" target="id-0066-00000025"/>
+				</connection>
+				<connection id="id-0068-0000000b" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{14d4867f-c395-49fc-9592-7da5364de915}" relid="0x1c">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-00000026"/>
+					<connpoint role="src" target="id-0066-00000027"/>
+				</connection>
+				<connection id="id-0068-0000000c" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{089ab6d4-7697-45b6-9f2e-9509028d4b0d}" relid="0x1d">
+					<name>PropertyToGroupConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>w</value>
+					</regnode>
+					<connpoint role="dst" target="id-0066-00000026"/>
+					<connpoint role="src" target="id-0066-00000028"/>
+				</connection>
+				<connection id="id-0068-0000000d" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{35ebeaf6-f0a5-44d5-a736-9234dc5a0de6}" relid="0x1e">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-00000024"/>
+					<connpoint role="src" target="id-0066-00000029"/>
+				</connection>
+				<connection id="id-0068-0000000e" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{b9a9849e-db39-41b7-b96a-e21ca475dbb3}" relid="0x1f">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-00000024"/>
+					<connpoint role="src" target="id-0066-0000002a"/>
+				</connection>
+				<connection id="id-0068-0000000f" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{dda2c595-4ce1-4ddd-ae90-5426b47f500c}" relid="0x20">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-00000023"/>
+					<connpoint role="src" target="id-0066-0000002b"/>
+				</connection>
+				<connection id="id-0068-00000010" kind="GroupToGroupConnection" role="GroupToGroupConnection" guid="{9720541f-7554-469f-9040-d58ad818e9ba}" relid="0x21">
+					<name>GroupToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-00000024"/>
+					<connpoint role="src" target="id-0066-0000002c"/>
+				</connection>
+				<connection id="id-0068-00000011" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{da8160b3-f0b1-4aa7-a6cb-03c29071a085}" relid="0x22">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-0000002c"/>
+					<connpoint role="src" target="id-0066-0000002d"/>
+				</connection>
+				<connection id="id-0068-00000012" kind="PropertyToGroupConnection" role="PropertyToGroupConnection" guid="{0269c6be-7810-42c2-8be2-d1a365e5a92f}" relid="0x23">
+					<name>PropertyToGroupConnection</name>
+					<connpoint role="dst" target="id-0066-0000002c"/>
+					<connpoint role="src" target="id-0066-0000002e"/>
+				</connection>
+			</model>
+			<model id="id-0065-00000011" kind="Master" role="Master" guid="{0d24f46e-572b-4d60-9103-cb968c73f665}" relid="0x11" childrelidcntr="0x6">
+				<name>Master</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>469,56</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<regnode name="isTypeInfoShown" isopaque="yes">
+					<value>false</value>
+				</regnode>
+				<regnode name="portLabelLength" isopaque="yes">
+					<value>10</value>
+				</regnode>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<atom id="id-0066-0000002f" kind="MasterItem" role="MasterItem" guid="{c53ac9af-819f-4c1d-8aaa-473930fd9853}" relid="0x1">
+					<name>性别</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>7,7</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="FieldAttributes">
+						<value>00:選択:请选择:Select
+0:女:女:female
+1:男:男:Male</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Sex</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000030" kind="MasterItem" role="MasterItem" guid="{9772fdda-4952-49fd-8fb7-57e874d7b838}" relid="0x2">
+					<name>报销种类</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>14,70</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="FieldAttributes">
+						<value>00:请选择:選択:Select
+01:年假:有休:Paid Leave
+02:病假:病気:Sick
+03:事假:個人:Leave</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>BaoXiaoType</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000031" kind="MasterItem" role="MasterItem" guid="{e87cbc76-bf04-487b-a7ee-27e70c7970f2}" relid="0x3">
+					<name>休假类型</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>427,49</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="FieldAttributes">
+						<value>00:请选择:選択:Select
+01:年假:有休:Paid Leave
+02:病假:病気:Sick
+03:事假:個人:Leave</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>XiuJiaType</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000032" kind="MasterItem" role="MasterItem" guid="{cb75118f-60a8-4484-9710-68d8a284e6d7}" relid="0x4">
+					<name>工资类型</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,154</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="FieldAttributes">
+						<value>00:请选择:選択:Select
+01:基本給:基本工资:Paid Leave
+02:住宅手当:公积金:Sick
+03:通勤手当:交通费:Leave</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>GongZiType</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000033" kind="MasterItem" role="MasterItem" guid="{7d0336f6-7a2d-445f-a1de-b09e948b98f6}" relid="0x5">
+					<name>仓库</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>14,147</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="FieldAttributes">
+						<value>00:请选择:選択:Select
+01:年假:有休:Paid Leave
+02:病假:病気:Sick
+03:事假:個人:Leave</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>CangKu</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000034" kind="MasterItem" role="MasterItem" guid="{2cb795f5-ce8f-498e-acfa-0f82068d2f79}" relid="0x6">
+					<name>货架</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>420,266</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="FieldAttributes">
+						<value>00:请选择:選択:Select
+01:年假:有休:Paid Leave
+02:病假:病気:Sick
+03:事假:個人:Leave</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>HuoJia</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+			</model>
+			<model id="id-0065-00000015" kind="Role" role="Role" guid="{115bd81f-7f34-4a65-a9be-093c1b4e13c4}" relid="0x1f" childrelidcntr="0x2">
+				<name>Role</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>847,595</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Display" status="meta">
+					<value>true</value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="IndexNo" status="meta">
+					<value>0</value>
+				</attribute>
+				<attribute kind="KindKey" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Language1" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Language2" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<attribute kind="Width" status="meta">
+					<value>8</value>
+				</attribute>
+				<attribute kind="WorkFlowId" status="meta">
+					<value></value>
+				</attribute>
+				<atom id="id-0066-0000003f" kind="UniqueProperty" role="UniqueProperty" guid="{ee228683-617b-4c81-9c41-1d8453ea8f70}" relid="0x1">
+					<name>UniqueProperty</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>70,42</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Da</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+				<atom id="id-0066-00000040" kind="Property" role="Property" guid="{e6b4137b-8cb7-498a-b772-7d58ab86e1d7}" relid="0x2">
+					<name>Property</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="KaYa" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>301,35</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="ComponentType" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="DataLength" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="DataType" status="meta">
+						<value>String</value>
+					</attribute>
+					<attribute kind="DefaultValue" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Display" status="meta">
+						<value>true</value>
+					</attribute>
+					<attribute kind="EndDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Format" status="meta">
+						<value>[RegularExpression]:[message]</value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="IsEncryption" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="IsSearchKey" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Xiao</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Required" status="meta">
+						<value>false</value>
+					</attribute>
+					<attribute kind="StartDate" status="meta">
+						<value>9999-12-31</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<attribute kind="Width" status="meta">
+						<value>8</value>
+					</attribute>
+				</atom>
+			</model>
+			<atom id="id-0066-00000008" kind="Product" role="Product" guid="{7b60c590-2252-4bda-afbb-77508224d917}" relid="0x4">
+				<name>X-システム</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>21,126</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>X-System</value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>X-系统</value>
+				</attribute>
+				<attribute kind="Language2">
+					<value>X-System</value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-00000009" kind="Product" role="Product" guid="{5ce697e4-3b00-4ae3-87d8-d943c076e612}" relid="0x5">
+				<name>社員管理</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>329,182</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>YuanGongGuanLiSystem </value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>员工管理</value>
+				</attribute>
+				<attribute kind="Language2">
+					<value>Employee Mannagement</value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+			</atom>
+			<atom id="id-0066-0000000a" kind="Product" role="Product" guid="{cc3f49b6-2f42-4481-af28-c58954e346f6}" relid="0x6">
+				<name>在庫管理</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="KaYa" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>252,679</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="Comments" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="EndDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="KindKey">
+					<value>ShangPinGuanLiSystem</value>
+				</attribute>
+				<attribute kind="Language1">
+					<value>库存管理</value>
+				</attribute>
+				<attribute kind="Language2">
+					<value> Inventory Management</value>
+				</attribute>
+				<attribute kind="StartDate" status="meta">
+					<value>9999-12-31</value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+			</atom>
+			<connection id="id-0068-00000013" kind="RoleToRoleConnection" role="RoleToRoleConnection" guid="{78f9e2db-88e6-41a4-ac16-863a3d1fecfc}" relid="0x12">
+				<name>RoleToRoleConnection</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>e</value>
+				</regnode>
+				<connpoint role="src" target="id-0065-0000000a"/>
+				<connpoint role="dst" target="id-0065-0000000e"/>
+			</connection>
+			<connection id="id-0068-00000014" kind="RoleToRoleConnection" role="RoleToRoleConnection" guid="{2c0e433a-39e2-4212-bf6e-28b5fcbafdac}" relid="0x13">
+				<name>RoleToRoleConnection</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>W</value>
+				</regnode>
+				<connpoint role="src" target="id-0065-0000000c"/>
+				<connpoint role="dst" target="id-0065-00000010"/>
+			</connection>
+			<connection id="id-0068-00000015" kind="ProductToProductConnection" role="ProductToProductConnection" guid="{3511d659-1f4f-467d-aa67-ddad776d8317}" relid="0x14">
+				<name>ProductToProductConnection</name>
+				<connpoint role="dst" target="id-0066-00000008"/>
+				<connpoint role="src" target="id-0066-0000000a"/>
+			</connection>
+			<connection id="id-0068-00000016" kind="MasterToProductiConnection" role="MasterToProductiConnection" guid="{e9ef9b30-df18-4802-81d6-cf44317078bd}" relid="0x15">
+				<name>MasterToProductiConnection</name>
+				<regnode name="customConnectionData" isopaque="yes">
+					<value>0,0,1,4,1,1,0,48,0,0;0,0,0,4,2,1,618,47,0,0;0,0,1,4,2,1,362,47,0,0;0,0,2,4,2,1,362,69,0,0</value>
+				</regnode>
+				<regnode name="isAutoRouted" isopaque="yes">
+					<value>true</value>
+				</regnode>
+				<regnode name="labelFormatStr" isopaque="yes">
+					<value></value>
+				</regnode>
+				<regnode name="lineType" isopaque="yes">
+					<value>solid</value>
+				</regnode>
+				<connpoint role="src" target="id-0065-00000011"/>
+				<connpoint role="dst" target="id-0066-00000008"/>
+			</connection>
+			<connection id="id-0068-00000017" kind="RoleToProductConnection" role="RoleToProductConnection" guid="{715eb15e-2c7c-42d8-8d02-ff23631b1a26}" relid="0x16">
+				<name>RoleToProductConnection</name>
+				<connpoint role="src" target="id-0065-00000008"/>
+				<connpoint role="dst" target="id-0066-0000000a"/>
+			</connection>
+			<connection id="id-0068-00000018" kind="RoleToProductConnection" role="RoleToProductConnection" guid="{8bd7bcc5-7d6a-4f8a-844c-0832588d21b7}" relid="0x17">
+				<name>RoleToProductConnection</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>e</value>
+				</regnode>
+				<connpoint role="src" target="id-0065-00000010"/>
+				<connpoint role="dst" target="id-0066-00000009"/>
+			</connection>
+			<connection id="id-0068-00000019" kind="ProductToProductConnection" role="ProductToProductConnection" guid="{67abe54c-2ea3-4026-96ce-17cb429345a2}" relid="0x18">
+				<name>ProductToProductConnection</name>
+				<connpoint role="dst" target="id-0066-00000008"/>
+				<connpoint role="src" target="id-0066-00000009"/>
+			</connection>
+			<connection id="id-0068-0000001a" kind="RoleToRoleConnection" role="RoleToRoleConnection" guid="{53ff2d38-3ed7-49b9-a8bf-36ecd34995fa}" relid="0x19">
+				<name>RoleToRoleConnection</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>W</value>
+				</regnode>
+				<connpoint role="src" target="id-0065-0000000f"/>
+				<connpoint role="dst" target="id-0065-00000010"/>
+			</connection>
+			<connection id="id-0068-0000001b" kind="RoleToRoleConnection" role="RoleToRoleConnection" guid="{b2b97107-d0f6-48c6-9b8e-25e691770abb}" relid="0x1a">
+				<name>RoleToRoleConnection</name>
+				<connpoint role="src" target="id-0065-0000000b"/>
+				<connpoint role="dst" target="id-0065-0000000e"/>
+			</connection>
+			<connection id="id-0068-0000001c" kind="RoleToRoleConnection" role="RoleToRoleConnection" guid="{c74ad502-7912-44d8-8621-fbe4536527ea}" relid="0x1b">
+				<name>RoleToRoleConnection</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>W</value>
+				</regnode>
+				<connpoint role="src" target="id-0065-00000009"/>
+				<connpoint role="dst" target="id-0065-0000000d"/>
+			</connection>
+			<connection id="id-0068-0000001d" kind="RoleToProductConnection" role="RoleToProductConnection" guid="{4a91dc81-bb2f-4679-8433-43b5f9463404}" relid="0x1c">
+				<name>RoleToProductConnection</name>
+				<connpoint role="src" target="id-0065-00000007"/>
+				<connpoint role="dst" target="id-0066-0000000a"/>
+			</connection>
+			<connection id="id-0068-0000001e" kind="RoleToProductConnection" role="RoleToProductConnection" guid="{0b89e287-9af1-4247-9f5b-d4e18eeeaae9}" relid="0x1d">
+				<name>RoleToProductConnection</name>
+				<connpoint role="src" target="id-0065-0000000e"/>
+				<connpoint role="dst" target="id-0066-0000000a"/>
+			</connection>
+			<connection id="id-0068-0000001f" kind="RoleToRoleConnection" role="RoleToRoleConnection" guid="{949bf78b-7005-423f-95e9-5ad96821d996}" relid="0x1e">
+				<name>RoleToRoleConnection</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>W</value>
+				</regnode>
+				<connpoint role="src" target="id-0065-0000000d"/>
+				<connpoint role="dst" target="id-0065-00000010"/>
+			</connection>
+			<connection id="id-0068-0000002b" kind="RoleToRoleConnection" role="RoleToRoleConnection" guid="{f517fd0e-432c-4352-a420-398f076daee8}" relid="0x20">
+				<name>RoleToRoleConnection</name>
+				<regnode name="autorouterPref" isopaque="yes">
+					<value>N</value>
+				</regnode>
+				<connpoint role="dst" target="id-0065-00000009"/>
+				<connpoint role="src" target="id-0065-00000015"/>
+			</connection>
+		</model>
+		<model id="id-0065-00000003" kind="KayaWorkFlowDiagram" guid="{c4584db0-5342-4b44-95a1-cd4ebd8f85b0}" relid="0x2" childrelidcntr="0x5">
+			<name>KayaWorkFlowDiagram</name>
+			<attribute kind="Language" status="meta">
+				<value>Default</value>
+			</attribute>
+			<attribute kind="Version" status="meta">
+				<value>1.0</value>
+			</attribute>
+			<model id="id-0065-00000004" kind="WorkFlow" role="WorkFlow" guid="{d98bca3c-216c-451b-b8e0-acc33730ba1d}" relid="0x2" childrelidcntr="0x14">
+				<name>基础审查</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="WorkFlowAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>252,147</value>
+						</regnode>
+					</regnode>
+				</regnode>
+				<attribute kind="KindKey" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Language1" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Language2" status="meta">
+					<value></value>
+				</attribute>
+				<attribute kind="Version" status="meta">
+					<value>1.0</value>
+				</attribute>
+				<model id="id-0065-00000012" kind="UserTask" role="UserTask" guid="{b797880c-ff01-43bc-be20-3fb6e9f7d18e}" relid="0x7" childrelidcntr="0x4">
+					<name>申请者</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="WorkFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>273,77</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="IndexNo" status="meta">
+						<value>0</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>Shenqingzhe</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Organization">
+						<value>BumenId
+ZhiweiId
+PemId=UserId</value>
+					</attribute>
+					<attribute kind="Permissions">
+						<value>roles:{E}</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<atom id="id-0066-00000036" kind="Action" role="Action" guid="{6fdd5c9d-d497-419f-bdf3-c8b75a54de5f}" relid="0x1">
+						<name>申请</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>91,49</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey">
+							<value>Shenqing</value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization">
+							<value>BumenId
+ZhiweiId</value>
+						</attribute>
+						<attribute kind="Permissions">
+							<value>roles:{E,EO}</value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000037" kind="Action" role="Action" guid="{0fb1495d-0a00-4b24-8190-3f30e1bbe6ea}" relid="0x2">
+						<name>保留</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>294,56</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey">
+							<value>Baoliu</value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Permissions" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000038" kind="Action" role="Action" guid="{7f3304a4-1a51-42ed-be21-7acd82f63f4a}" relid="0x3">
+						<name>撤销</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>518,56</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey">
+							<value>Chexiao</value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Permissions" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000003e" kind="Property" role="Property" guid="{310564ca-b176-4560-abbe-7a09d69973fc}" relid="0x4">
+						<name>补充信息</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>728,56</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ComponentType" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DataLength" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="DataType" status="meta">
+							<value>String</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="EndDate" status="meta">
+							<value>9999-12-31</value>
+						</attribute>
+						<attribute kind="Format" status="meta">
+							<value>[RegularExpression]:[message]</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="IsEncryption" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="IsSearchKey" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="KindKey">
+							<value>BuchongInfo</value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Required" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="StartDate" status="meta">
+							<value>9999-12-31</value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+						<attribute kind="Width" status="meta">
+							<value>8</value>
+						</attribute>
+					</atom>
+				</model>
+				<model id="id-0065-00000013" kind="UserTask" role="UserTask" guid="{b24440d5-b6eb-4dbe-b473-14621e3f7c81}" relid="0x9" childrelidcntr="0x5">
+					<name>二次审查</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="WorkFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,259</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>1</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>ercishencha</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Organization">
+						<value>BumenId
+ZhiweiId
+PemId=UserId</value>
+					</attribute>
+					<attribute kind="Permissions">
+						<value>roles:{PEM}
+BumenCode:{12,13}</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<atom id="id-0066-00000039" kind="Action" role="Action" guid="{a0c30308-30a2-4e11-bf8d-d3f00369b889}" relid="0x1">
+						<name>批准</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>105,63</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Permissions" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000003a" kind="Action" role="Action" guid="{b8533422-c8e7-4a97-b1f1-c9db9b00f9c0}" relid="0x2">
+						<name>拒绝</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>385,63</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Permissions" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000041" kind="Action" role="Action" guid="{da583e23-82b9-4d91-be13-cde4273bbb85}" relid="0x3">
+						<name>保留</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>252,63</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey">
+							<value>Baoliu</value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Permissions" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000042" kind="Action" role="Action" guid="{b63349e6-7d0f-42e0-9384-02dbc88c5d7f}" relid="0x4">
+						<name>撤销</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>539,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey">
+							<value>Chexiao</value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Permissions" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-00000043" kind="Property" role="Property" guid="{1465249e-162a-42a0-add2-78a4469b8780}" relid="0x5">
+						<name>Property</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>749,77</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="ComponentType" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="DataLength" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="DataType" status="meta">
+							<value>String</value>
+						</attribute>
+						<attribute kind="DefaultValue" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="EndDate" status="meta">
+							<value>9999-12-31</value>
+						</attribute>
+						<attribute kind="Format" status="meta">
+							<value>[RegularExpression]:[message]</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="IsEncryption" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="IsSearchKey" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="KindKey" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Required" status="meta">
+							<value>false</value>
+						</attribute>
+						<attribute kind="StartDate" status="meta">
+							<value>9999-12-31</value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+						<attribute kind="Width" status="meta">
+							<value>8</value>
+						</attribute>
+					</atom>
+				</model>
+				<model id="id-0065-00000014" kind="UserTask" role="UserTask" guid="{01e852d2-42de-4882-87bf-45038f8ea6ec}" relid="0xa" childrelidcntr="0x2">
+					<name>最终审批</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="WorkFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>287,441</value>
+							</regnode>
+						</regnode>
+					</regnode>
+					<attribute kind="Comments" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="IndexNo">
+						<value>2</value>
+					</attribute>
+					<attribute kind="KindKey">
+						<value>zuizhong</value>
+					</attribute>
+					<attribute kind="Language1" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Language2" status="meta">
+						<value></value>
+					</attribute>
+					<attribute kind="Organization">
+						<value>BumenId
+ZhiweiId
+PemId=UserId</value>
+					</attribute>
+					<attribute kind="Permissions">
+						<value>roles:{GL}</value>
+					</attribute>
+					<attribute kind="Version" status="meta">
+						<value>1.0</value>
+					</attribute>
+					<atom id="id-0066-0000003b" kind="Action" role="Action" guid="{32d2f07c-edb9-49cf-9ace-2418eb9db997}" relid="0x1">
+						<name>同意</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>98,168</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Permissions" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+					<atom id="id-0066-0000003c" kind="Action" role="Action" guid="{3f8fa3ea-22cb-4d47-b8c8-e2fb52f112ed}" relid="0x2">
+						<name>拒绝</name>
+						<regnode name="PartRegs" status="undefined">
+							<value></value>
+							<regnode name="WorkFlowAspect" status="undefined">
+								<value></value>
+								<regnode name="Position" isopaque="yes">
+									<value>308,175</value>
+								</regnode>
+							</regnode>
+						</regnode>
+						<attribute kind="Comments" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Display" status="meta">
+							<value>true</value>
+						</attribute>
+						<attribute kind="IndexNo" status="meta">
+							<value>0</value>
+						</attribute>
+						<attribute kind="KindKey" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language1" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Language2" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Organization" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Permissions" status="meta">
+							<value></value>
+						</attribute>
+						<attribute kind="Version" status="meta">
+							<value>1.0</value>
+						</attribute>
+					</atom>
+				</model>
+				<atom id="id-0066-00000005" kind="Start" role="Start" guid="{5552839b-6cc5-4150-b1b1-30d3a31141bd}" relid="0x1">
+					<name>Start</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="WorkFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>35,14</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<atom id="id-0066-0000003d" kind="End" role="End" guid="{5d949468-ff23-4991-be6f-88b0f41a526c}" relid="0xb">
+					<name>End</name>
+					<regnode name="PartRegs" status="undefined">
+						<value></value>
+						<regnode name="WorkFlowAspect" status="undefined">
+							<value></value>
+							<regnode name="Position" isopaque="yes">
+								<value>728,532</value>
+							</regnode>
+						</regnode>
+					</regnode>
+				</atom>
+				<connection id="id-0068-00000022" kind="ActionToModelTaskConnection" role="ActionToModelTaskConnection" guid="{683f3d1a-d220-4d8e-9cb9-a801077f6a74}" relid="0x8">
+					<name>ActionToModelTaskConnection</name>
+					<connpoint role="dst" target="id-0065-00000012"/>
+					<connpoint role="src" target="id-0066-00000037"/>
+				</connection>
+				<connection id="id-0068-00000023" kind="StartToActionConnection" role="StartToActionConnection" guid="{864526c2-a42e-4f07-bc88-271094534e5b}" relid="0xc">
+					<name>StartToActionConnection</name>
+					<regnode name="autorouterPref" isopaque="yes">
+						<value>S</value>
+					</regnode>
+					<connpoint role="src" target="id-0066-00000005"/>
+					<connpoint role="dst" target="id-0066-00000036"/>
+				</connection>
+				<connection id="id-0068-00000024" kind="ActionToModelTaskConnection" role="ActionToModelTaskConnection" guid="{3714e8e4-c14e-4508-a043-5a9a803b6f29}" relid="0xd">
+					<name>ActionToModelTaskConnection</name>
+					<connpoint role="dst" target="id-0065-00000013"/>
+					<connpoint role="src" target="id-0066-00000036"/>
+				</connection>
+				<connection id="id-0068-00000025" kind="ActionToModelTaskConnection" role="ActionToModelTaskConnection" guid="{6b8ad00c-15f1-40bf-8a9e-45693d942346}" relid="0xe">
+					<name>ActionToModelTaskConnection</name>
+					<connpoint role="dst" target="id-0065-00000014"/>
+					<connpoint role="src" target="id-0066-00000039"/>
+				</connection>
+				<connection id="id-0068-00000026" kind="ActionBackToTaskConnection" role="ActionBackToTaskConnection" guid="{d7197f44-cf12-42df-ab21-3ad01da0701c}" relid="0xf">
+					<name>ActionBackToTaskConnection</name>
+					<connpoint role="dst" target="id-0065-00000013"/>
+					<connpoint role="src" target="id-0066-0000003c"/>
+				</connection>
+				<connection id="id-0068-00000027" kind="ActionToEndConnection" role="ActionToEndConnection" guid="{78cf4a95-6261-42c0-8027-188db57a18ab}" relid="0x10">
+					<name>ActionToEndConnection</name>
+					<connpoint role="src" target="id-0066-0000003b"/>
+					<connpoint role="dst" target="id-0066-0000003d"/>
+				</connection>
+				<connection id="id-0068-00000028" kind="ModelTaskToActionConnection" role="ModelTaskToActionConnection" guid="{479809eb-6ed9-4ce0-b88c-58585b2a5534}" relid="0x11">
+					<name>ModelTaskToActionConnection</name>
+					<regnode name="customConnectionData" isopaque="yes">
+						<value>0,0,1,4,1,1,0,184,0,0</value>
+					</regnode>
+					<connpoint role="src" target="id-0065-00000013"/>
+					<connpoint role="dst" target="id-0066-00000038"/>
+				</connection>
+				<connection id="id-0068-00000029" kind="ActionBackToTaskConnection" role="ActionBackToTaskConnection" guid="{fc301b27-44dc-4c1a-8290-b51dcc9a49bb}" relid="0x12">
+					<name>ActionBackToTaskConnection</name>
+					<connpoint role="dst" target="id-0065-00000012"/>
+					<connpoint role="src" target="id-0066-0000003a"/>
+				</connection>
+				<connection id="id-0068-0000002c" kind="ActionToModelTaskConnection" role="ActionToModelTaskConnection" guid="{29914b01-cbee-4ef8-813d-a9f17916f560}" relid="0x13">
+					<name>ActionToModelTaskConnection</name>
+					<connpoint role="dst" target="id-0065-00000013"/>
+					<connpoint role="src" target="id-0066-00000041"/>
+				</connection>
+				<connection id="id-0068-0000002d" kind="ModelTaskToActionConnection" role="ModelTaskToActionConnection" guid="{3a6ed8f8-4f03-47ab-a3df-0e35ef639c30}" relid="0x14">
+					<name>ModelTaskToActionConnection</name>
+					<connpoint role="src" target="id-0065-00000014"/>
+					<connpoint role="dst" target="id-0066-00000042"/>
+				</connection>
+			</model>
+			<reference id="id-0067-00000009" kind="ProductReference" role="ProductReference" guid="{7b75e4ee-1cdc-412d-96cd-f28a3e549144}" relid="0x4" referred="id-0066-00000008">
+				<name>X-システムWF</name>
+				<regnode name="PartRegs" status="undefined">
+					<value></value>
+					<regnode name="WorkFlowAspect" status="undefined">
+						<value></value>
+						<regnode name="Position" isopaque="yes">
+							<value>35,35</value>
+						</regnode>
+					</regnode>
+				</regnode>
+			</reference>
+			<connection id="id-0068-00000020" kind="WorkFlowToProductRefConnection" role="WorkFlowToProductRefConnection" guid="{49a1b45d-4970-4739-8167-d9e0a9a1e3b3}" relid="0x5">
+				<name>WorkFlowToProductRefConnection</name>
+				<connpoint role="src" target="id-0065-00000004"/>
+				<connpoint role="dst" target="id-0067-00000009"/>
+			</connection>
+		</model>
+	</folder>
+</project>
