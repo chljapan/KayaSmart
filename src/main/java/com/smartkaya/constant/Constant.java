@@ -54,6 +54,7 @@ public class Constant {
 	public static final String REQUIRED = "Required";
 	/****/
 	public static final String LANGUAGE = "Language";
+	public static final String MULTILANGUAGE = "Multilanguage";
 	public static final String LANGUAGE_DEFAULT = "Default";
 	public static final String LANGUAGE_1 = "Language1";
 	public static final String LANGUAGE_2 = "Language2";
