@@ -150,7 +150,7 @@ public class HelloKayaInit {
 					// 审批者（ReView）
 				} else if (Constant.APPROVAL.equals(WFType)) {
 					User user=new User();
-					kayaModelList = AccessKayaModel.chekPermission(workFlowId,user.initUserInfo(UserType.E1),kvParamaterList.get(0));
+					kayaModelList = AccessKayaModel.chekPermission(workFlowId,user.initUserInfo(UserType.PEM),kvParamaterList.get(0));
 				} else {
 					// TODO： 例外处理
 				}
