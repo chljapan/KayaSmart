@@ -145,13 +145,7 @@ public class HelloKayaCrud {
 		} else if (Constant.EMPTY.equals(WFType)) {
 			paramaters.setOrientationKey(request.getParameter("orientationKey"));
 		}
-		
-		
-		
-		
-		
-		
-		
+
 		
 		if (Constant.TRUE.equals(request.getParameter("isEdit"))) {
 			paramaters.setCrud(Constant.UPDATE);
@@ -171,7 +165,9 @@ public class HelloKayaCrud {
 
 		paramaters.setListPropertys(kvParamaterList);
 		paramaters.setActionid(actionId);
-		paramaters.setBusinessKeyMap(user.getUserMap());
+
+		// 主键信息（子表的情况下，需要设定主表的主键信息）
+		paramaters.setBusinessKeyMap(new HashMap<String,Object>(){{put("YuanGongId", user.getUserId());}}); 
 		
 		KayaSQLExecute dao = new KayaSQLExecute();
 		dao.insert(paramaters);

@@ -7,8 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.util.StringUtils;
-
 import com.smartkaya.api.utils.StringUtil;
 import com.smartkaya.bean.CalendarTaskVo;
 import com.smartkaya.bean.Message;
@@ -106,7 +104,7 @@ public final class KayaSQLExecute {
 		List<String> sqlStringList = new ArrayList<String>();
 		for (Paramaters paramaters : paramatersList) {
 			String kayaModelId = paramaters.getId();
-			
+
 			String crud = paramaters.getCrud();
 			User usrinfo = paramaters.getUsrinfo();
 			switch (crud) {
@@ -117,7 +115,7 @@ public final class KayaSQLExecute {
 
 				boolean flg = true;
 				for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
-					getInsertSqlString(subEntity, kayaModelId, insertSQL, usrinfo, flg);
+					getInsertSqlString(subEntity,paramaters.getBusinessKeyMap(), kayaModelId, insertSQL, usrinfo, flg);
 
 					// 多条编辑","处理
 					flg = false;
@@ -128,8 +126,8 @@ public final class KayaSQLExecute {
 						// getWorkflowStartSqlString(paramaters.getId(),workFlowId,subEntity).toString();
 						// String actionId = paramaters.getActionid();
 						String workflowSql = getWorkflowRoleSqlString(paramaters.getId(), workFlowId,
-								paramaters.getActionid(), paramaters.getOrientationKey(),subEntity,usrinfo);
-//						System.out.println(workflowSql);
+								paramaters.getActionid(), paramaters.getOrientationKey(),subEntity,paramaters.getBusinessKeyMap(),usrinfo);
+						//						System.out.println(workflowSql);
 						if (Constant.EMPTY.equals(workflowSql)) {
 							paramaters.setError(true);
 							Message message = new Message();
@@ -149,7 +147,7 @@ public final class KayaSQLExecute {
 				break;
 			case "update":
 				for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
-					getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey());
+					getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey(),paramaters.getUsrinfo());
 				}
 				break;
 			case "delete":
@@ -175,9 +173,9 @@ public final class KayaSQLExecute {
 							deleteSQL.append(empSQL.substring(1)).append(") AND");
 						}
 					}
-					
+
 					deleteSQL.append("  orientationkey like '" + orientationKey + "%'");
-					
+
 					deleteSQL.append(";");
 					// System.out.println(deleteSQL);
 					kayaLoger.info(deleteSQL);
@@ -196,10 +194,10 @@ public final class KayaSQLExecute {
 				break;
 			}
 		}
-		
+
 		dBConnection.executeBatch(sqlStringList);
 	}
-	
+
 	/**
 	 * 单表单条插入处理 Single-table single-row insert processing
 	 * 
@@ -219,7 +217,7 @@ public final class KayaSQLExecute {
 		List<String> sqlStringList = new ArrayList<String>();
 		StringBuilder insertSQL = KayaModelUtils.getInsertSql(tableName);
 		boolean flg = true;
-		getInsertSqlString(paramater.getPropertys(), kayaModelId, insertSQL,usrinfo, flg);
+		getInsertSqlString(paramater.getPropertys(),paramater.getBusinessKeyMap(), kayaModelId, insertSQL,usrinfo, flg);
 		insertSQL.append(";");
 		sqlStringList.add(insertSQL.toString());
 
@@ -228,7 +226,7 @@ public final class KayaSQLExecute {
 			// TODO:验证流程ID
 			sqlStringList.add(getWorkflowRoleSqlString(paramater.getId(),
 					AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId(), paramater.getActionid(),
-					paramater.getOrientationKey(),paramater.getPropertys(), usrinfo).toString());
+					paramater.getOrientationKey(),paramater.getPropertys(),paramater.getBusinessKeyMap(), usrinfo).toString());
 		}
 		dBConnection.executeBatch(sqlStringList);
 		// System.out.println(insertSQL.toString());
@@ -257,14 +255,14 @@ public final class KayaSQLExecute {
 		if (Constant.UPDATE.equals(paramaters.getCrud())) {
 			KayaWorkFlow kayaWorkFlow = new KayaWorkFlow();
 			kayaWorkFlow.excuteKayaWorkFlow(paramaters);
-			
-			
-		// 新输入数据的场合（一般数据插入处理和WF Start处理）
+
+
+			// 新输入数据的场合（一般数据插入处理和WF Start处理）
 		} else if (Constant.INSERT.equals(paramaters.getCrud())){
 			StringBuilder insertSQL = KayaModelUtils.getInsertSql(tableName);
 			boolean flg = true;
 			for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
-				getInsertSqlString(subEntity, kayaModelId, insertSQL,userInfo, flg);
+				getInsertSqlString(subEntity,paramaters.getBusinessKeyMap(), kayaModelId, insertSQL,userInfo, flg);
 
 				// 多条编辑","处理
 				flg = false;
@@ -275,7 +273,9 @@ public final class KayaSQLExecute {
 					// getWorkflowStartSqlString(paramaters.getId(),workFlowId,subEntity).toString();
 					// String actionId = paramaters.getActionid();
 					String workflowSql = getWorkflowRoleSqlString(paramaters.getId(), workFlowId, paramaters.getActionid(),
-							paramaters.getOrientationKey(),subEntity,userInfo);
+							paramaters.getOrientationKey(),subEntity,paramaters.getBusinessKeyMap(),userInfo);
+
+					//String workflowSql = getWorkflowRoleSqlString(paramaters);
 					// System.out.println(workflowSql);
 					kayaLoger.info(workflowSql);
 					if (Constant.EMPTY.equals(workflowSql)) {
@@ -296,9 +296,9 @@ public final class KayaSQLExecute {
 			sqlStringList.add(insertSQL.toString());
 			kayaLoger.info(insertSQL);
 		}
-		
+
 		dBConnection.executeBatch(sqlStringList);
-		
+
 		return 0;
 
 	}
@@ -316,9 +316,9 @@ public final class KayaSQLExecute {
 
 		for (Paramaters paramaters : paramatersList) {
 			// Table存在确认
-//			if (!KayaModelUtils.checkTableId(paramaters)) {
-//				return 0;
-//			}
+			//			if (!KayaModelUtils.checkTableId(paramaters)) {
+			//				return 0;
+			//			}
 			User userInfo = paramaters.getUsrinfo();
 			String kayaModelId = paramaters.getId();
 			// 取得Role信息
@@ -334,7 +334,7 @@ public final class KayaSQLExecute {
 			}
 			for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
 
-				getInsertSqlString(subEntity, kayaModelId, insertSQL,userInfo, flg);
+				getInsertSqlString(subEntity, paramaters.getBusinessKeyMap(),kayaModelId, insertSQL,userInfo, flg);
 				flg = false;
 			}
 
@@ -363,7 +363,7 @@ public final class KayaSQLExecute {
 		String kayaModelId = paramater.getId();
 
 		List<String> sqlStringList = new ArrayList<String>();
-		getUpdateSqlString(paramater.getPropertys(), kayaModelId, sqlStringList, paramater.getOrientationKey());
+		getUpdateSqlString(paramater.getPropertys(), kayaModelId, sqlStringList, paramater.getOrientationKey(),paramater.getUsrinfo());
 
 		dBConnection.executeBatch(sqlStringList);
 
@@ -385,7 +385,7 @@ public final class KayaSQLExecute {
 		// SqlList
 		List<String> sqlStringList = new ArrayList<String>();
 		for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
-			getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey());
+			getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey(),paramaters.getUsrinfo());
 		}
 		dBConnection.executeBatch(sqlStringList);
 		return 0;
@@ -407,7 +407,7 @@ public final class KayaSQLExecute {
 		// SqlList
 		List<String> sqlStringList = new ArrayList<String>();
 		for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
-			getUpdateSqlString(subEntity, kayaModelId, sqlStringList, insertFieldList, paramaters.getOrientationKey());
+			getUpdateSqlString(subEntity, kayaModelId, sqlStringList, insertFieldList, paramaters.getOrientationKey(),paramaters.getUsrinfo());
 		}
 
 		// insert处理
@@ -444,12 +444,12 @@ public final class KayaSQLExecute {
 		List<String> sqlStringList = new ArrayList<String>();
 		for (Paramaters paramaters : paramatersList) {
 			// Table存在确认
-//			if (!KayaModelUtils.checkTableId(paramaters)) {
-//				return 0;
-//			}
+			//			if (!KayaModelUtils.checkTableId(paramaters)) {
+			//				return 0;
+			//			}
 			String kayaModelId = paramaters.getId();
 			for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
-				getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey());
+				getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey(),paramaters.getUsrinfo());
 			}
 		}
 		dBConnection.executeBatch(sqlStringList);
@@ -480,7 +480,7 @@ public final class KayaSQLExecute {
 
 				boolean flg = true;
 				for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
-					getInsertSqlString(subEntity, kayaModelId, insertSQL, usrinfo,flg);
+					getInsertSqlString(subEntity,paramaters.getBusinessKeyMap(), kayaModelId, insertSQL, usrinfo,flg);
 
 					// 多条编辑","处理
 					flg = false;
@@ -491,7 +491,7 @@ public final class KayaSQLExecute {
 						// getWorkflowStartSqlString(paramaters.getId(),workFlowId,subEntity).toString();
 						// String actionId = paramaters.getActionid();
 						String workflowSql = getWorkflowRoleSqlString(paramaters.getId(), workFlowId,
-								paramaters.getActionid(), paramaters.getOrientationKey(),subEntity,usrinfo);
+								paramaters.getActionid(), paramaters.getOrientationKey(),subEntity,paramaters.getBusinessKeyMap(),usrinfo);
 						System.out.println(workflowSql);
 						if (Constant.EMPTY.equals(workflowSql)) {
 							paramaters.setError(true);
@@ -512,7 +512,7 @@ public final class KayaSQLExecute {
 				break;
 			case "update":
 				for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
-					getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey());
+					getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey(),paramaters.getUsrinfo());
 				}
 				break;
 			default:// 参数错误处理
@@ -552,7 +552,7 @@ public final class KayaSQLExecute {
 						.containsKey(kayaModel.get(Constant.KINDKEY))) {
 					selectEmptSQL.append("SELECT orientationkey FROM " + tableName + " WHERE (kind = '"
 							+ kayaModel.get(Constant.KINDKEY) + "' AND kindvalue LIKE '" + paramater
-									.getPropertys().get(kayaModel.get(Constant.KINDKEY))
+							.getPropertys().get(kayaModel.get(Constant.KINDKEY))
 							+ "%')");
 				}
 			}
@@ -569,7 +569,7 @@ public final class KayaSQLExecute {
 						selectEmptSQL.append("SELECT orientationkey FROM " + tableName + " WHERE (kind = '"
 								+ kayaModel.get(Constant.KINDKEY) + "' AND kindvalue LIKE '"
 								+ paramater.getPropertys()
-										.get(kayaModel.get(Constant.KINDKEY))
+								.get(kayaModel.get(Constant.KINDKEY))
 								+ "%' AND businessid = '" + paramater.getOrientationKey() + "')");
 
 						flg = false;
@@ -577,10 +577,10 @@ public final class KayaSQLExecute {
 						selectEmptSQL.insert(0,
 								" SELECT orientationkey FROM " + tableName + " WHERE (orientationkey IN (");
 						selectEmptSQL.append(")) AND (kind='" + kayaModel.get(Constant.KINDKEY)
-								+ "' AND kindvalue LIKE '"
-								+ paramater.getPropertys()
-										.get(kayaModel.get(Constant.KINDKEY))
-								+ "%' AND businessid = '" + paramater.getOrientationKey() + "')");
+						+ "' AND kindvalue LIKE '"
+						+ paramater.getPropertys()
+						.get(kayaModel.get(Constant.KINDKEY))
+						+ "%' AND businessid = '" + paramater.getOrientationKey() + "')");
 					}
 				}
 			}
@@ -616,67 +616,67 @@ public final class KayaSQLExecute {
 		} else {
 			selectSQL = commonSelectSQL(paramater, "orientationkey",false);
 		}
-		
-		
-		
-//		String kayaModelId = paramater.getId();
-//		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
-//		// 更新全对象取得（包含子）
-//		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
-//
-//		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName);
-//		selectSQL.append(" WHERE orientationkey IN (SELECT orientationkey FROM " + tableName);
-//		StringBuilder selectEmptSQL = new StringBuilder("");
-//
-//		// 检索条件个数
-//		int selectCount = 0;
-//		// 复数检索条件（OR）
-//		String orString = "";
-//
-//		// 主次表处理
-//		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
-//			for (KayaMetaModel kayaModel : kayaModelList) {
-//				if (paramater.getMapping().getPropertys()
-//						.containsKey(kayaModel.get(Constant.KINDKEY))) {
-//					// 检索条件个数
-//					selectCount = selectCount + 1;
-//					selectEmptSQL.append(orString);
-//					selectEmptSQL.append("(kind = '"
-//							+ kayaModel.get(Constant.KINDKEY) + "' AND kindvalue LIKE '" + paramater
-//									.getMapping().getPropertys().get(kayaModel.get(Constant.KINDKEY))
-//							+ "%')");
-//					orString = " OR ";
-//				}
-//			}
-//			// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
-//		} else {
-//			// orientationkey
-//			// String businessId =
-//			// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),paramater.getBusinessKeyMap());
-//			for (KayaMetaModel kayaModel : kayaModelList) {
-//				if (paramater.getMapping().getPropertys()
-//						.containsKey(kayaModel.get(Constant.KINDKEY))) {
-//					// 检索条件个数
-//					selectCount = selectCount + 1;
-//					selectEmptSQL.append(orString);
-//					selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY)
-//							+ "' AND kindvalue LIKE '" + paramater.getMapping().getPropertys()
-//									.get(kayaModel.get(Constant.KINDKEY))
-//							// + "%' AND businessid = '" + businessId + "')");
-//							+ "%' AND businessid = '" + paramater.getOrientationKey() + "')");
-//					orString = " OR ";
-//				}
-//			}
-//		}
-//
-//		if (selectCount > 0) {
-//			selectSQL.append(" WHERE ").append(selectEmptSQL.toString() + " group by orientationkey having count(1)="
-//					+ selectCount + ") ORDER BY orientationkey DESC;");
-//		} else {
-//			selectSQL.append(selectEmptSQL.toString() + " group by orientationkey) ORDER BY orientationkey DESC;");
-//		}
-//
-//		// System.out.println(selectSQL.toString());
+
+
+
+		//		String kayaModelId = paramater.getId();
+		//		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
+		//		// 更新全对象取得（包含子）
+		//		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
+		//
+		//		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName);
+		//		selectSQL.append(" WHERE orientationkey IN (SELECT orientationkey FROM " + tableName);
+		//		StringBuilder selectEmptSQL = new StringBuilder("");
+		//
+		//		// 检索条件个数
+		//		int selectCount = 0;
+		//		// 复数检索条件（OR）
+		//		String orString = "";
+		//
+		//		// 主次表处理
+		//		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+		//			for (KayaMetaModel kayaModel : kayaModelList) {
+		//				if (paramater.getMapping().getPropertys()
+		//						.containsKey(kayaModel.get(Constant.KINDKEY))) {
+		//					// 检索条件个数
+		//					selectCount = selectCount + 1;
+		//					selectEmptSQL.append(orString);
+		//					selectEmptSQL.append("(kind = '"
+		//							+ kayaModel.get(Constant.KINDKEY) + "' AND kindvalue LIKE '" + paramater
+		//									.getMapping().getPropertys().get(kayaModel.get(Constant.KINDKEY))
+		//							+ "%')");
+		//					orString = " OR ";
+		//				}
+		//			}
+		//			// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
+		//		} else {
+		//			// orientationkey
+		//			// String businessId =
+		//			// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),paramater.getBusinessKeyMap());
+		//			for (KayaMetaModel kayaModel : kayaModelList) {
+		//				if (paramater.getMapping().getPropertys()
+		//						.containsKey(kayaModel.get(Constant.KINDKEY))) {
+		//					// 检索条件个数
+		//					selectCount = selectCount + 1;
+		//					selectEmptSQL.append(orString);
+		//					selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY)
+		//							+ "' AND kindvalue LIKE '" + paramater.getMapping().getPropertys()
+		//									.get(kayaModel.get(Constant.KINDKEY))
+		//							// + "%' AND businessid = '" + businessId + "')");
+		//							+ "%' AND businessid = '" + paramater.getOrientationKey() + "')");
+		//					orString = " OR ";
+		//				}
+		//			}
+		//		}
+		//
+		//		if (selectCount > 0) {
+		//			selectSQL.append(" WHERE ").append(selectEmptSQL.toString() + " group by orientationkey having count(1)="
+		//					+ selectCount + ") ORDER BY orientationkey DESC;");
+		//		} else {
+		//			selectSQL.append(selectEmptSQL.toString() + " group by orientationkey) ORDER BY orientationkey DESC;");
+		//		}
+		//
+		//		// System.out.println(selectSQL.toString());
 		kayaLoger.info(selectSQL);
 		paramater.setOrientationKeySet(new HashSet<String>());
 		kayaEntityList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
@@ -727,7 +727,7 @@ public final class KayaSQLExecute {
 
 		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName);
 		selectSQL.append(" WHERE ");
-		
+
 		// 对象表指定
 		String selectEmpSQL = "";
 		if (paramater.getTargetTableList().size() > 0) {
@@ -738,15 +738,15 @@ public final class KayaSQLExecute {
 			}
 			selectSQL.append(selectEmpSQL.substring(1)).append(") and ");
 		}
-		
+
 		//
 		if (wfflag) {
 			selectSQL.append(" kindtype<>'Role' AND " + key).append(" IN (SELECT ").append(key).append(" FROM ").append(tableName);
 		} else {
 			selectSQL.append(key).append(" IN (SELECT ").append(key).append(" FROM ").append(tableName);
 		}
-		
-		
+
+
 		// 更新全对象取得（包含子）
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 		StringBuilder selectEmptSQL = new StringBuilder("");
@@ -774,12 +774,12 @@ public final class KayaSQLExecute {
 					case  DATE:
 						String[] value = values.split("～");
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
-								.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "')");
+						.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
+						.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "')");
 						break;
 					default:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue LIKE '" + values + "%')");
+						.append("' AND kindvalue LIKE '" + values + "%')");
 						break;
 					}
 					orString = " OR ";
@@ -802,33 +802,33 @@ public final class KayaSQLExecute {
 					switch (ConditionEnum.toEnum(StringUtil.getCondition(values))) {
 					case IN:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue in (" + values + ")");
+						.append("' AND kindvalue in (" + values + ")");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
 					case DATE:
 						String[] value = values.split("～");
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
-								.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "'");
+						.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
+						.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "'");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
 					default:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue LIKE '").append(values)
-								// + "%' AND businessid = '" + businessId +
-								// "')");
-								.append("%'");
+						.append("' AND kindvalue LIKE '").append(values)
+						// + "%' AND businessid = '" + businessId +
+						// "')");
+						.append("%'");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
@@ -838,7 +838,7 @@ public final class KayaSQLExecute {
 			}
 		}
 
-		
+
 		if (wfflag) {
 			if (selectCount > 0) {
 				selectSQL.append(" WHERE ").append(selectEmptSQL.toString() + " group by " + key + " having count(1)="
@@ -854,12 +854,12 @@ public final class KayaSQLExecute {
 				selectSQL.append(selectEmptSQL.toString() + " group by " + key + " ) ORDER BY orientationkey;");
 			}
 		}
-		
+
 		//kayaLoger.info(selectSQL);
 		paramater.setOrientationKeySet(new HashSet<String>());
 		return selectSQL;
 	}
-	
+
 	/**
 	 * 检索的共通WFSQl文做成
 	 * 
@@ -874,7 +874,7 @@ public final class KayaSQLExecute {
 		String workFlowId = AccessKayaModel.getKayaModelId(AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId()).getTableId();
 		StringBuilder selectSQL = new StringBuilder("union " + KayaModelUtils.selectWorkFlowString + workFlowId);
 		selectSQL.append(" WHERE ");
-		
+
 		// 对象表指定
 		String selectEmpSQL = "";
 		if (paramater.getTargetTableList().size() > 0) {
@@ -885,12 +885,12 @@ public final class KayaSQLExecute {
 			}
 			selectSQL.append(selectEmpSQL.substring(1)).append(") and ");
 		}
-		
+
 
 		selectSQL.append(" kindtype='Role' AND orientationkey IN (SELECT orientationkey FROM ").append(tableName);
 
-		
-		
+
+
 		// 更新全对象取得（包含子）
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 		StringBuilder selectEmptSQL = new StringBuilder("");
@@ -918,12 +918,12 @@ public final class KayaSQLExecute {
 					case  DATE:
 						String[] value = values.split("～");
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
-								.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "')");
+						.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
+						.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "')");
 						break;
 					default:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue LIKE '" + values + "%')");
+						.append("' AND kindvalue LIKE '" + values + "%')");
 						break;
 					}
 					orString = " OR ";
@@ -946,33 +946,33 @@ public final class KayaSQLExecute {
 					switch (ConditionEnum.toEnum(StringUtil.getCondition(values))) {
 					case IN:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue in (" + values + ")");
+						.append("' AND kindvalue in (" + values + ")");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
 					case DATE:
 						String[] value = values.split("～");
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
-								.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "'");
+						.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
+						.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "'");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
 					default:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue LIKE '").append(values)
-								// + "%' AND businessid = '" + businessId +
-								// "')");
-								.append("%'");
+						.append("' AND kindvalue LIKE '").append(values)
+						// + "%' AND businessid = '" + businessId +
+						// "')");
+						.append("%'");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
@@ -983,7 +983,7 @@ public final class KayaSQLExecute {
 		}
 
 		selectSQL.append(" WHERE ").append(selectEmptSQL.toString() + " group by orientationkey having count(1)="
-					+ selectCount + ") ORDER BY 14;");
+				+ selectCount + ") ORDER BY 14;");
 
 
 		kayaLoger.info(selectSQL);
@@ -1032,12 +1032,12 @@ public final class KayaSQLExecute {
 					case  DATE:
 						String[] value = values.split("～");
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
-								.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "')");
+						.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
+						.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "')");
 						break;
 					default:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue LIKE '" + values + "%')");
+						.append("' AND kindvalue LIKE '" + values + "%')");
 						break;
 					}
 					orString = " OR ";
@@ -1060,33 +1060,33 @@ public final class KayaSQLExecute {
 					switch (ConditionEnum.toEnum(StringUtil.getCondition(values))) {
 					case IN:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue in (" + values + ")");
+						.append("' AND kindvalue in (" + values + ")");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
 					case DATE:
 						String[] value = values.split("～");
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
-								.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "'");
+						.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
+						.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "'");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
 					default:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
-								.append("' AND kindvalue LIKE '").append(values)
-								// + "%' AND businessid = '" + businessId +
-								// "')");
-								.append("%'");
+						.append("' AND kindvalue LIKE '").append(values)
+						// + "%' AND businessid = '" + businessId +
+						// "')");
+						.append("%'");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
-									.append("'");
+							.append("'");
 						}
 						selectEmptSQL.append(")");
 						break;
@@ -1102,10 +1102,10 @@ public final class KayaSQLExecute {
 		} else {
 			selectSQL.append(selectEmptSQL.toString() + " group by " + key + " )");
 		}
-		
+
 		// TODO
 		selectSQL.append(" as s WHERE m.").append(key).append(" like concat(s.").append(key).append(", '%') ");
-		
+
 		// 对象表指定
 		String selectEmpSQL = "";
 		if (paramater.getTargetTableList().size() > 0) {
@@ -1162,10 +1162,10 @@ public final class KayaSQLExecute {
 		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName);
 		selectSQL.append(" WHERE orientationkey IN (SELECT orientationkey FROM " + tableName + " WHERE ");
 		selectSQL.append("(kind = 'userId' AND kindvalue LIKE '").append(paramater.getPropertys().get("userId"))
-				.append("%') OR").append("(kind = 'stime' AND kindvalue >= '")
-				.append(paramater.getPropertys().get("stime")).append("') OR")
-				.append("(kind = 'etime' AND kindvalue < '").append(paramater.getPropertys().get("etime"))
-				.append("') ").append("GROUP BY orientationkey HAVING COUNT(1)=3) ORDER BY orientationkey DESC;");
+		.append("%') OR").append("(kind = 'stime' AND kindvalue >= '")
+		.append(paramater.getPropertys().get("stime")).append("') OR")
+		.append("(kind = 'etime' AND kindvalue < '").append(paramater.getPropertys().get("etime"))
+		.append("') ").append("GROUP BY orientationkey HAVING COUNT(1)=3) ORDER BY orientationkey DESC;");
 		System.out.println(selectSQL.toString());
 		paramater.setOrientationKeySet(new HashSet<String>());
 		kayaEntityList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
@@ -1389,7 +1389,7 @@ public final class KayaSQLExecute {
 		}
 	}
 
-	private String getWorkflowRoleSqlString(String kayaModelId, String workflowId, String actionId, String orientationKey, HashMap<String,Object> propertys,User usrinfo) {
+	private String getWorkflowRoleSqlString(String kayaModelId, String workflowId, String actionId, String orientationKey, HashMap<String,Object> propertys,HashMap<String,Object> businesskey,User usrinfo) {
 		StringBuilder insertSQL = new StringBuilder("");
 		String orderNo = UtilTools.getOrderNo();
 		// 判断Action是否符合自身流程要求
@@ -1405,7 +1405,7 @@ public final class KayaSQLExecute {
 			return "";
 		}
 		//取得生成workflow数据需要的组织信息
-		
+
 		List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
 		organizationItems =  startModel.getOrganizationItems();
 
@@ -1430,27 +1430,21 @@ public final class KayaSQLExecute {
 		// 插入流程开始信息（User相关的组织信息）
 		insertSQL = KayaModelUtils.getWorkFlowInsertSql(tableName);
 		insertSQL.append("(");
-		// businessid
-		// businesssubid
+		// orientationkey
 		// 表ID等于自身ID的时候判定为主表
 		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
-			// orientationkey
-			insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, propertys) + "',");
+			insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, businesskey) + "',");
 			// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
 		} else {
-			// orientationkey
-			if (StringUtils.isEmpty(orientationKey)) {
-				orientationKey = "^";
-				
-				// TODO: 默认到用户信息里面取得，实际需要单独的附加信息Map才能够完善该机能
-				orientationKey = KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(AccessKayaModel.getKayaModelId(kayaModelId).getParentId()),
-						orientationKey, usrinfo.getUserMap());
-				insertSQL.append("'" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),
-						orientationKey, propertys) + "',");
-			} else {
-				insertSQL.append("'" + propertys.get(Constant.ORIENTATIONKEY) + "',");
-			}
-			
+			insertSQL.append("'" + KayaModelUtils.getOrientationKey(kayaMetaModel, new HashMap<String, Object>(){/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+			{
+				putAll(propertys);
+				putAll(businesskey);
+			}}) + "',");
 		}
 
 		// relid
@@ -1464,11 +1458,6 @@ public final class KayaSQLExecute {
 		insertSQL.append("'" + kayaMetaModel.getGmeId() + "',");
 		insertSQL.append("'" + kayaMetaModel.get(Constant.KINDKEY) + "',");
 		insertSQL.append("'" + kayaMetaModel.getName() + "',");
-
-		// UserTaskID(人为启动流程？还是自动触发流程？)
-		// insertSQL.append("'" +
-		// AccessKayaModel.getKayaModelId(workFlowListener.getActionId()).getParentId()
-		// + "',");
 		insertSQL.append("'" + AccessKayaModel.getKayaModelId(actionId).getName() + "',");
 
 		// kindtype
@@ -1525,8 +1514,15 @@ public final class KayaSQLExecute {
 				// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
 			} else {
 				// orientationkey
-				insertSQL.append("'" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),
-						orientationKey, propertys) + "',");
+				insertSQL.append("'" + KayaModelUtils.getOrientationKey(kayaMetaModel, new HashMap<String, Object>(){/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
+				{
+					putAll(propertys);
+					putAll(businesskey);
+				}}) + "',");
 			}
 
 			// relid
@@ -1600,8 +1596,17 @@ public final class KayaSQLExecute {
 				// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
 			} else {
 				// orientationkey
-				insertSQL.append("'" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),
-						orientationKey, propertys) + "',");
+				//				insertSQL.append("'" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),
+				//						orientationKey, propertys) + "',");
+				insertSQL.append("'" + KayaModelUtils.getOrientationKey(kayaMetaModel, new HashMap<String, Object>(){/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
+				{
+					putAll(propertys);
+					putAll(businesskey);
+				}}) + "',");
 			}
 
 			// relid
@@ -1610,9 +1615,9 @@ public final class KayaSQLExecute {
 			// kind
 			// name
 			// kindValue
-			
+
 			String orgKindkey = Constant.EMPTY;
-			
+
 			if (organizationItems.get(i).isRef()) {
 				orgKindkey = organizationItems.get(i).getRefSrc();
 			} else {
@@ -1622,7 +1627,7 @@ public final class KayaSQLExecute {
 
 			insertSQL.append("'" + orgKindkey + "',");
 			insertSQL.append("'',");
-		
+
 			if(usrinfo.getUserMap().get(orgKindkey) != null) {
 				insertSQL.append(
 						"'" + usrinfo.getUserMap().get(orgKindkey) + "',");
@@ -1657,18 +1662,308 @@ public final class KayaSQLExecute {
 			// updateuser
 			// updatemachine
 			insertSQL.append("'" + "')");
-		
+
 		}
-		
-		
+
+
 		insertSQL.append(";");
 
 		return insertSQL.toString();
 	}
 
-
+	//	private String getWorkflowRoleSqlString(Paramaters paramaters) {
+	//		
+	//		String kayaModelId = paramaters.getId();
+	//		String workFlowId = AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId();
+	//		String actionId = paramaters.getActionid();
+	//		
+	//		StringBuilder insertSQL = new StringBuilder("");
+	//		String orderNo = UtilTools.getOrderNo();
+	//		// 判断Action是否符合自身流程要求
+	//		KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
+	//		// 取得业务流开始元素
+	//		String startUserTaskId = AccessKayaModel
+	//				.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
+	//		if (!actionId.equals(startUserTaskId)) {
+	//			return "";
+	//		}
+	//		KayaMetaModel startModel = AccessKayaModel.getKayaModelId(startUserTaskId);
+	//		if(startModel.getOrganizationItems() == null) {
+	//			return "";
+	//		}
+	//		//取得生成workflow数据需要的组织信息
+	//		
+	//		List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
+	//		organizationItems =  startModel.getOrganizationItems();
+	//
+	//		// 取得Role信息
+	//		KayaMetaModel kayaMetaModel = AccessKayaModel.getKayaModelId(kayaModelId);
+	//		// NextStape
+	//		String nextWorkFlowId = "";
+	//		nextWorkFlowId = AccessKayaModel.getWorkFlowConnectionDes(actionId);
+	//		if (Constant.E_GateWay.equals(AccessKayaModel.getKayaModelId(nextWorkFlowId).getMetaModelType())) {
+	//			// ScriptEXE scriptExE = new ScriptEXE();
+	//			// 如果返回GetWay本身ID,则申请条件异常（设置的分歧条件没有覆盖所有场合）
+	//			if (nextWorkFlowId.equals(ScriptEXE.Exe(nextWorkFlowId, paramaters.getListPropertys().get(0)))) {
+	//				// TODO： 通知前台系统管理员修改分歧条件，覆盖所有业务场景
+	//			} else {
+	//				nextWorkFlowId = AccessKayaModel
+	//						.getWorkFlowConnectionDes(ScriptEXE.Exe(nextWorkFlowId, paramaters.getListPropertys().get(0)));
+	//			}
+	//		}
+	//
+	//		// 取得WorkFlow信息
+	//		String tableName = kayaMetaWorkFlowModel.getTableId();
+	//		// 插入流程开始信息（User相关的组织信息）
+	//		insertSQL = KayaModelUtils.getWorkFlowInsertSql(tableName);
+	//		insertSQL.append("(");
+	//		// businessid
+	//		// businesssubid
+	//		// 表ID等于自身ID的时候判定为主表
+	//		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+	//			// orientationkey
+	//			insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, paramaters.getListPropertys().get(0)) + "',");
+	//			// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
+	//		} else {
+	//			// orientationkey
+	//			if (StringUtils.isEmpty(paramaters.getOrientationKey())) {
+	//				
+	//				
+	//				// TODO: 默认到用户信息里面取得，实际需要单独的附加信息Map才能够完善该机能
+	//				String orientationKey = KayaModelUtils.getBusinessKey(kayaMetaModel, new HashMap<String, Object>(){{
+	//			        putAll(paramaters.getListPropertys().get(0));
+	//			        putAll(paramaters.getBusinessKeyMap());
+	//			    }});
+	//
+	//				insertSQL.append("'" + orientationKey + "',");
+	//			} else {
+	//				insertSQL.append("'" + paramaters.getOrientationKey() + "',");
+	//			}
+	//			
+	//		}
+	//
+	//		// relid
+	//		insertSQL.append("'" + orderNo + "',");
+	//
+	//		// gmeid
+	//		// kind
+	//		// name
+	//		// kindValue
+	//
+	//		insertSQL.append("'" + kayaMetaModel.getGmeId() + "',");
+	//		insertSQL.append("'" + kayaMetaModel.get(Constant.KINDKEY) + "',");
+	//		insertSQL.append("'" + kayaMetaModel.getName() + "',");
+	//
+	//		// UserTaskID(人为启动流程？还是自动触发流程？)
+	//		// insertSQL.append("'" +
+	//		// AccessKayaModel.getKayaModelId(workFlowListener.getActionId()).getParentId()
+	//		// + "',");
+	//		insertSQL.append("'" + AccessKayaModel.getKayaModelId(actionId).getName() + "',");
+	//
+	//		// kindtype
+	//		insertSQL.append("'" + kayaMetaModel.getMetaModelType() + "',");
+	//		// securitycode
+	//		// flowcode
+	//
+	//		// flowsubcode
+	//		insertSQL.append("'',");
+	//		insertSQL.append("'" + nextWorkFlowId + "',");
+	//		insertSQL.append("'" + actionId + "',");
+	//		// startdate
+	//		// enddate
+	//		// withdrawaldate
+	//		insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//		insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//		insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//
+	//		// parentid 申请ID
+	//		insertSQL.append("'" + kayaModelId + "',");
+	//		// createdate
+	//		// createuser
+	//		// insertSQL.append("'" + (new Timestamp(System.currentTimeMillis())) +
+	//		// "',");
+	//		insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//		insertSQL.append("'"+ paramaters.getUsrinfo().getUserId() + "',");
+	//		// updatedate
+	//		// insertSQL.append("'',");
+	//		// updateuser
+	//		// updatemachine
+	//		// insertSQL.append("'" + "',");
+	//		// insertSQL.append("'" + "')");
+	//		// // Action row insert
+	//		// insertSQL.append(",(");
+	//		//
+	//
+	//		insertSQL.append("'" + "')");
+	//
+	//		// 取得Role子元素信息
+	//		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaWorkFlowAction(actionId);
+	//		for (KayaMetaModel kayaModel : kayaModelList) {
+	//			// gmeid
+	//			insertSQL.append(",(");
+	//
+	//			// businessid
+	//			// businesssubid
+	//			// 表ID等于自身ID的时候判定为主表
+	//			// if (kayaMetaModel.getTableId().equals(kayaModelId)){
+	//			if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+	//
+	//				// Role主键处理
+	//				// orientationkey
+	//				insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, paramaters.getListPropertys().get(0)) + "',");
+	//				// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
+	//			} else {
+	//				// orientationkey
+	//				String orientationKey = KayaModelUtils.getBusinessKey(kayaMetaModel, new HashMap<String, Object>(){{
+	//			        putAll(paramaters.getListPropertys().get(0));
+	//			        putAll(paramaters.getBusinessKeyMap());
+	//			    }});
+	//				insertSQL.append("'" + orientationKey + "',");
+	//			}
+	//
+	//			// relid
+	//			insertSQL.append("'" + orderNo + "',");
+	//
+	//			// kind
+	//			// name
+	//			// kindValue
+	//			// 参照的情况下，取参照元的KindKey，设置的时候利用参照本身的KindKey
+	//			if (Constant.PROPERTYREF.equals(kayaModel.getMetaModelType())) {
+	//				insertSQL.append("'" + kayaModel.get(Constant.REFERRED) + "',");
+	//			} else {
+	//				insertSQL.append("'" + kayaModel.getGmeId() + "',");
+	//			}
+	//
+	//			insertSQL.append("'" + kayaModel.get(Constant.KINDKEY) + "',");
+	//			insertSQL.append("'" + kayaModel.getName() + "',");
+	//			if (Constant.ACTION.equals(kayaModel.getMetaModelType())) {
+	//				insertSQL.append("'" + AccessKayaModel.getParentKayaModel(actionId).getName() + "',");
+	//			} else {
+	//				if(paramaters.getListPropertys().get(0).get(kayaModel.get(Constant.KINDKEY)) != null) {
+	//					insertSQL.append(
+	//							"'" + paramaters.getListPropertys().get(0).get(kayaModel.get(Constant.KINDKEY)) + "',");
+	//				} else {
+	//					insertSQL.append("'',");
+	//				}
+	//			}
+	//
+	//			// kindtype
+	//			insertSQL.append("'" + kayaModel.getMetaModelType() + "',");
+	//			// securitycode
+	//			// flowcode
+	//			// flowsubcode
+	//			insertSQL.append("'',");
+	//			insertSQL.append("'" + kayaModel.getParentId() + "',");
+	//			insertSQL.append("'" + actionId + "',");
+	//			// startdate
+	//			// enddate
+	//			// withdrawaldate
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			// parentid
+	//			insertSQL.append("'" + kayaModelId + "',");
+	//			// createdate
+	//			// createuser
+	//			// insertSQL.append("'" + (new
+	//			// Timestamp(System.currentTimeMillis())) + "',");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("'"+ paramaters.getUsrinfo().getUserId() + "',");
+	//			// updatedate
+	//			// insertSQL.append("'',");
+	//			// updateuser
+	//			// updatemachine
+	//			insertSQL.append("'" + "')");
+	//		}
+	//		//组织信息插入
+	//		for(int i = 0;i < organizationItems.size();i++) {
+	//
+	//			//String orgInfo =  organizationList.get(i);
+	//			// gmeid
+	//			insertSQL.append(",(");
+	//
+	//			// orientationkey
+	//			// 表ID等于自身ID的时候判定为主表
+	//			// if (kayaMetaModel.getTableId().equals(kayaModelId)){
+	//			if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+	//				// orientationkey
+	//				insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, paramaters.getListPropertys().get(0)) + "',");
+	//				// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
+	//			} else {
+	//				// orientationkey
+	////				insertSQL.append("'" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),
+	////						orientationKey, propertys) + "',");
+	//				String orientationKey = KayaModelUtils.getBusinessKey(kayaMetaModel, new HashMap<String, Object>(){{
+	//			        putAll(paramaters.getListPropertys().get(0));
+	//			        putAll(paramaters.getBusinessKeyMap());
+	//			    }});
+	//				insertSQL.append("'" + orientationKey + "',");
+	//			}
+	//
+	//			// relid
+	//			insertSQL.append("'" + orderNo + "',");
+	//
+	//			// kind
+	//			// name
+	//			// kindValue
+	//			
+	//			String orgKindkey = Constant.EMPTY;
+	//			
+	//			if (organizationItems.get(i).isRef()) {
+	//				orgKindkey = organizationItems.get(i).getRefSrc();
+	//			} else {
+	//				orgKindkey = organizationItems.get(i).getText();
+	//			}
+	//			insertSQL.append("'" + orgKindkey + "',");
+	//
+	//			insertSQL.append("'" + orgKindkey + "',");
+	//			insertSQL.append("'',");
+	//		
+	//			if(paramaters.getUsrinfo().getUserMap().get(orgKindkey) != null) {
+	//				insertSQL.append(
+	//						"'" + paramaters.getUsrinfo().getUserMap().get(orgKindkey) + "',");
+	//			} else {
+	//				insertSQL.append("'',");
+	//			}
+	//
+	//			// kindtype
+	//			insertSQL.append("'Organization',");
+	//			// securitycode
+	//			// flowcode
+	//			// flowsubcode
+	//			insertSQL.append("'',");
+	//			insertSQL.append("'" + startUserTaskId + "',");
+	//			insertSQL.append("'" + actionId + "',");
+	//			// startdate
+	//			// enddate
+	//			// withdrawaldate
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			// parentid
+	//			insertSQL.append("'" + kayaModelId + "',");
+	//			// createdate
+	//			// createuser
+	//			// insertSQL.append("'" + (new
+	//			// Timestamp(System.currentTimeMillis())) + "',");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("'"+ paramaters.getUsrinfo().getUserId() + "',");
+	//			// updatedate
+	//			// insertSQL.append("'',");
+	//			// updateuser
+	//			// updatemachine
+	//			insertSQL.append("'" + "')");
+	//		
+	//		}
+	//		
+	//		
+	//		insertSQL.append(";");
+	//
+	//		return insertSQL.toString();
+	//	}
+	//	
 	// 主表子表主键处理
-	private void getInsertSqlString(HashMap<String,Object> propertys, String kayaModelId, StringBuilder insertSQL,
+	private void getInsertSqlString(HashMap<String,Object> propertys,HashMap<String,Object> businessKey, String kayaModelId, StringBuilder insertSQL,
 			User user,boolean flg) {
 		// 取得Role子元素信息
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
@@ -1703,9 +1998,17 @@ public final class KayaSQLExecute {
 				insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, propertys) + "',");
 				// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
 			} else {
-				insertSQL.append("'" + KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId), propertys) + "',");
+				insertSQL.append("'" + KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId), businessKey) + "',");
 				insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, propertys) + "',");
-				insertSQL.append("'" + KayaModelUtils.getOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),propertys) + "',");
+				insertSQL.append("'" + KayaModelUtils.getOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),new HashMap<String, Object>(){/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
+				{
+					putAll(propertys);
+					putAll(businessKey);
+				}}) + "',");
 			}
 
 			// relid
@@ -1751,7 +2054,7 @@ public final class KayaSQLExecute {
 			// insertSQL.append("'" + (new
 			// Timestamp(System.currentTimeMillis())) + "',");
 			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
-			insertSQL.append(getLoginUserIdForSql()).append(",");
+			insertSQL.append(user.getUserId()).append(",");
 			//insertSQL.append("'chenliang',");
 			// updatedate
 			// insertSQL.append("'',");
@@ -1808,8 +2111,8 @@ public final class KayaSQLExecute {
 					// KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),KayaModelUtils.getBusinessKey(kayaParentMetaModel,maping.getPropertys()),maping.getPropertys())+
 					// "',");
 					insertSQL
-							.append("'" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),
-									orientationKey, propertys) + "',");
+					.append("'" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),
+							orientationKey, propertys) + "',");
 				}
 
 				// relid
@@ -1856,7 +2159,7 @@ public final class KayaSQLExecute {
 				// insertSQL.append("'" + (new
 				// Timestamp(System.currentTimeMillis())) + "',");
 				insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
-				insertSQL.append(getLoginUserIdForSql()).append(",");
+				insertSQL.append(user.getUserId()).append(",");
 				// updatedate
 				// insertSQL.append("'',");
 				// updateuser
@@ -1869,7 +2172,7 @@ public final class KayaSQLExecute {
 	}
 
 	private void getUpdateSqlString(HashMap<String,Object> propertys, String kayaModelId, List<String> sqlStringList,
-			String orientationKey) {
+			String orientationKey,User user) {
 
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
@@ -1887,7 +2190,7 @@ public final class KayaSQLExecute {
 
 		updateOrientationKeySQL.append(",orientationkey = (CASE kind");
 		updateUserInfoSQL.append(",updatedate = {ts '" + (new Timestamp(System.currentTimeMillis())) + "'}");
-		updateUserInfoSQL.append(",updateuser = " + getLoginUserIdForSql());
+		updateUserInfoSQL.append(",updateuser = " + user);
 
 		StringBuilder updateWhere = new StringBuilder(" WHERE kind IN (");
 		StringBuilder updateKeyOnlyWhere = new StringBuilder(" WHERE kind IN (");
@@ -1913,12 +2216,12 @@ public final class KayaSQLExecute {
 				updateBusinessIdSQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY) + "' THEN '"
 						+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey) + "'");
 				updateOrientationKeySQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY)
-						+ "' THEN replace(orientationkey," + "'"
-						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
-								propertys)
-						+ "'," + "'"
-						+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
-						+ "')");
+				+ "' THEN replace(orientationkey," + "'"
+				+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
+						propertys)
+				+ "'," + "'"
+				+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
+				+ "')");
 				if (flg) {
 					updateWhere.append("'" + kayaModel.get(Constant.KINDKEY) + "'");
 					flg = false;
@@ -1940,12 +2243,12 @@ public final class KayaSQLExecute {
 				updateBusinessIdSQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY) + "' THEN '"
 						+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey) + "'");
 				updateOrientationKeySQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY)
-						+ "' THEN replace(orientationkey," + "'"
-						+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
-								propertys)
-						+ "'," + "'"
-						+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
-						+ "')");
+				+ "' THEN replace(orientationkey," + "'"
+				+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
+						propertys)
+				+ "'," + "'"
+				+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
+				+ "')");
 
 				if (flg) {
 					updateWhere.append("'" + kayaModel.get(Constant.KINDKEY) + "'");
@@ -1985,25 +2288,25 @@ public final class KayaSQLExecute {
 				updateSQL.append(updateUserInfoSQL.toString());
 				updateSQL.append(
 						updateWhere
-								.append(") AND businessid = '"
-										// +
-										// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys())
-										+ orientationKey
-										+ "' AND businesssubid = '" + KayaModelUtils.getBusinessKey(
-												AccessKayaModel.getKayaModelId(kayaModelId), propertys))
-								+ "'");
+						.append(") AND businessid = '"
+								// +
+								// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys())
+								+ orientationKey
+								+ "' AND businesssubid = '" + KayaModelUtils.getBusinessKey(
+										AccessKayaModel.getKayaModelId(kayaModelId), propertys))
+						+ "'");
 			} else {
 				// 更新日时，更新者
 				updateSQL.append(updateUserInfoSQL.toString());
 				updateSQL.append(
 						updateKeyOnlyWhere
-								.append(") AND businessid = '"
-										// +
-										// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys())
-										+ orientationKey
-										+ "' AND businesssubid = '" + KayaModelUtils.getBusinessKey(
-												AccessKayaModel.getKayaModelId(kayaModelId), propertys))
-								+ "'");
+						.append(") AND businessid = '"
+								// +
+								// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys())
+								+ orientationKey
+								+ "' AND businesssubid = '" + KayaModelUtils.getBusinessKey(
+										AccessKayaModel.getKayaModelId(kayaModelId), propertys))
+						+ "'");
 			}
 		}
 		updateSQL.append(" AND parentid = '" + kayaModelId + "';");
@@ -2030,7 +2333,7 @@ public final class KayaSQLExecute {
 	}
 
 	private void getUpdateSqlString(HashMap<String,Object> propertys, String kayaModelId, List<String> sqlStringList,
-			List<String> insertFieldList, String orientationKey) {
+			List<String> insertFieldList, String orientationKey, User user) {
 
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
@@ -2048,7 +2351,7 @@ public final class KayaSQLExecute {
 
 		updateOrientationKeySQL.append(",orientationkey = (CASE kind");
 		updateUserInfoSQL.append(",updatedate = {ts '" + (new Timestamp(System.currentTimeMillis())) + "'}");
-		updateUserInfoSQL.append(",updateuser = " + getLoginUserIdForSql());
+		updateUserInfoSQL.append(",updateuser = " + user.getUserId());
 
 		StringBuilder updateWhere = new StringBuilder(" WHERE kind IN (");
 		StringBuilder updateKeyOnlyWhere = new StringBuilder(" WHERE kind IN (");
@@ -2075,16 +2378,16 @@ public final class KayaSQLExecute {
 
 					}
 					updateBusinessIdSQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY)
-							+ "' THEN '"
-							+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
-							+ "'");
+					+ "' THEN '"
+					+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
+					+ "'");
 					updateOrientationKeySQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY)
-							+ "' THEN replace(orientationkey," + "'"
-							+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
-									propertys)
-							+ "'," + "'"
-							+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
-							+ "')");
+					+ "' THEN replace(orientationkey," + "'"
+					+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
+							propertys)
+					+ "'," + "'"
+					+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
+					+ "')");
 					if (flg) {
 						updateWhere.append("'" + kayaModel.get(Constant.KINDKEY) + "'");
 						flg = false;
@@ -2104,16 +2407,16 @@ public final class KayaSQLExecute {
 						}
 					}
 					updateBusinessIdSQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY)
-							+ "' THEN '"
-							+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
-							+ "'");
+					+ "' THEN '"
+					+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
+					+ "'");
 					updateOrientationKeySQL.append(" WHEN '" + kayaModel.get(Constant.KINDKEY)
-							+ "' THEN replace(orientationkey," + "'"
-							+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
-									propertys)
-							+ "'," + "'"
-							+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
-							+ "')");
+					+ "' THEN replace(orientationkey," + "'"
+					+ KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
+							propertys)
+					+ "'," + "'"
+					+ getNewBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId), propertys, newBusinessKey)
+					+ "')");
 
 					if (flg) {
 						updateWhere.append("'" + kayaModel.get(Constant.KINDKEY) + "'");
@@ -2154,25 +2457,25 @@ public final class KayaSQLExecute {
 				updateSQL.append(updateUserInfoSQL.toString());
 				updateSQL.append(
 						updateWhere
-								.append(") AND businessid = '"
-										// +
-										// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys())
-										+ orientationKey
-										+ "' AND businesssubid = '" + KayaModelUtils.getBusinessKey(
-												AccessKayaModel.getKayaModelId(kayaModelId), propertys))
-								+ "'");
+						.append(") AND businessid = '"
+								// +
+								// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys())
+								+ orientationKey
+								+ "' AND businesssubid = '" + KayaModelUtils.getBusinessKey(
+										AccessKayaModel.getKayaModelId(kayaModelId), propertys))
+						+ "'");
 			} else {
 				// 更新日时，更新者
 				updateSQL.append(updateUserInfoSQL.toString());
 				updateSQL.append(
 						updateKeyOnlyWhere
-								.append(") AND businessid = '"
-										// +
-										// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys())
-										+ orientationKey
-										+ "' AND businesssubid = '" + KayaModelUtils.getBusinessKey(
-												AccessKayaModel.getKayaModelId(kayaModelId), propertys))
-								+ "'");
+						.append(") AND businessid = '"
+								// +
+								// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),maping.getPropertys())
+								+ orientationKey
+								+ "' AND businesssubid = '" + KayaModelUtils.getBusinessKey(
+										AccessKayaModel.getKayaModelId(kayaModelId), propertys))
+						+ "'");
 			}
 		}
 		updateSQL.append(" AND parentid = '" + kayaModelId + "';");
@@ -2196,16 +2499,5 @@ public final class KayaSQLExecute {
 			kayaLoger.info(_updateOrientationKeySQL);
 			sqlStringList.add(_updateOrientationKeySQL);
 		}
-	}
-	
-	/**
-	 * ログインユーザIDを取得する
-	 * 
-	 * @return ログインユーザID
-	 */
-	// TODO
-	protected String getLoginUserIdForSql(){
-
-		return "'chen liang'";
 	}
 }

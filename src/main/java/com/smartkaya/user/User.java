@@ -29,9 +29,33 @@ public class User implements Serializable {
      * 密码
      */
     private HashMap<String, Object> userMap = new HashMap<String, Object>();
-
-
     
+    private List<String> roles = new ArrayList<String>();
+	private List<String> permissions = new ArrayList<String>();
+	
+	
+	//private List<HashMap<String,Object>> OrganizeInformation = new ArrayList<HashMap<String,Object>>();
+
+	/**
+	 * Get公司CODE
+	 * @return
+	 */
+    public String getCompanyCode() {
+    	return this.userMap.get(Constant.USER_COMPANYCODE).toString();
+    }
+    
+    /**
+     * Set公司CODE
+     * @param companyCode
+     */
+    public void setCompanyCode(String companyCode) {
+    	this.userMap.put(Constant.USER_COMPANYCODE,companyCode);
+    }
+    
+    /**
+     * 用户ID
+     * @return
+     */
 	public String getUserId() {
 		return this.userMap.get(Constant.USER_ID).toString();
 	}
@@ -40,6 +64,10 @@ public class User implements Serializable {
 		this.userMap.put(Constant.USER_ID, userId);
 	}
 
+	/**
+	 * 用户名
+	 * @return
+	 */
 	public String getUserName() {
 		return this.userMap.get(Constant.USER_NAME).toString();
 	}
@@ -48,6 +76,10 @@ public class User implements Serializable {
 		this.userMap.put(Constant.USER_NAME,userName);
 	}
 
+	/**
+	 * 用户密码
+	 * @return
+	 */
 	public String getPassword() {
 		return this.userMap.get(Constant.USER_PASSWORD).toString();
 	}
@@ -55,7 +87,39 @@ public class User implements Serializable {
 	public void setPassword(String password) {
 		this.userMap.put(Constant.USER_PASSWORD,password);
 	}
-
+	
+	/**
+	 * 用户角色（普通员工，经理等）
+	 * @param role
+	 */
+	public void setRole(String role) {
+		this.roles.add(role);
+	}
+	
+	public List<String> getRole() {
+		return this.roles;
+	}
+	
+	public void removeRole(String role) {
+		this.roles.forEach((value) -> {if (role.equals(value)) {this.roles.remove(role);}});
+	}
+	
+	/**
+	 * 权限管理（多重权限 Admin, Sys等特殊权限管理）
+	 * @param permission
+	 */
+	public void setPermissions(String permission) {
+		this.permissions.add(permission);
+	}
+	
+	public List<String> getPermissions() {
+		return this.permissions;
+	}
+	
+	public void removePermission(String permission) {
+		this.permissions.forEach((value) -> {if (permission.equals(value)) {this.permissions.remove(permission);}});
+	}
+	
 	public Boolean getEnabled() {
 		return (Boolean)this.userMap.get(Constant.USER_ENABLED);
 	}
@@ -64,6 +128,7 @@ public class User implements Serializable {
 		this.userMap.put(Constant.USER_ENABLED, enabled);
 	}
 
+	
 //	public List<String> getRoleList() {
 //		return roleList;
 //	}
@@ -108,19 +173,19 @@ public class User implements Serializable {
 		E1,E2,E3,EO,PEM,PM,GL,PL;
 	};
 	public User initUserInfo(UserType userType) {
-		User user = new User();
+		//User user = new User();
 
 		List<String> roleList = new ArrayList<String>();
 		List<String> bumencodeList = new ArrayList<String>();
 		List<String> permissions = new ArrayList<String>();
-		HashMap<String, Object> userMap = new HashMap<String, Object>();
+		//HashMap<String, Object> userMap = new HashMap<String, Object>();
 		
 		switch (userType){
 		case E1:
 			
 			roleList.add("E");
 			userMap.put("roles", roleList);
-			user.setUserId("10001");
+			this.setUserId("10001");
 			permissions.add("E");
 			userMap.put("permissions", permissions);
 			
@@ -128,14 +193,14 @@ public class User implements Serializable {
 			bumencodeList.add("12");
 			bumencodeList.add("13");
 			userMap.put("BumenCode",bumencodeList);
-			userMap.put("YuanGongId", user.getUserId());
+			//userMap.put("YuanGongId", user.getUserId());
 			
 			userMap.put("ZhiweiCode","1");
-			user.setUserMap(userMap);
+			this.setUserMap(userMap);
 			break;
 		case E2:
 			
-			user.setUserId("10002");
+			this.setUserId("10002");
 			roleList.add("E");
 			userMap.put("roles", roleList);
 
@@ -147,29 +212,29 @@ public class User implements Serializable {
 			bumencodeList.add("13");
 			userMap.put("BumenCode",bumencodeList);
 			userMap.put("ZhiweiCode","1");
-			user.setUserMap(userMap);
+			this.setUserMap(userMap);
 			break;
 		case EO:
 			
-			user.setUserId("10003");
+			this.setUserId("10003");
 			roleList.add("EO");
 			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", user.getUserId());
+			userMap.put("YuanGongId", this.getUserId());
 			permissions.add("E");
 			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10004");
 			userMap.put("BumenCode","20");
 			userMap.put("ZhiweiCode","0");
-			user.setUserMap(userMap);
+			this.setUserMap(userMap);
 			break;
 		case PEM:
 			
-			user.setUserId("10004");
+			this.setUserId("10004");
 			roleList.add("E");
 			roleList.add("PEM");
 			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", user.getUserId());
+			userMap.put("YuanGongId", this.getUserId());
 			permissions.add("E");
 			permissions.add("PEM");
 			userMap.put("permissions", permissions);
@@ -179,14 +244,14 @@ public class User implements Serializable {
 			bumencodeList.add("13");
 			userMap.put("BumenCode",bumencodeList);
 			userMap.put("ZhiweiCode","4");
-			user.setUserMap(userMap);
+			this.setUserMap(userMap);
 			break;
 		case PM:
 			
-			user.setUserId("10005");
+			this.setUserId("10005");
 			roleList.add("E");
 			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", user.getUserId());
+			userMap.put("YuanGongId", this.getUserId());
 			permissions.add("E");
 			permissions.add("PM");
 			userMap.put("permissions", permissions);
@@ -194,15 +259,15 @@ public class User implements Serializable {
 			userMap.put("PemId","10001");
 			userMap.put("BumenCode","20");
 			userMap.put("ZhiweiCode","3");
-			user.setUserMap(userMap);
+			this.setUserMap(userMap);
 			break;
 		case GL:
 			
-			user.setUserId("10006");
+			this.setUserId("10006");
 			roleList.add("E");
 			roleList.add("EO");
 			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", user.getUserId());
+			userMap.put("YuanGongId", this.getUserId());
 			permissions.add("E");
 			permissions.add("PEM");
 			permissions.add("GL");
@@ -211,27 +276,27 @@ public class User implements Serializable {
 			userMap.put("PemId","10008");
 			userMap.put("bumenids","20");
 			userMap.put("ZhiweiCode","5");
-			user.setUserMap(userMap);
+			this.setUserMap(userMap);
 			break;
 		case PL:
 			
-			user.setUserId("10007");
+			this.setUserId("10007");
 			roleList.add("E");
 			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", user.getUserId());
+			userMap.put("YuanGongId", this.getUserId());
 			permissions.add("E");
 			userMap.put("permissions", permissions);
 			
 			userMap.put("PemId","10006");
 			userMap.put("BumenCode","20");
 			userMap.put("ZhiweiCode","2");
-			user.setUserMap(userMap);
+			this.setUserMap(userMap);
 			break;
 		default:
 			break;
 		}
 		
-		return user;
+		return this;
 	}
 
 }

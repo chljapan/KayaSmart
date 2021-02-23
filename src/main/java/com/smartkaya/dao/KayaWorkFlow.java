@@ -588,8 +588,7 @@ public final class KayaWorkFlow {
 		} else {
 			selectEmptSQL.append(" relid IN (SELECT relid FROM " + tableName + " WHERE ");
 			selectEmptSQL.append(" kindtype = 'Role' AND createuser = ");
-			KayaSQLExecute kexe = new KayaSQLExecute();
-			selectEmptSQL.append(kexe.getLoginUserIdForSql());
+			selectEmptSQL.append(userInfo.getUserId());
 			selectEmptSQL.append(") ");
 		}
 

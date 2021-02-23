@@ -295,6 +295,7 @@ public class Constant {
 
 	
 	// UserInfo
+	public static final String USER_COMPANYCODE = "companycode";
 	public static final String USER_ID = "userid";
 	public static final String USER_NAME = "username";
 	public static final String USER_PASSWORD = "password";
