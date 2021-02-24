@@ -11,11 +11,12 @@ import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.model.KayaMetaModel;
 
+/**
+ * 脚本执行引擎（默认GroovyScript）
+ * @author LiangChen 2018.5.12
+ *
+ */
 public class ScriptEXE {
-
-	public ScriptEXE() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	public static String Exe(String ExclusiveGagewayId,Map<String, Object> property) {
 		ScriptEngineManager factory = new ScriptEngineManager();  
@@ -63,8 +64,7 @@ public class ScriptEXE {
 
 	 		engine.eval(scriptInit,binding);
 	 	
-		    kayaModelId = (String)((Invocable)engine).invokeFunction("sayHello");
-		   // System.out.println(kayaModelId);  
+		    kayaModelId = (String)((Invocable)engine).invokeFunction("sayHello"); 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 

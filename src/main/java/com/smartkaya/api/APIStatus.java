@@ -20,9 +20,9 @@ public enum APIStatus {
     // Common status
     OK(200, "success"),
 	//Cart status
-	QUANTITY_NOT_ENOUGH(301, "商品库存不足!"),
+	QUANTITY_NOT_ENOUGH(301, "XXXXX"),
 	//product status 
-	PRODUCT_NOT_ACTIVE(501,"商品已下架或者还未发布！");
+	PRODUCT_NOT_ACTIVE(501,"XXXXX");
     private final int code;
     private final String description;
 

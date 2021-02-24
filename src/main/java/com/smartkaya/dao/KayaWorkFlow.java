@@ -706,7 +706,297 @@ public final class KayaWorkFlow {
 		selectSQL.append(") ");
 		return selectSQL;
 	}
-
+	//	private String getWorkflowRoleSqlString(Paramaters paramaters) {
+	//		
+	//		String kayaModelId = paramaters.getId();
+	//		String workFlowId = AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId();
+	//		String actionId = paramaters.getActionid();
+	//		
+	//		StringBuilder insertSQL = new StringBuilder("");
+	//		String orderNo = UtilTools.getOrderNo();
+	//		// 判断Action是否符合自身流程要求
+	//		KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
+	//		// 取得业务流开始元素
+	//		String startUserTaskId = AccessKayaModel
+	//				.getWorkFlowConnectionDes(kayaMetaWorkFlowModel.get(Constant.START));
+	//		if (!actionId.equals(startUserTaskId)) {
+	//			return "";
+	//		}
+	//		KayaMetaModel startModel = AccessKayaModel.getKayaModelId(startUserTaskId);
+	//		if(startModel.getOrganizationItems() == null) {
+	//			return "";
+	//		}
+	//		//取得生成workflow数据需要的组织信息
+	//		
+	//		List<KayaModelOrganizationItem> organizationItems = new ArrayList<KayaModelOrganizationItem>();
+	//		organizationItems =  startModel.getOrganizationItems();
+	//
+	//		// 取得Role信息
+	//		KayaMetaModel kayaMetaModel = AccessKayaModel.getKayaModelId(kayaModelId);
+	//		// NextStape
+	//		String nextWorkFlowId = "";
+	//		nextWorkFlowId = AccessKayaModel.getWorkFlowConnectionDes(actionId);
+	//		if (Constant.E_GateWay.equals(AccessKayaModel.getKayaModelId(nextWorkFlowId).getMetaModelType())) {
+	//			// ScriptEXE scriptExE = new ScriptEXE();
+	//			// 如果返回GetWay本身ID,则申请条件异常（设置的分歧条件没有覆盖所有场合）
+	//			if (nextWorkFlowId.equals(ScriptEXE.Exe(nextWorkFlowId, paramaters.getListPropertys().get(0)))) {
+	//				// TODO： 通知前台系统管理员修改分歧条件，覆盖所有业务场景
+	//			} else {
+	//				nextWorkFlowId = AccessKayaModel
+	//						.getWorkFlowConnectionDes(ScriptEXE.Exe(nextWorkFlowId, paramaters.getListPropertys().get(0)));
+	//			}
+	//		}
+	//
+	//		// 取得WorkFlow信息
+	//		String tableName = kayaMetaWorkFlowModel.getTableId();
+	//		// 插入流程开始信息（User相关的组织信息）
+	//		insertSQL = KayaModelUtils.getWorkFlowInsertSql(tableName);
+	//		insertSQL.append("(");
+	//		// businessid
+	//		// businesssubid
+	//		// 表ID等于自身ID的时候判定为主表
+	//		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+	//			// orientationkey
+	//			insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, paramaters.getListPropertys().get(0)) + "',");
+	//			// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
+	//		} else {
+	//			// orientationkey
+	//			if (StringUtils.isEmpty(paramaters.getOrientationKey())) {
+	//				
+	//				
+	//				// TODO: 默认到用户信息里面取得，实际需要单独的附加信息Map才能够完善该机能
+	//				String orientationKey = KayaModelUtils.getBusinessKey(kayaMetaModel, new HashMap<String, Object>(){{
+	//			        putAll(paramaters.getListPropertys().get(0));
+	//			        putAll(paramaters.getBusinessKeyMap());
+	//			    }});
+	//
+	//				insertSQL.append("'" + orientationKey + "',");
+	//			} else {
+	//				insertSQL.append("'" + paramaters.getOrientationKey() + "',");
+	//			}
+	//			
+	//		}
+	//
+	//		// relid
+	//		insertSQL.append("'" + orderNo + "',");
+	//
+	//		// gmeid
+	//		// kind
+	//		// name
+	//		// kindValue
+	//
+	//		insertSQL.append("'" + kayaMetaModel.getGmeId() + "',");
+	//		insertSQL.append("'" + kayaMetaModel.get(Constant.KINDKEY) + "',");
+	//		insertSQL.append("'" + kayaMetaModel.getName() + "',");
+	//
+	//		// UserTaskID(人为启动流程？还是自动触发流程？)
+	//		// insertSQL.append("'" +
+	//		// AccessKayaModel.getKayaModelId(workFlowListener.getActionId()).getParentId()
+	//		// + "',");
+	//		insertSQL.append("'" + AccessKayaModel.getKayaModelId(actionId).getName() + "',");
+	//
+	//		// kindtype
+	//		insertSQL.append("'" + kayaMetaModel.getMetaModelType() + "',");
+	//		// securitycode
+	//		// flowcode
+	//
+	//		// flowsubcode
+	//		insertSQL.append("'',");
+	//		insertSQL.append("'" + nextWorkFlowId + "',");
+	//		insertSQL.append("'" + actionId + "',");
+	//		// startdate
+	//		// enddate
+	//		// withdrawaldate
+	//		insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//		insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//		insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//
+	//		// parentid 申请ID
+	//		insertSQL.append("'" + kayaModelId + "',");
+	//		// createdate
+	//		// createuser
+	//		// insertSQL.append("'" + (new Timestamp(System.currentTimeMillis())) +
+	//		// "',");
+	//		insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//		insertSQL.append("'"+ paramaters.getUsrinfo().getUserId() + "',");
+	//		// updatedate
+	//		// insertSQL.append("'',");
+	//		// updateuser
+	//		// updatemachine
+	//		// insertSQL.append("'" + "',");
+	//		// insertSQL.append("'" + "')");
+	//		// // Action row insert
+	//		// insertSQL.append(",(");
+	//		//
+	//
+	//		insertSQL.append("'" + "')");
+	//
+	//		// 取得Role子元素信息
+	//		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaWorkFlowAction(actionId);
+	//		for (KayaMetaModel kayaModel : kayaModelList) {
+	//			// gmeid
+	//			insertSQL.append(",(");
+	//
+	//			// businessid
+	//			// businesssubid
+	//			// 表ID等于自身ID的时候判定为主表
+	//			// if (kayaMetaModel.getTableId().equals(kayaModelId)){
+	//			if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+	//
+	//				// Role主键处理
+	//				// orientationkey
+	//				insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, paramaters.getListPropertys().get(0)) + "',");
+	//				// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
+	//			} else {
+	//				// orientationkey
+	//				String orientationKey = KayaModelUtils.getBusinessKey(kayaMetaModel, new HashMap<String, Object>(){{
+	//			        putAll(paramaters.getListPropertys().get(0));
+	//			        putAll(paramaters.getBusinessKeyMap());
+	//			    }});
+	//				insertSQL.append("'" + orientationKey + "',");
+	//			}
+	//
+	//			// relid
+	//			insertSQL.append("'" + orderNo + "',");
+	//
+	//			// kind
+	//			// name
+	//			// kindValue
+	//			// 参照的情况下，取参照元的KindKey，设置的时候利用参照本身的KindKey
+	//			if (Constant.PROPERTYREF.equals(kayaModel.getMetaModelType())) {
+	//				insertSQL.append("'" + kayaModel.get(Constant.REFERRED) + "',");
+	//			} else {
+	//				insertSQL.append("'" + kayaModel.getGmeId() + "',");
+	//			}
+	//
+	//			insertSQL.append("'" + kayaModel.get(Constant.KINDKEY) + "',");
+	//			insertSQL.append("'" + kayaModel.getName() + "',");
+	//			if (Constant.ACTION.equals(kayaModel.getMetaModelType())) {
+	//				insertSQL.append("'" + AccessKayaModel.getParentKayaModel(actionId).getName() + "',");
+	//			} else {
+	//				if(paramaters.getListPropertys().get(0).get(kayaModel.get(Constant.KINDKEY)) != null) {
+	//					insertSQL.append(
+	//							"'" + paramaters.getListPropertys().get(0).get(kayaModel.get(Constant.KINDKEY)) + "',");
+	//				} else {
+	//					insertSQL.append("'',");
+	//				}
+	//			}
+	//
+	//			// kindtype
+	//			insertSQL.append("'" + kayaModel.getMetaModelType() + "',");
+	//			// securitycode
+	//			// flowcode
+	//			// flowsubcode
+	//			insertSQL.append("'',");
+	//			insertSQL.append("'" + kayaModel.getParentId() + "',");
+	//			insertSQL.append("'" + actionId + "',");
+	//			// startdate
+	//			// enddate
+	//			// withdrawaldate
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			// parentid
+	//			insertSQL.append("'" + kayaModelId + "',");
+	//			// createdate
+	//			// createuser
+	//			// insertSQL.append("'" + (new
+	//			// Timestamp(System.currentTimeMillis())) + "',");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("'"+ paramaters.getUsrinfo().getUserId() + "',");
+	//			// updatedate
+	//			// insertSQL.append("'',");
+	//			// updateuser
+	//			// updatemachine
+	//			insertSQL.append("'" + "')");
+	//		}
+	//		//组织信息插入
+	//		for(int i = 0;i < organizationItems.size();i++) {
+	//
+	//			//String orgInfo =  organizationList.get(i);
+	//			// gmeid
+	//			insertSQL.append(",(");
+	//
+	//			// orientationkey
+	//			// 表ID等于自身ID的时候判定为主表
+	//			// if (kayaMetaModel.getTableId().equals(kayaModelId)){
+	//			if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+	//				// orientationkey
+	//				insertSQL.append("'" + KayaModelUtils.getBusinessKey(kayaMetaModel, paramaters.getListPropertys().get(0)) + "',");
+	//				// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
+	//			} else {
+	//				// orientationkey
+	////				insertSQL.append("'" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId),
+	////						orientationKey, propertys) + "',");
+	//				String orientationKey = KayaModelUtils.getBusinessKey(kayaMetaModel, new HashMap<String, Object>(){{
+	//			        putAll(paramaters.getListPropertys().get(0));
+	//			        putAll(paramaters.getBusinessKeyMap());
+	//			    }});
+	//				insertSQL.append("'" + orientationKey + "',");
+	//			}
+	//
+	//			// relid
+	//			insertSQL.append("'" + orderNo + "',");
+	//
+	//			// kind
+	//			// name
+	//			// kindValue
+	//			
+	//			String orgKindkey = Constant.EMPTY;
+	//			
+	//			if (organizationItems.get(i).isRef()) {
+	//				orgKindkey = organizationItems.get(i).getRefSrc();
+	//			} else {
+	//				orgKindkey = organizationItems.get(i).getText();
+	//			}
+	//			insertSQL.append("'" + orgKindkey + "',");
+	//
+	//			insertSQL.append("'" + orgKindkey + "',");
+	//			insertSQL.append("'',");
+	//		
+	//			if(paramaters.getUsrinfo().getUserMap().get(orgKindkey) != null) {
+	//				insertSQL.append(
+	//						"'" + paramaters.getUsrinfo().getUserMap().get(orgKindkey) + "',");
+	//			} else {
+	//				insertSQL.append("'',");
+	//			}
+	//
+	//			// kindtype
+	//			insertSQL.append("'Organization',");
+	//			// securitycode
+	//			// flowcode
+	//			// flowsubcode
+	//			insertSQL.append("'',");
+	//			insertSQL.append("'" + startUserTaskId + "',");
+	//			insertSQL.append("'" + actionId + "',");
+	//			// startdate
+	//			// enddate
+	//			// withdrawaldate
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			// parentid
+	//			insertSQL.append("'" + kayaModelId + "',");
+	//			// createdate
+	//			// createuser
+	//			// insertSQL.append("'" + (new
+	//			// Timestamp(System.currentTimeMillis())) + "',");
+	//			insertSQL.append("{ts '" + (new Timestamp(System.currentTimeMillis())) + "'},");
+	//			insertSQL.append("'"+ paramaters.getUsrinfo().getUserId() + "',");
+	//			// updatedate
+	//			// insertSQL.append("'',");
+	//			// updateuser
+	//			// updatemachine
+	//			insertSQL.append("'" + "')");
+	//		
+	//		}
+	//		
+	//		
+	//		insertSQL.append(";");
+	//
+	//		return insertSQL.toString();
+	//	}
+	//	
 	/**
 	 * 回退Action必要信息取得
 	 * 

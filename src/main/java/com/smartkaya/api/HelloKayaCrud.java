@@ -46,7 +46,6 @@ public class HelloKayaCrud {
 		// 获取前台参数
 		String searchName = request.getParameter("searchname");
 		String searchValue = request.getParameter("searchvalue");
-		//String wftype = request.getParameter("wftype");
 
 		Paramater paramater = new Paramater();
 		paramater.setId(kayaModelId);
@@ -65,8 +64,6 @@ public class HelloKayaCrud {
 		paramater.setPropertys(propertys);
 		paramater.setOrientationKey(request.getParameter("orientationKey"));
 		KayaSQLExecute dao = new KayaSQLExecute();
-
-		// List<Map<String,String>> mapList = dao.selectByFreeKind(paramater);
 		List<Map<String, String>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
 
 		RestHelper helper = new RestHelper(null, resultList);
@@ -96,7 +93,6 @@ public class HelloKayaCrud {
 		paramater.setOrientationKey(request.getParameter("orientationKey"));
 		KayaSQLExecute dao = new KayaSQLExecute();
 
-		// List<Map<String,String>> mapList = dao.selectByFreeKind(paramater);
 		Map<String, Object> resultList = dao.selectMuiltKindAllInfo(paramater);
 
 		RestHelper helper = new RestHelper(null, resultList);
@@ -125,15 +121,7 @@ public class HelloKayaCrud {
 
 		// 申请者（Add）
 		if(Constant.APPLY.equals(WFType) && !Constant.TRUE.equals(request.getParameter("isEdit"))) {
-			//User user=new User();
-			// 取得活性化Actions（开始Action和指向自己的Action）
-			
-			
-			// Set Orientationkey
 
-			
-			
-			
 			// 申请者（Edit）
 		}  else if (Constant.APPLY.equals(WFType) && "true".equals(request.getParameter("isEdit"))) {
 			//User user=new User();
@@ -145,6 +133,9 @@ public class HelloKayaCrud {
 		} else if (Constant.EMPTY.equals(WFType)) {
 			paramaters.setOrientationKey(request.getParameter("orientationKey"));
 		}
+		
+		// 作为Admin角色的代理申请处理
+		// 作为员工本人的申请处理
 
 		
 		if (Constant.TRUE.equals(request.getParameter("isEdit"))) {
@@ -173,9 +164,10 @@ public class HelloKayaCrud {
 			private static final long serialVersionUID = 1L;
 
 		{put("YuanGongId", user.getUserId());}}); 
+		paramaters.setCrud(Constant.INSERT);
 		
 		KayaSQLExecute dao = new KayaSQLExecute();
-		dao.insert(paramaters);
+		dao.execute(paramaters);
 
 		RestHelper helper = new RestHelper();
 		return helper.getSimpleSuccess();
@@ -241,7 +233,7 @@ public class HelloKayaCrud {
 				.toCollection(businessKeyList, Map.class);
 
 		paramaters.setId(kayaModelId);
-		// multipleParamater.setKvParamaterList(kvParamaterList);
+		// 父表OrientationKey（主键）
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
 
 		paramaters.setListPropertys(kvParamaterList);
@@ -251,48 +243,6 @@ public class HelloKayaCrud {
 		RestHelper helper = new RestHelper();
 		return helper.getSimpleSuccess();
 	}
-	
-//	@RequestMapping(value = "/workflowselect", produces = "application/json;charset=utf-8")
-//	@ResponseBody
-//	public Map<String, Object> HelloKayaWorkflowSelect(final HttpServletRequest request, final HttpServletResponse response) {
-//		// 获取前台参数
-//		String kayaModelId = request.getParameter("kayaModelId");
-//		// 获取前台参数
-//		String searchUsr = request.getParameter("searchUser");
-//		String searchName = request.getParameter("searchname");
-//		String searchValue = request.getParameter("searchvalue");
-//		HttpSession session = request.getSession();
-//		User userInfo = (User) session.getAttribute("user");
-//		boolean mgrFlg = false;
-//		if(kayaModelId.length()>3){
-//			if("mg".equals(kayaModelId.substring(0,2))) {
-//				kayaModelId = kayaModelId.substring(3);
-//				mgrFlg = true;
-//			}			
-//		}
-//
-//		Paramater paramater = new Paramater();
-//		paramater.setId(kayaModelId);
-//		paramater.setMapping(new Propertys());
-//		// 检索Map
-//		Map<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
-//		propertys.put("searchUser", searchUsr);
-//		propertys.put("kind", searchName);
-//		propertys.put("kindvalue", searchValue);
-//				
-//
-//		// 业务Map
-//		paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
-//		paramater.getMapping().setPropertys(propertys);
-//		paramater.setOrientationKey(request.getParameter("orientationKey"));
-//		KayaWorkFlow dao = new KayaWorkFlow();
-//
-//		// List<Map<String,String>> mapList = dao.selectByFreeKind(paramater);
-//		List<Map<String, String>> resultList = dao.selectForWorkflow(paramater,mgrFlg,userInfo);
-//
-//		RestHelper helper = new RestHelper(null, resultList);
-//		return helper.getSimpleSuccess();
-//	}
 
 	private HashMap<String, Object> reqParaToMap(Object paramater) {
 
@@ -305,48 +255,8 @@ public class HelloKayaCrud {
 				keyMap.putAll(emptyMap);
 			}
 		}
-
 		return keyMap;
 	}
-
-//	@RequestMapping(value = "/workflowhandle", produces = "text/html;charset=UTF-8")
-//	@ResponseBody
-//	public Map<String, Object> WorkflowHandle(HttpServletRequest request, HttpServletResponse response) {
-//
-//		String kayaModelId = request.getParameter("kayaModelId");
-//
-//		Paramaters paramaters = new Paramaters();
-//		JSONArray jsonarray = JSONArray.fromObject(request.getParameter("kvParamaterList"));
-//		@SuppressWarnings("unchecked")
-//		List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
-//				Map.class);
-//
-//		// 画面值设定
-//		paramaters.setId(kayaModelId);
-//		paramaters.setCrud(Constant.WORKFLOW);
-//		paramaters.setActionid((request.getParameter("actionId")));
-//		HashMap<String, Object> businessKeyMap = new HashMap<String, Object>();
-//		businessKeyMap.put(Constant.BUSINESSID, request.getParameter(Constant.BUSINESSID));
-//		businessKeyMap.put("businesssubid", request.getParameter("businesssubid"));
-//		paramaters.setBusinessKeyMap(businessKeyMap);
-//		// multipleParamater.setKvParamaterList(kvParamaterList);
-//		paramaters.setOrientationKey(request.getParameter(Constant.ORIENTATIONKEY));
-//		List<Propertys> propertys = new ArrayList<Propertys>();
-//		paramaters.setMappings(propertys);
-//
-//		for (Map<String, Object> emptyMap : kvParamaterList) {
-//			Propertys propertys = new Propertys();
-//			propertys.setPropertys(emptyMap);
-//			paramaters.setMapping(propertys);
-//		}
-//
-//		// workflow实行
-//		KayaWorkFlow kayaWorkflow = new KayaWorkFlow();
-//		kayaWorkflow.excuteKayaWorkFlow(paramaters);
-//
-//		RestHelper helper = new RestHelper();
-//		return helper.getSimpleSuccess();
-//	}
 
 	@RequestMapping(value = "/kayagetmaster", produces = "application/json;charset=utf-8")
 	@ResponseBody

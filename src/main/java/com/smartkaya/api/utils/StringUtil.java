@@ -54,17 +54,4 @@ public class StringUtil extends StringUtils{
 		}
 		return ConditionEnum.LIKE.getCode();
 	}
-
-	// public static Map<String,String> getMasterItem(String kayaModelId) {
-	// Map<String,String> masterItem = new HashMap<String,String>();
-	// String KaYaDiagramId = KayaModelAccess.get;
-	// for (Map.Entry<String, String> entity :
-	// kayaModelAccess.ConnectionMap.entrySet()) {
-	// if(KaYaDiagramId.equals(entity.getValue())){
-	// masterItem.put("id", entity.getKey());
-	// masterItem.put("text",getKayaModelId(entity.getKey()).getName());
-	// }
-	// }
-	// return masterItem;
-	// }
 }

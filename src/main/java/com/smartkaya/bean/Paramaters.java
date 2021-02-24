@@ -50,12 +50,7 @@ public class Paramaters implements java.io.Serializable {
 	public void setBusinessKeyMap(HashMap<String, Object> businessKeyMap) {
 		this.businessKeyMap = businessKeyMap;
 	}
-	//	public String getWorkflowid() {
-//		return workflowid;
-//	}
-//	public void setWorkflowid(String workflowid) {
-//		this.workflowid = workflowid;
-//	}
+
 	public String getOrientationKey() {
 		return orientationKey;
 	}
@@ -77,23 +72,7 @@ public class Paramaters implements java.io.Serializable {
 	public void setUsrinfo(User usrinfo) {
 		this.usrinfo = usrinfo;
 	}
-	
-//	public String getMesages() {
-//		StringBuilder mesageText = new StringBuilder("");
-//		boolean flg = true;
-//		for (Message mesage:mesages) {
-//			if (flg) {
-//				mesageText.append("Lever:" + mesage.getLever() + " CODE:" + mesage.getCode() + " Message:" + mesage.getMesage());
-//				flg = false;
-//			} else {
-//				// 依赖系统的换行符（Java 1.7以上）
-//				mesageText.append(System.lineSeparator());
-//				mesageText.append("Lever:" + mesage.getLever() + " CODE:" + mesage.getCode() + " Message:" + mesage.getMesage());
-//			}
-//		}
-//		
-//		return mesageText.toString();
-//	}
+
 	public String messagesToString() {
 		StringBuilder messageText = new StringBuilder("");
 		boolean flg = true;
@@ -114,13 +93,7 @@ public class Paramaters implements java.io.Serializable {
 	public void setMessages(Message message) {
 		this.messages.add(message);
 	}
-	
-//	public String getMessage() {
-//		return message;
-//	}
-//	public void setMessage(String message) {
-//		this.message = message;
-//	}
+
 	public boolean isError() {
 		return error;
 	}

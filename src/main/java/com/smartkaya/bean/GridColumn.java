@@ -174,7 +174,7 @@ public class GridColumn implements java.io.Serializable,Comparable<Object>{
 
 	@Override
 	public int compareTo(Object o) {
-		// TODO Auto-generated method stub
+
 		GridColumn column = (GridColumn) o;  
 		Integer v1 = Integer.valueOf(column.getIndex());
 
