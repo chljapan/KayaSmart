@@ -167,7 +167,12 @@ public class HelloKayaCrud {
 		paramaters.setActionid(actionId);
 
 		// 主键信息（子表的情况下，需要设定主表的主键信息）
-		paramaters.setBusinessKeyMap(new HashMap<String,Object>(){{put("YuanGongId", user.getUserId());}}); 
+		paramaters.setBusinessKeyMap(new HashMap<String,Object>(){/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+		{put("YuanGongId", user.getUserId());}}); 
 		
 		KayaSQLExecute dao = new KayaSQLExecute();
 		dao.insert(paramaters);
@@ -241,17 +246,6 @@ public class HelloKayaCrud {
 
 		paramaters.setListPropertys(kvParamaterList);
 		paramaters.setBusinessKeyMap(kvBusinessKeyList.get(0));
-
-//		for (Map<String, Object> bisinessKeys : kvParamaterList) {
-//			Propertys propertys = new Propertys();
-//			for (Map<String, Object> parentBisinessKeys : kvBusinessKeyList) {
-//				bisinessKeys.putAll(parentBisinessKeys);
-//			}
-//			propertys.setPropertys(bisinessKeys);
-//			paramaters.setMapping(propertys);
-//
-//		}
-
 		dao.delete(paramaters);
 
 		RestHelper helper = new RestHelper();
@@ -420,11 +414,6 @@ public class HelloKayaCrud {
 			paramaters.setTargetTableList(targetTableList);
 			
 			paramaters.setListPropertys(kvParamaterList);
-//			for (Map<String, Object> emptyMap : kvParamaterList) {
-//				Propertys propertys = new Propertys();
-//				propertys.setPropertys(emptyMap);
-//				paramaters.setMapping(propertys);
-//			}
 			paramatersList.add(paramaters);
 
 		}
