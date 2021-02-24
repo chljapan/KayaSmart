@@ -157,7 +157,7 @@ layui.define(["jquery"],function (exports) {
 								contentHtml = contentHtml +  "<label class=\"layui-form-label\">" + label + "</label><div class=\"layui-input-inline\" style=\"width:"+ "140" + "\"><input hidden = 'true' type=\"text\"" + Readonly + Required + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\" required=\"\"" +
 								"autocomplete=\"off\" class=\"layui-input\" value=\"" + inputValue + "\"></input></div></div>";
 							} else {
-								contentHtml = contentHtml +  "<div class=\"layui-input-inline\" style=\"width:"+ "140" + "\"><input style=\"display: none\" type=\"text\"" + Readonly + Required + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\"" +
+								contentHtml = contentHtml +  "<div class=\"layui-input-inline\" style=\"width:"+ "140" + "\"><input style=\"display: none\" type=\"text\"" + Readonly + " id=\"" + columns[x].field + "\" name=\"" + columns[x].field + "\"" +
 								"autocomplete=\"off\" class=\"layui-input\" value=\"" + inputValue + "\"></input></div></div>";
 							}
 							break;
