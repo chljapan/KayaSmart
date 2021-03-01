@@ -616,8 +616,11 @@ public final class KayaSQLExecute {
 								
 							}
 						}
-
-						values = masterItemSql.toString();
+						if (UtilTools.isEmpty(masterItemSql.toString())) {
+							values = Constant.NUMBER99999999;// 默认不存在的（该Code为默认占有，系统禁止使用）
+						} else {
+							values = masterItemSql.toString();
+						}
 					} else {
 						values =paramater.getPropertys()
 								.get(kayaModel.get(Constant.KINDKEY)).toString();
@@ -667,14 +670,16 @@ public final class KayaSQLExecute {
 									masterItemSql.append(MasterItem.getId() + "");
 									flg = false;
 								} else {
-									
 									masterItemSql.append("," + MasterItem.getId() + "");
 								}
-								
 							}
 						}
-
-						values = masterItemSql.toString();
+						if (UtilTools.isEmpty(masterItemSql.toString())) {
+							values = Constant.NUMBER99999999;// 默认不存在的（该Code为默认占有，系统禁止使用）
+						} else {
+							values = masterItemSql.toString();
+						}
+						
 					} else {
 						values =paramater.getPropertys()
 								.get(kayaModel.get(Constant.KINDKEY)).toString();
@@ -704,11 +709,7 @@ public final class KayaSQLExecute {
 					default:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
 						.append("' AND kindvalue LIKE '").append(values)
-						// + "%' AND businessid = '" + businessId +
-						// "')");
 						.append("%'");
-						
-						//.append("' AND kindvalue ").append(values);
 
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
@@ -851,8 +852,6 @@ public final class KayaSQLExecute {
 					default:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
 						.append("' AND kindvalue LIKE '").append(values)
-						// + "%' AND businessid = '" + businessId +
-						// "')");
 						.append("%'");
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
@@ -1035,6 +1034,31 @@ public final class KayaSQLExecute {
 		return kayaEntityList;
 	}
 
+	/**
+	 * 主键检索（多Role检索：包含子Role）
+	 * 
+	 * @param paramater
+	 * @return
+	 */
+	public List<Map<String, Object>> selectOrientationsByBusinessKeys(Paramater paramater) {
+		List<Map<String, Object>> kayaEntityList = new ArrayList<Map<String, Object>>();
+		// Table存在确认
+		if (!KayaModelUtils.checkTableId(paramater)) {
+			return kayaEntityList;
+		}
+		String kayaModelId = paramater.getId();
+		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
+
+		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName);
+		
+		selectSQL.append(" WHERE orientationkey = '" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId), paramater.getOrientationKey(),paramater.getPropertys()) + "'");
+		
+		selectSQL.append(" AND parentid = '" + kayaModelId + "' ORDER BY orientationkey DESC;");
+		paramater.setOrientationKeySet(new HashSet<String>());
+		kayaEntityList = dBConnection.executeOrientationsQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+		return kayaEntityList;
+	}
+	
 	/**
 	 * 全文检索
 	 * 

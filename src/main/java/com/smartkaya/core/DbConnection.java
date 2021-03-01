@@ -214,6 +214,37 @@ public class DbConnection implements Pool {
 	 * @param connection
 	 * @param commitFlg
 	 */
+	public List<Map<String, Object>> executeOrientationsQuery(String sqlString, Set<String> orientationKeySet) {
+		Connection connection = null;
+		Statement statement = null;
+		ResultSet resultSet = null;
+		List<KayaEntity> kayaEntityList = new ArrayList<KayaEntity>();
+		List<Map<String, Object>> kayaEntityMapList = new ArrayList<Map<String, Object>>();
+		try {
+			connection = connPool.getConnection();
+			connection.setAutoCommit(false);
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(sqlString);
+			kayaEntityMapList = editKayaOrientationsEntity(resultSet, kayaEntityList, orientationKeySet);
+			return kayaEntityMapList;
+		} catch (Exception e) {
+			kayaLoger.error(e);
+			return kayaEntityMapList;
+		} finally {
+			try {
+				statement.close();
+				connPool.returnConnection(connection);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 * @param connection
+	 * @param commitFlg
+	 */
 	public Map<String, Object> executeQueryIncludeSubinfo(String sqlString, Set<String> orientationKeySet) {
 		Connection connection = null;
 		Statement statement = null;
@@ -473,6 +504,90 @@ public class DbConnection implements Pool {
 				// 如果OrientationKey不存在
 				if (orientationKeySet.add(resultSet.getString(Constant.ORIENTATIONKEY))) {
 					tempMap = new HashMap<String, String>();
+
+					tempMap.put(Constant.ORIENTATIONKEY, resultSet.getString(Constant.ORIENTATIONKEY));
+
+					tempMapList.add(tempMap);
+				}
+
+				// 值设定
+				String value = resultSet.getString(Constant.KINDVALUE);
+				tempMap.put(resultSet.getString(Constant.KIND), value);
+
+				// Master时关联的名字也取出来
+				if (Constant.MASTER_REFERNCE.equals(resultSet.getString(Constant.KINDTYPE))) {
+
+					List<KayaModelMasterItem> masterItemList =  AccessKayaModel
+							.getKayaModelId(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.GMEID))
+									.get(Constant.REFERRED)).getMasterItems();
+
+					if (StringUtil.isNotBlank(value)) {
+						// MasterRef处理
+						for (KayaModelMasterItem master : masterItemList) {
+							if (value.equals(master.getId())) {
+									tempMap.put(resultSet.getString(Constant.KIND) + Constant.NM, master.getText());
+									tempMap.put(resultSet.getString(Constant.KIND) + Constant.CD_NM,
+											value + ":" + master.getText());
+									break;
+							}
+						}
+					}
+					// 流程状态处理（当前状态和接下来的Pending状态）
+				} else if (Constant.G_ROLE.equals(resultSet.getString(Constant.KINDTYPE)) && StringUtils.isNotEmpty(resultSet.getString(Constant.FLOWSUBCODE))) {
+					tempMap.put(AccessKayaModel.getKayaModelId(AccessKayaModel.getParentId(resultSet.getString(Constant.FLOWSUBCODE))).get(Constant.KINDKEY), resultSet.getString(Constant.KINDVALUE));
+					tempMap.put(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.FLOWCODE)).get(Constant.KINDKEY), "Pending");
+				}
+
+				// KayaEntity kayaEntity = new KayaEntity();
+				// kayaEntity.setKayaModelId(resultSet.getString("gmeid"));
+				// kayaEntity.setName(resultSet.getString("name"));
+				// kayaEntity.setKind(resultSet.getString("kind"));
+				// kayaEntity.setKindType(resultSet.getString("kindtype"));
+				// kayaEntity.setKindValue(resultSet.getString("kindvalue"));
+				// kayaEntity.setParentId(resultSet.getString("parentid"));
+				// kayaEntity.setBusinessId(resultSet.getString("businessid"));
+				// kayaEntity.setBusinessSubId(resultSet.getString("businesssubid"));
+				// kayaEntity.setOrientationKey(resultSet.getString("orientationkey"));
+				// kayaEntity.setDataType(AccessKayaModel.getKayaModelId(resultSet.getString("gmeid")).get(Constant.DATATYPE));
+				// //kayaEntity.setDataLength(Integer.valueOf(AccessKayaModel.getKayaModelId(resultSet.getString("gmeid")).get(Constant.DATALENGTH)));
+				// kayaEntity.setStartDate(resultSet.getDate("startdate"));
+				// kayaEntity.setEndDate(resultSet.getDate("enddate"));
+				// kayaEntity.setWithdrawalDate(resultSet.getDate("withdrawaldate"));
+				// kayaEntity.setCreatedate(resultSet.getDate("createdate"));
+				// kayaEntity.setCreateuser(resultSet.getString("createuser"));
+				// kayaEntity.setUpdatedate(resultSet.getDate("updatedate"));
+				// kayaEntity.setUpdateuser(resultSet.getString("updateuser"));
+				// kayaEntity.setLockflg(resultSet.getBoolean("lockflg"));
+				// kayaEntity.setLockuser(resultSet.getString("lockuser"));
+				//
+				// kayaEntityList.add(kayaEntity);
+				// System.out.println(kayaEntity.toString());
+			}
+
+		} catch (Exception e) {
+			kayaLoger.error(e);
+		}
+		return tempMapList;
+	}
+	
+	
+	/*
+	 * 通用查询结果集处理
+	 * @param resultSet
+	 * @param kayaEntityList
+	 * @param orientationKeySet
+	 * @return
+	 */
+	private List<Map<String, Object>> editKayaOrientationsEntity(ResultSet resultSet, List<KayaEntity> kayaEntityList,
+			Set<String> orientationKeySet) {
+		List<Map<String, Object>> tempMapList = new ArrayList<Map<String, Object>>();
+		try {
+
+			Map<String, Object> tempMap = new HashMap<String, Object>();
+			while (resultSet.next()) {
+				// 如果OrientationKey不存在
+				if (orientationKeySet.add(resultSet.getString(Constant.ORIENTATIONKEY))) {
+					tempMap = new HashMap<String, Object>();
 
 					tempMap.put(Constant.ORIENTATIONKEY, resultSet.getString(Constant.ORIENTATIONKEY));
 

@@ -291,6 +291,7 @@ public class Constant {
 	// Message
 	public static final String MSG_TABLECHECK="Table does not exist.";
 
+	public static final String NUMBER99999999="99999999";
 	
 	// UserInfo
 	public static final String USER_COMPANYCODE = "companycode";
