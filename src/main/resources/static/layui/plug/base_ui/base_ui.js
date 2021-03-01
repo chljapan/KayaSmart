@@ -105,7 +105,7 @@ layui.define(["jquery"],function (exports) {
 					// Master名称显示处理（可根据需求更改）
 					var label = "";
 
-					if (columns[x].uniquekey) {
+					if (columns[x].uniquekey || columns[x].required) {
 						// 本画面的主键信息
 						label = "<span style=\"color:red\">" + columns[x].title + "</span>";
 						Required = " lay-verify=\"required\" ";
