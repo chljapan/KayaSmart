@@ -870,36 +870,14 @@ public final class ParseKayaModel_XPATH {
 					modelAttributesMap.put(modelMgaAttributes.getItem(j).getMeta().getName(), modelMgaAttributes.getItem(j).getValue().toString().trim());
 				} else if (Constant.MULTILANGUAGE.equals(modelMgaAttributes.getItem(j).getMeta().getName())) {
 					for (String language : modelMgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
-						if (language.split(":")[0].equals(Language)) {
-							kayaModel.setName(language.split(":")[1]);
+						if (language.contains("=") && Language.equals(language.split("=")[0].trim())) {
+							kayaModel.setName(language.split("=")[1].trim());
 						}
 					}
 				} else {
 					modelAttributesMap.put(modelMgaAttributes.getItem(j).getMeta().getName(), modelMgaAttributes.getItem(j).getValue().toString().trim());
 				}
 
-//				switch (modelMgaAttributes.getItem(j).getMeta().getName()) {
-//				case Constant.MULTILANGUAGE:
-//					for (String language : modelMgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
-//						if (language.split(":")[0].equals(Language)) {
-//							kayaModel.setName(language.split(":")[1]);
-//						}
-//					}
-//					
-//					break;
-//				case Constant.LANGUAGE_1:
-//					if (Constant.LANGUAGE_1.equals(Language)) {
-//						kayaModel.setName(modelMgaAttributes.getItem(j).getValue().toString());
-//					}
-//					break;
-//				case Constant.LANGUAGE_2:
-//					if (Constant.LANGUAGE_2.equals(Language)) {
-//						kayaModel.setName(modelMgaAttributes.getItem(j).getValue().toString());
-//					}
-//					break;
-//				default:
-//
-//				}
 			}
 			
 			// RowSpan is 1
@@ -935,19 +913,17 @@ public final class ParseKayaModel_XPATH {
 					List<KayaModelMasterItem> MasterItemList = new ArrayList<KayaModelMasterItem>();
 					for (String master : mgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
 						KayaModelMasterItem masterItem = new KayaModelMasterItem();
-						String[] languageStr = master.split(":", -1);
-						masterItem.setId(languageStr[0].toString());
-						switch (DBConnectionInfoMap.get(Constant.LANGUAGE)) {
-						case Constant.LANGUAGE_DEFAULT:
-							masterItem.setText(languageStr[1]);
-							break;
-						case Constant.LANGUAGE_1:
-							masterItem.setText(languageStr[2]);
-							break;
-						case Constant.LANGUAGE_2:
-							masterItem.setText(languageStr[3]);
-							break;
-						default:
+						String[] languageStr = master.trim().split(":", -1);// 当：：中间为空时返回空字符串
+						masterItem.setId(languageStr[0].trim());
+
+						if (Constant.LANGUAGE_DEFAULT.equals(Language)) {
+							masterItem.setText(languageStr[1].trim());
+						} else {
+							for (String language : languageStr) {
+								if (language.contains("=") && Language.equals(language.split("=")[0].trim())) {
+									masterItem.setText(language.split("=")[1].trim());
+								}
+							}
 						}
 						MasterItemList.add(masterItem);
 					}
@@ -1001,28 +977,13 @@ public final class ParseKayaModel_XPATH {
 					//
 				} else if (Constant.MULTILANGUAGE.equals(mgaAttributes.getItem(j).getMeta().getName())) {
 					for (String language : mgaAttributes.getItem(j).getValue().toString().trim().split("\n")) {
-						if (language.split(":")[0].equals(Language)) {
-							kayaAtom.setName(language.split(":")[1]);
+						if (language.contains("=") && Language.equals(language.split("=")[0].trim())) {
+							kayaAtom.setName(language.split("=")[1].trim());
 						}
 					}
 				} else {
 					atomAttributesMap.put(mgaAttributes.getItem(j).getMeta().getName(), mgaAttributes.getItem(j).getValue().toString().trim());
 				}
-
-//				switch (mgaAttributes.getItem(j).getMeta().getName()) {
-//				case Constant.LANGUAGE_1:
-//					if (Constant.LANGUAGE_1.equals(Language)) {
-//						kayaAtom.setName(mgaAttributes.getItem(j).getValue().toString().trim());
-//					}
-//					break;
-//				case Constant.LANGUAGE_2:
-//					if (Constant.LANGUAGE_2.equals(Language)) {
-//						kayaAtom.setName(mgaAttributes.getItem(j).getValue().toString().trim());
-//					}
-//					break;
-//				default:
-//
-//				}
 			}
 			kayaAtom.setAttributesMap(atomAttributesMap);
 			// Product（产品&服务）
@@ -1179,26 +1140,11 @@ public final class ParseKayaModel_XPATH {
 				// 多语言对应
 				if (Constant.MULTILANGUAGE.equals(referenceAttributes.getItem(j).getMeta().getName())) {
 					for (String language : referenceAttributes.getItem(j).getValue().toString().trim().split("\n")) {
-						if (language.split(":")[0].equals(Language)) {
-							kayaReference.setName(language.split(":")[1]);
+						if (language.contains("=") && Language.equals(language.split("=")[0].trim())) {
+							kayaReference.setName(language.split("=")[1].trim());
 						}
 					}
 				}
-				
-//				switch (referenceAttributes.getItem(j).getMeta().getName()) {
-//				case Constant.LANGUAGE_1:
-//					if (Constant.LANGUAGE_1.equals(Language)) {
-//						kayaReference.setName(referenceAttributes.getItem(j).getValue().toString().trim());
-//					}
-//					break;
-//				case Constant.LANGUAGE_2:
-//					if (Constant.LANGUAGE_2.equals(Language)) {
-//						kayaReference.setName(referenceAttributes.getItem(j).getValue().toString().trim());
-//					}
-//					break;
-//				default:
-//
-//				}
 			}
 
 			//  Reference is unique key
@@ -1374,26 +1320,12 @@ public final class ParseKayaModel_XPATH {
 					
 					if (Constant.MULTILANGUAGE.equals(eElement.getAttribute(Constant.KIND))) {
 						for (String language : eElement.getTextContent().trim().split("\n")) {
-							if (language.split(":")[0].equals(Language)) {
-								kayaMetaModelXme.setName(language.split(":")[1]);
+							if (language.contains("=") && language.contains("=") && Language.equals(language.split("=")[0].trim())) {
+								kayaMetaModelXme.setName(language.split("=")[1].trim());
 							}
 						}
 					}
 					
-					// multiple languages
-//					switch (eElement.getAttribute(Constant.KIND)) {
-//					case Constant.LANGUAGE_1:
-//						if (Constant.LANGUAGE_1.equals(Language)) {
-//							kayaMetaModelXme.setName(eElement.getTextContent().trim());
-//						}
-//						break;
-//					case Constant.LANGUAGE_2:
-//						if (Constant.LANGUAGE_2.equals(Language)) {
-//							kayaMetaModelXme.setName(eElement.getTextContent().trim());
-//						}
-//						break;
-//					default:
-//					}
 					if (Constant.WORKFLOWID.equals(eElement.getAttribute(Constant.KIND)) && !UtilTools.isEmpty(eElement.getTextContent().trim())) { 
 						WorkFlowItems.put(kayaMetaModelXme.getGmeId(),eElement.getTextContent().trim());
 					} 
@@ -1542,18 +1474,16 @@ public final class ParseKayaModel_XPATH {
 									for (String master : attributeElement.getTextContent().trim().split("\n")) {
 										KayaModelMasterItem masterItem = new KayaModelMasterItem();
 										String[] languageStr = master.split(":", -1);// 默认第二个参数为-1
-										masterItem.setId(languageStr[0].toString());
-										switch (DBConnectionInfoMap.get(Constant.LANGUAGE)) {
-										case Constant.LANGUAGE_DEFAULT:
-											masterItem.setText(languageStr[1]);
-											break;
-										case Constant.LANGUAGE_1:
-											masterItem.setText(languageStr[2]);
-											break;
-										case Constant.LANGUAGE_2:
-											masterItem.setText(languageStr[3]);
-											break;
-										default:
+										masterItem.setId(languageStr[0].trim());
+
+										if (Constant.LANGUAGE_DEFAULT.equals(Language)) {
+											masterItem.setText(languageStr[1].trim());
+										} else {
+											for (String language : languageStr) {
+												if (language.contains("=") && Language.equals(language.split("=")[0].trim())) {
+													masterItem.setText(language.split("=")[1].trim());
+												}
+											}
 										}
 										MasterItemList.add(masterItem);
 									}
@@ -1607,30 +1537,14 @@ public final class ParseKayaModel_XPATH {
 									//
 								} else if (Constant.MULTILANGUAGE.equals(attributeElement.getAttribute(Constant.KIND))) {
 									for (String language : attributeElement.getTextContent().trim().split("\n")) {
-										if (language.split(":")[0].equals(Language)) {
-											atomKayaMetaModel.setName(language.split(":")[1]);
+										if (language.contains("=") && Language.equals(language.split("=")[0].trim())) {
+											atomKayaMetaModel.setName(language.split("=")[1].trim());
 										}
 									}
 								} else {
 									atomAttributesMap.put(attributeElement.getAttribute(Constant.KIND), attributeElement.getTextContent().trim());
 								}
 
-
-
-//								switch (attributeElement.getAttribute(Constant.KIND)) {
-//								case Constant.LANGUAGE_1:
-//									if (Constant.LANGUAGE_1.equals(Language)) {
-//										atomKayaMetaModel.setName(attributeElement.getTextContent().trim());
-//									}
-//									break;
-//								case Constant.LANGUAGE_2:
-//									if (Constant.LANGUAGE_2.equals(Language)) {
-//										atomKayaMetaModel.setName(attributeElement.getTextContent().trim());
-//									}
-//									break;
-//								default:
-//
-//								}
 								if (Constant.UNIQUEPROPERTY.equals(eElement.getAttribute(Constant.KIND))
 										&& Constant.KINDKEY.equals(attributeElement.getAttribute(Constant.KIND))){
 									kayaMetaModelXme.getBusinessKeys().add(attributeElement.getTextContent());
@@ -1694,25 +1608,11 @@ public final class ParseKayaModel_XPATH {
 								
 								if (Constant.MULTILANGUAGE.equals(attributeElement.getAttribute(Constant.KIND))) {
 									for (String language : attributeElement.getTextContent().trim().split("\n")) {
-										if (language.split(":")[0].equals(Language)) {
-											refKayaMetaModel.setName(language.split(":")[1]);
+										if (language.contains("=") && Language.equals(language.split("=")[0].trim())) {
+											refKayaMetaModel.setName(language.split("=")[1].trim());
 										}
 									}
-								} 
-//								switch (attributeElement.getAttribute(Constant.KIND)) {
-//								case Constant.LANGUAGE_1:
-//									if (Constant.LANGUAGE_1.equals(Language)) {
-//										refKayaMetaModel.setName(attributeElement.getTextContent().trim());
-//									}
-//									break;
-//								case Constant.LANGUAGE_2:
-//									if (Constant.LANGUAGE_2.equals(Language)) {
-//										refKayaMetaModel.setName(attributeElement.getTextContent().trim());
-//									}
-//									break;
-//								default:
-//
-//								}
+								}
 							}
 						}
 					}

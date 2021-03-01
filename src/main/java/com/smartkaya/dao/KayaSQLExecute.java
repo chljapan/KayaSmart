@@ -18,6 +18,7 @@ import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.core.DbConnection;
 import com.smartkaya.log.KayaLogManager;
 import com.smartkaya.model.KayaMetaModel;
+import com.smartkaya.model.KayaModelMasterItem;
 import com.smartkaya.model.KayaModelOrganizationItem;
 import com.smartkaya.script.ScriptEXE;
 import com.smartkaya.user.User;
@@ -597,8 +598,32 @@ public final class KayaSQLExecute {
 					// 检索条件个数
 					selectCount = selectCount + 1;
 					selectEmptSQL.append(orString);
-					String values = paramater.getPropertys()
-							.get(kayaModel.get(Constant.KINDKEY)).toString();
+					String values = "";
+					if(Constant.MASTER_REFERNCE.equals(kayaModel.getMetaModelType()) && !UtilTools.isEmpty(paramater.getPropertys()
+							.get(kayaModel.get(Constant.KINDKEY)).toString())) {
+						StringBuilder masterItemSql = new StringBuilder("");
+						boolean flg = true;
+						for (KayaModelMasterItem MasterItem:AccessKayaModel.getKayaModelId(kayaModel.get(Constant.REFERRED)).getMasterItems()) {
+							if (MasterItem.getText().indexOf(paramater.getPropertys()
+									.get(kayaModel.get(Constant.KINDKEY)).toString()) !=-1) {
+								if (flg) {
+									masterItemSql.append(MasterItem.getId() + "");
+									flg = false;
+								} else {
+									
+									masterItemSql.append("," + MasterItem.getId() + "");
+								}
+								
+							}
+						}
+
+						values = masterItemSql.toString();
+					} else {
+						values =paramater.getPropertys()
+								.get(kayaModel.get(Constant.KINDKEY)).toString();
+					}
+					
+					
 					switch (ConditionEnum.toEnum(StringUtil.getCondition(values))){
 					case  IN:
 						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
@@ -629,8 +654,31 @@ public final class KayaSQLExecute {
 					// 检索条件个数
 					selectCount = selectCount + 1;
 					selectEmptSQL.append(orString);
-					String values = paramater.getPropertys()
-							.get(kayaModel.get(Constant.KINDKEY)).toString();
+					String values = "";
+
+					if(Constant.MASTER_REFERNCE.equals(kayaModel.getMetaModelType()) && !UtilTools.isEmpty(paramater.getPropertys()
+							.get(kayaModel.get(Constant.KINDKEY)).toString())) {
+						StringBuilder masterItemSql = new StringBuilder("");
+						boolean flg = true;
+						for (KayaModelMasterItem MasterItem:AccessKayaModel.getKayaModelId(kayaModel.get(Constant.REFERRED)).getMasterItems()) {
+							if (MasterItem.getText().indexOf(paramater.getPropertys()
+									.get(kayaModel.get(Constant.KINDKEY)).toString()) !=-1) {
+								if (flg) {
+									masterItemSql.append(MasterItem.getId() + "");
+									flg = false;
+								} else {
+									
+									masterItemSql.append("," + MasterItem.getId() + "");
+								}
+								
+							}
+						}
+
+						values = masterItemSql.toString();
+					} else {
+						values =paramater.getPropertys()
+								.get(kayaModel.get(Constant.KINDKEY)).toString();
+					}
 
 					switch (ConditionEnum.toEnum(StringUtil.getCondition(values))) {
 					case IN:
@@ -659,6 +707,9 @@ public final class KayaSQLExecute {
 						// + "%' AND businessid = '" + businessId +
 						// "')");
 						.append("%'");
+						
+						//.append("' AND kindvalue ").append(values);
+
 						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
 							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
 							.append("'");
