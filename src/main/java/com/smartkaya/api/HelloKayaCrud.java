@@ -64,12 +64,58 @@ public class HelloKayaCrud {
 		paramater.setPropertys(propertys);
 		paramater.setOrientationKey(request.getParameter("orientationKey"));
 		KayaSQLExecute dao = new KayaSQLExecute();
-		List<Map<String, String>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
+		
+		List<HashMap<String, Object>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
+		
+		
+		
+		List<HashMap<String, Object>> resultList2 = dao.selectOrientationsByBusinessKeys(paramater);
 
 		RestHelper helper = new RestHelper(null, resultList);
 		return helper.getSimpleSuccess();
 	}
 
+	@RequestMapping(value = "/kayauserselect", produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public Map<String, Object> KayaParentChildSelect(final HttpServletRequest request, final HttpServletResponse response) {
+		// 获取前台参数
+		String kayaModelId = request.getParameter("kayaModelId");
+		// 获取前台参数
+		String searchName = request.getParameter("searchname");
+		String searchValue = request.getParameter("searchvalue");
+
+		Paramater paramater = new Paramater();
+		paramater.setId(kayaModelId);
+		paramater.setPropertys(new HashMap<String,Object>());
+		
+		
+		User user = new User();
+		paramater.setUsrinfo(user.initUserInfo(UserType.E1));
+		
+		// 检索Map
+		HashMap<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
+		propertys.put(searchName, searchValue == null ? "" : searchValue);
+
+		// 业务Map
+		paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
+		paramater.setPropertys(propertys);
+		paramater.setOrientationKey(request.getParameter("orientationKey"));
+		KayaSQLExecute dao = new KayaSQLExecute();
+		
+		List<HashMap<String, Object>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
+		
+		
+		
+		List<HashMap<String, Object>> resultList2 = dao.selectOrientationsByBusinessKeys(paramater);
+		// 用户登录确认
+		
+		
+		
+
+		RestHelper helper = new RestHelper(null, resultList);
+		return helper.getSimpleSuccess();
+	}
+	
 	@RequestMapping(value = "/kayaselectall", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKayaSelectAll(final HttpServletRequest request,

@@ -423,8 +423,8 @@ public final class KayaSQLExecute {
 	 * @param paramater
 	 * @return
 	 */
-	public List<Map<String, String>> selectByFreeKind(Paramater paramater) {
-		List<Map<String, String>> kayaEntityList = new ArrayList<Map<String, String>>();
+	public List<HashMap<String, Object>> selectByFreeKind(Paramater paramater) {
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 		// Table存在确认
 		if (!KayaModelUtils.checkTableId(paramater)) {
 			return kayaEntityList;
@@ -495,8 +495,8 @@ public final class KayaSQLExecute {
 	 * @param paramater
 	 * @return
 	 */
-	public List<Map<String, String>> selectMuiltKindByOrientationkey(Paramater paramater) {
-		List<Map<String, String>> kayaEntityList = new ArrayList<Map<String, String>>();
+	public List<HashMap<String, Object>> selectMuiltKindByOrientationkey(Paramater paramater) {
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 		// Table存在确认
 		// if (!KayaModelUtils.checkTableId(paramater)){
 		// return kayaEntityList;
@@ -514,6 +514,7 @@ public final class KayaSQLExecute {
 		kayaLoger.info(selectSQL);
 		paramater.setOrientationKeySet(new HashSet<String>());
 		kayaEntityList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+
 		return kayaEntityList;
 	}
 
@@ -523,9 +524,9 @@ public final class KayaSQLExecute {
 	 * @param paramater
 	 * @return
 	 */
-	public List<Map<String, String>> selectMuiltKindByBusiness(Paramater paramater) {
+	public List<HashMap<String, Object>> selectMuiltKindByBusiness(Paramater paramater) {
 
-		List<Map<String, String>> kayaEntityList = new ArrayList<Map<String, String>>();
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 
 		StringBuilder selectSQL = commonSelectSQL(paramater, "businessid",false);
 		kayaEntityList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
@@ -1010,8 +1011,8 @@ public final class KayaSQLExecute {
 	 * @param paramater
 	 * @return
 	 */
-	public List<Map<String, String>> selectByBusinessKeys(Paramater paramater) {
-		List<Map<String, String>> kayaEntityList = new ArrayList<Map<String, String>>();
+	public List<HashMap<String, Object>> selectByBusinessKeys(Paramater paramater) {
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 		// Table存在确认
 		if (!KayaModelUtils.checkTableId(paramater)) {
 			return kayaEntityList;
@@ -1040,21 +1041,24 @@ public final class KayaSQLExecute {
 	 * @param paramater
 	 * @return
 	 */
-	public List<Map<String, Object>> selectOrientationsByBusinessKeys(Paramater paramater) {
-		List<Map<String, Object>> kayaEntityList = new ArrayList<Map<String, Object>>();
-		// Table存在确认
-		if (!KayaModelUtils.checkTableId(paramater)) {
-			return kayaEntityList;
-		}
+	public List<HashMap<String, Object>> selectOrientationsByBusinessKeys(Paramater paramater) {
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
+
 		String kayaModelId = paramater.getId();
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
 
 		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName);
-		
-		selectSQL.append(" WHERE orientationkey = '" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId), paramater.getOrientationKey(),paramater.getPropertys()) + "'");
-		
-		selectSQL.append(" AND parentid = '" + kayaModelId + "' ORDER BY orientationkey DESC;");
+
+		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+			selectSQL.append(" WHERE orientationkey like '" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId), paramater.getOrientationKey(),paramater.getPropertys()) + "%'");
+
+		} else {
+			
+			selectSQL.append(" WHERE orientationkey like '" + KayaModelUtils.editOrientationKey(AccessKayaModel.getKayaModelId(kayaModelId), paramater.getOrientationKey(),paramater.getPropertys()) + "%'");
+		}
+		selectSQL.append(" ORDER BY orientationkey, parentid ASC;");
 		paramater.setOrientationKeySet(new HashSet<String>());
+		kayaLoger.info(selectSQL);
 		kayaEntityList = dBConnection.executeOrientationsQuery(selectSQL.toString(), paramater.getOrientationKeySet());
 		return kayaEntityList;
 	}
@@ -1065,8 +1069,8 @@ public final class KayaSQLExecute {
 	 * @param paramater
 	 * @return
 	 */
-	public List<Map<String, String>> selectByFullText(Paramater paramater) {
-		List<Map<String, String>> kayaEntityMapList = new ArrayList<Map<String, String>>();
+	public List<HashMap<String, Object>> selectByFullText(Paramater paramater) {
+		List<HashMap<String, Object>> kayaEntityMapList = new ArrayList<HashMap<String, Object>>();
 		// Table存在确认
 		if (!KayaModelUtils.checkTableId(paramater)) {
 			return kayaEntityMapList;

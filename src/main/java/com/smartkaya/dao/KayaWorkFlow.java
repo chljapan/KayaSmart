@@ -189,8 +189,8 @@ public final class KayaWorkFlow {
 
 	}
 
-	public List<Map<String, String>> getKayaModelInfo(Paramater paramater) {
-		List<Map<String, String>> kayaEntityList = new ArrayList<Map<String, String>>();
+	public List<HashMap<String, Object>> getKayaModelInfo(Paramater paramater) {
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 		// Table存在确认
 		if (!KayaModelUtils.checkTableId(paramater)) {
 			return kayaEntityList;
@@ -220,11 +220,11 @@ public final class KayaWorkFlow {
 	}
 
 
-	public List<Map<String, String>> getWorkFlowDetailedHistory(Paramater paramater) {
+	public List<HashMap<String, Object>> getWorkFlowDetailedHistory(Paramater paramater) {
 		StringBuilder workFlowHistorySQL = KayaModelUtils.getWorkFlowHistorySql(paramater.getId());
 		workFlowHistorySQL.append("ORDER BY relid DESC;");
 		paramater.setOrientationKeySet(new HashSet<String>());
-		List<Map<String, String>> kayaEntityList = new ArrayList<Map<String, String>>();
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 		kayaEntityList = dBConnection.executeQuery(workFlowHistorySQL.toString(), paramater.getOrientationKeySet());
 
 		return kayaEntityList;
@@ -607,7 +607,7 @@ public final class KayaWorkFlow {
 	 * @return
 	 */
 	public HashMap<String, Object> selectForWorkflowDetail(Paramater paramater) {
-		List<Map<String, String>> kayaEntityList = new ArrayList<Map<String, String>>();
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 		List<Map<String, String>> kayaEntityListWF = new ArrayList<Map<String, String>>();
 		String kayaModelId = paramater.getId();
 		String orientationKey = paramater.getOrientationKey();

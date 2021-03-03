@@ -183,12 +183,12 @@ public class DbConnection implements Pool {
 	 * @param connection
 	 * @param commitFlg
 	 */
-	public List<Map<String, String>> executeQuery(String sqlString, Set<String> orientationKeySet) {
+	public List<HashMap<String, Object>> executeQuery(String sqlString, Set<String> orientationKeySet) {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
 		List<KayaEntity> kayaEntityList = new ArrayList<KayaEntity>();
-		List<Map<String, String>> kayaEntityMapList = new ArrayList<Map<String, String>>();
+		List<HashMap<String, Object>> kayaEntityMapList = new ArrayList<HashMap<String, Object>>();
 		try {
 			connection = connPool.getConnection();
 			connection.setAutoCommit(false);
@@ -214,12 +214,12 @@ public class DbConnection implements Pool {
 	 * @param connection
 	 * @param commitFlg
 	 */
-	public List<Map<String, Object>> executeOrientationsQuery(String sqlString, Set<String> orientationKeySet) {
+	public List<HashMap<String, Object>> executeOrientationsQuery(String sqlString, Set<String> orientationKeySet) {
 		Connection connection = null;
 		Statement statement = null;
 		ResultSet resultSet = null;
 		List<KayaEntity> kayaEntityList = new ArrayList<KayaEntity>();
-		List<Map<String, Object>> kayaEntityMapList = new ArrayList<Map<String, Object>>();
+		List<HashMap<String, Object>> kayaEntityMapList = new ArrayList<HashMap<String, Object>>();
 		try {
 			connection = connPool.getConnection();
 			connection.setAutoCommit(false);
@@ -494,96 +494,12 @@ public class DbConnection implements Pool {
 	 * @param orientationKeySet
 	 * @return
 	 */
-	private List<Map<String, String>> editKayaEntity(ResultSet resultSet, List<KayaEntity> kayaEntityList,
+	private List<HashMap<String, Object>> editKayaEntity(ResultSet resultSet, List<KayaEntity> kayaEntityList,
 			Set<String> orientationKeySet) {
-		List<Map<String, String>> tempMapList = new ArrayList<Map<String, String>>();
+		List<HashMap<String, Object>> tempMapList = new ArrayList<HashMap<String, Object>>();
 		try {
 
-			Map<String, String> tempMap = new HashMap<String, String>();
-			while (resultSet.next()) {
-				// 如果OrientationKey不存在
-				if (orientationKeySet.add(resultSet.getString(Constant.ORIENTATIONKEY))) {
-					tempMap = new HashMap<String, String>();
-
-					tempMap.put(Constant.ORIENTATIONKEY, resultSet.getString(Constant.ORIENTATIONKEY));
-
-					tempMapList.add(tempMap);
-				}
-
-				// 值设定
-				String value = resultSet.getString(Constant.KINDVALUE);
-				tempMap.put(resultSet.getString(Constant.KIND), value);
-
-				// Master时关联的名字也取出来
-				if (Constant.MASTER_REFERNCE.equals(resultSet.getString(Constant.KINDTYPE))) {
-
-					List<KayaModelMasterItem> masterItemList =  AccessKayaModel
-							.getKayaModelId(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.GMEID))
-									.get(Constant.REFERRED)).getMasterItems();
-
-					if (StringUtil.isNotBlank(value)) {
-						// MasterRef处理
-						for (KayaModelMasterItem master : masterItemList) {
-							if (value.equals(master.getId())) {
-									tempMap.put(resultSet.getString(Constant.KIND) + Constant.NM, master.getText());
-									tempMap.put(resultSet.getString(Constant.KIND) + Constant.CD_NM,
-											value + ":" + master.getText());
-									break;
-							}
-						}
-					}
-					// 流程状态处理（当前状态和接下来的Pending状态）
-				} else if (Constant.G_ROLE.equals(resultSet.getString(Constant.KINDTYPE)) && StringUtils.isNotEmpty(resultSet.getString(Constant.FLOWSUBCODE))) {
-					tempMap.put(AccessKayaModel.getKayaModelId(AccessKayaModel.getParentId(resultSet.getString(Constant.FLOWSUBCODE))).get(Constant.KINDKEY), resultSet.getString(Constant.KINDVALUE));
-					tempMap.put(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.FLOWCODE)).get(Constant.KINDKEY), "Pending");
-				}
-
-				// KayaEntity kayaEntity = new KayaEntity();
-				// kayaEntity.setKayaModelId(resultSet.getString("gmeid"));
-				// kayaEntity.setName(resultSet.getString("name"));
-				// kayaEntity.setKind(resultSet.getString("kind"));
-				// kayaEntity.setKindType(resultSet.getString("kindtype"));
-				// kayaEntity.setKindValue(resultSet.getString("kindvalue"));
-				// kayaEntity.setParentId(resultSet.getString("parentid"));
-				// kayaEntity.setBusinessId(resultSet.getString("businessid"));
-				// kayaEntity.setBusinessSubId(resultSet.getString("businesssubid"));
-				// kayaEntity.setOrientationKey(resultSet.getString("orientationkey"));
-				// kayaEntity.setDataType(AccessKayaModel.getKayaModelId(resultSet.getString("gmeid")).get(Constant.DATATYPE));
-				// //kayaEntity.setDataLength(Integer.valueOf(AccessKayaModel.getKayaModelId(resultSet.getString("gmeid")).get(Constant.DATALENGTH)));
-				// kayaEntity.setStartDate(resultSet.getDate("startdate"));
-				// kayaEntity.setEndDate(resultSet.getDate("enddate"));
-				// kayaEntity.setWithdrawalDate(resultSet.getDate("withdrawaldate"));
-				// kayaEntity.setCreatedate(resultSet.getDate("createdate"));
-				// kayaEntity.setCreateuser(resultSet.getString("createuser"));
-				// kayaEntity.setUpdatedate(resultSet.getDate("updatedate"));
-				// kayaEntity.setUpdateuser(resultSet.getString("updateuser"));
-				// kayaEntity.setLockflg(resultSet.getBoolean("lockflg"));
-				// kayaEntity.setLockuser(resultSet.getString("lockuser"));
-				//
-				// kayaEntityList.add(kayaEntity);
-				// System.out.println(kayaEntity.toString());
-			}
-
-		} catch (Exception e) {
-			kayaLoger.error(e);
-		}
-		return tempMapList;
-	}
-	
-	
-	/*
-	 * 通用查询结果集处理
-	 * @param resultSet
-	 * @param kayaEntityList
-	 * @param orientationKeySet
-	 * @return
-	 */
-	private List<Map<String, Object>> editKayaOrientationsEntity(ResultSet resultSet, List<KayaEntity> kayaEntityList,
-			Set<String> orientationKeySet) {
-		List<Map<String, Object>> tempMapList = new ArrayList<Map<String, Object>>();
-		try {
-
-			Map<String, Object> tempMap = new HashMap<String, Object>();
+			HashMap<String, Object> tempMap = new HashMap<String, Object>();
 			while (resultSet.next()) {
 				// 如果OrientationKey不存在
 				if (orientationKeySet.add(resultSet.getString(Constant.ORIENTATIONKEY))) {
@@ -652,6 +568,98 @@ public class DbConnection implements Pool {
 			kayaLoger.error(e);
 		}
 		return tempMapList;
+	}
+	
+	
+	/*
+	 * 通用查询结果集处理（支持父子关系表查询结果）
+	 * @param resultSet
+	 * @param kayaEntityList
+	 * @param orientationKeySet
+	 * @return
+	 */
+	private List<HashMap<String, Object>> editKayaOrientationsEntity(ResultSet resultSet, List<KayaEntity> kayaEntityList,
+			Set<String> orientationKeySet) {
+		List<HashMap<String, Object>> resultMapList = new ArrayList<HashMap<String, Object>>();
+
+		try {
+			HashMap<String, Object> tempParentMap = new HashMap<String, Object>();
+			HashMap<String, Object> tempChildMap = new HashMap<String, Object>();
+			Set<String> parentIdKeySet = new HashSet<String>();
+			Set<String> orientationSubKeySet = new HashSet<String>();
+			
+			
+			List<HashMap<String, Object>> childMapList = new ArrayList<HashMap<String, Object>>();
+			while (resultSet.next()) {
+				// 如果OrientationKey不存在
+				// OrientationKey 有两种形式，一个是父类主键
+				// 一个是子类主键
+				// 
+				if (resultSet.getString(Constant.PARENTID).equals(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.PARENTID)).getTableId().replace("_", "-"))
+						&& orientationKeySet.add(resultSet.getString(Constant.ORIENTATIONKEY))) {
+					// 如果是子 需要王Map里面添加List<Map<Key Value>>
+					tempParentMap = new HashMap<String, Object>();
+					tempParentMap.put(Constant.ORIENTATIONKEY, resultSet.getString(Constant.ORIENTATIONKEY));
+					resultMapList.add(tempParentMap);
+					
+					setEntity(resultSet,tempParentMap);
+					
+					// 新子表Row的时候
+				} else if (!resultSet.getString(Constant.PARENTID).equals(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.PARENTID)).getTableId().replace("_", "-"))) {
+					// 子表发生变化的时候（利用ParentID去判断）
+					if (parentIdKeySet.add(resultSet.getString(Constant.PARENTID))) {
+						childMapList = new ArrayList<HashMap<String, Object>>();
+						tempParentMap.put(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.PARENTID)).get(Constant.KINDKEY),childMapList);
+					}
+					
+					// 子表Orientation Key发生变化的场合
+					if (orientationSubKeySet.add(resultSet.getString(Constant.ORIENTATIONKEY))) {
+						tempChildMap = new HashMap<String, Object>();
+						childMapList.add(tempChildMap);
+					}
+					setEntity(resultSet,tempChildMap);
+				} else {
+					setEntity(resultSet,tempParentMap);
+				}
+			}
+
+		} catch (Exception e) {
+			kayaLoger.error(e);
+		}
+		return resultMapList;
+	}
+	
+	private void setEntity(ResultSet resultSet,HashMap<String, Object> tempMap) {
+		// 值设定
+
+		try {
+			String value = resultSet.getString(Constant.KINDVALUE);
+			tempMap.put(resultSet.getString(Constant.KIND), value);
+			// Master时关联的名字也取出来
+			if (Constant.MASTER_REFERNCE.equals(resultSet.getString(Constant.KINDTYPE))) {
+
+				List<KayaModelMasterItem> masterItemList =  AccessKayaModel
+						.getKayaModelId(AccessKayaModel.getKayaModelId(resultSet.getString(Constant.GMEID))
+								.get(Constant.REFERRED)).getMasterItems();
+
+				if (StringUtil.isNotBlank(value)) {
+					// MasterRef处理
+					for (KayaModelMasterItem master : masterItemList) {
+						if (value.equals(master.getId())) {
+							tempMap.put(resultSet.getString(Constant.KIND) + Constant.NM, master.getText());
+							tempMap.put(resultSet.getString(Constant.KIND) + Constant.CD_NM,
+									value + ":" + master.getText());
+							break;
+						}
+					}
+				}
+			} 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 	
 	/**
