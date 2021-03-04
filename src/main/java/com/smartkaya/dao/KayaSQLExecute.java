@@ -517,6 +517,30 @@ public final class KayaSQLExecute {
 
 		return kayaEntityList;
 	}
+	
+	/**
+	 * 任意多键检索
+	 * 
+	 * @param paramater
+	 * @return
+	 */
+	public List<HashMap<String, Object>> selectOrientationkey(Paramater paramater) {
+		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
+		// Table存在确认
+		// if (!KayaModelUtils.checkTableId(paramater)){
+		// return kayaEntityList;
+		// }
+		// TODO commonSQL要应用
+		StringBuilder selectSQL = new StringBuilder();
+
+		selectSQL = orientationSelectSQL(paramater, "orientationkey",false);
+
+		kayaLoger.info(selectSQL);
+		paramater.setOrientationKeySet(new HashSet<String>());
+		kayaEntityList = dBConnection.executeOrientationsQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+
+		return kayaEntityList;
+	}
 
 	/**
 	 * 任意多键检索（与businessid关联的所有情报都检索出来）
@@ -738,6 +762,206 @@ public final class KayaSQLExecute {
 						+ selectCount + ") ORDER BY orientationkey;");
 			} else {
 				selectSQL.append(selectEmptSQL.toString() + " group by " + key + " ) ORDER BY orientationkey;");
+			}
+		}
+
+		//kayaLoger.info(selectSQL);
+		paramater.setOrientationKeySet(new HashSet<String>());
+		return selectSQL;
+	}
+	
+	
+	
+	/**
+	 * 检索的共通SQl文做成(父子关系数据取得)
+	 * 
+	 * @param paramater
+	 * @param selectSQL
+	 * @return
+	 */
+	private StringBuilder orientationSelectSQL(Paramater paramater, String key,boolean wfflag) {
+		String kayaModelId = paramater.getId();
+
+		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
+
+		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName);
+		selectSQL.append(" WHERE ");
+
+		// 对象表指定
+		String selectEmpSQL = "";
+		if (paramater.getTargetTableList().size() > 0) {
+			selectSQL.append(" parentid in (");
+			for (String tableId : paramater.getTargetTableList()) {
+				selectEmpSQL = selectEmpSQL.concat(",");
+				selectEmpSQL = selectEmpSQL + "'" + tableId + "'";
+			}
+			selectSQL.append(selectEmpSQL.substring(1)).append(") and ");
+		}
+
+		//
+		if (wfflag) {
+			selectSQL.append(" kindtype<>'Role' AND " + key).append(" LIKE CONCAT((SELECT ").append(key).append(" FROM ").append(tableName);
+		} else {
+			selectSQL.append(key).append(" LIKE CONCAT((SELECT ").append(key).append(" FROM ").append(tableName);
+		}
+
+
+		// 更新全对象取得（包含子）
+		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
+		StringBuilder selectEmptSQL = new StringBuilder("");
+
+		// 检索条件个数
+		int selectCount = 0;
+		// 复数检索条件（OR）
+		String orString = "";
+
+		// 主次表处理
+		if (Constant.G_PRODUCT.equals(AccessKayaModel.getParentKayaModel(kayaModelId).getMetaModelType())) {
+			for (KayaMetaModel kayaModel : kayaModelList) {
+				if (paramater.getPropertys()
+						.containsKey(kayaModel.get(Constant.KINDKEY))) {
+					// 检索条件个数
+					selectCount = selectCount + 1;
+					selectEmptSQL.append(orString);
+					String values = "";
+					if(Constant.MASTER_REFERNCE.equals(kayaModel.getMetaModelType()) && !UtilTools.isEmpty(paramater.getPropertys()
+							.get(kayaModel.get(Constant.KINDKEY)).toString())) {
+						StringBuilder masterItemSql = new StringBuilder("");
+						boolean flg = true;
+						for (KayaModelMasterItem MasterItem:AccessKayaModel.getKayaModelId(kayaModel.get(Constant.REFERRED)).getMasterItems()) {
+							if (MasterItem.getText().indexOf(paramater.getPropertys()
+									.get(kayaModel.get(Constant.KINDKEY)).toString()) !=-1) {
+								if (flg) {
+									masterItemSql.append(MasterItem.getId() + "");
+									flg = false;
+								} else {
+									
+									masterItemSql.append("," + MasterItem.getId() + "");
+								}
+								
+							}
+						}
+						if (UtilTools.isEmpty(masterItemSql.toString())) {
+							values = Constant.NUMBER99999999;// 默认不存在的（该Code为默认占有，系统禁止使用）
+						} else {
+							values = masterItemSql.toString();
+						}
+					} else {
+						values =paramater.getPropertys()
+								.get(kayaModel.get(Constant.KINDKEY)).toString();
+					}
+					
+					
+					switch (ConditionEnum.toEnum(StringUtil.getCondition(values))){
+					case  IN:
+						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
+						.append("' AND kindvalue in (" + values + "))");
+						break;
+					case  DATE:
+						String[] value = values.split("～");
+						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
+						.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
+						.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "')");
+						break;
+					default:
+						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
+						.append("' AND kindvalue = '" + values + "')");
+						break;
+					}
+					orString = " OR ";
+				}
+			}
+			// 否则判定为子表(更新子表的时候需要BusinessID作为主键更新)
+		} else {
+			// orientationkey
+			// String businessId =
+			// KayaModelUtils.getBusinessKey(AccessKayaModel.getParentKayaModel(kayaModelId),paramater.getBusinessKeyMap());
+			for (KayaMetaModel kayaModel : kayaModelList) {
+				if (paramater.getPropertys()
+						.containsKey(kayaModel.get(Constant.KINDKEY))) {
+					// 检索条件个数
+					selectCount = selectCount + 1;
+					selectEmptSQL.append(orString);
+					String values = "";
+
+					if(Constant.MASTER_REFERNCE.equals(kayaModel.getMetaModelType()) && !UtilTools.isEmpty(paramater.getPropertys()
+							.get(kayaModel.get(Constant.KINDKEY)).toString())) {
+						StringBuilder masterItemSql = new StringBuilder("");
+						boolean flg = true;
+						for (KayaModelMasterItem MasterItem:AccessKayaModel.getKayaModelId(kayaModel.get(Constant.REFERRED)).getMasterItems()) {
+							if (MasterItem.getText().indexOf(paramater.getPropertys()
+									.get(kayaModel.get(Constant.KINDKEY)).toString()) !=-1) {
+								if (flg) {
+									masterItemSql.append(MasterItem.getId() + "");
+									flg = false;
+								} else {
+									masterItemSql.append("," + MasterItem.getId() + "");
+								}
+							}
+						}
+						if (UtilTools.isEmpty(masterItemSql.toString())) {
+							values = Constant.NUMBER99999999;// 默认不存在的（该Code为默认占有，系统禁止使用）
+						} else {
+							values = masterItemSql.toString();
+						}
+						
+					} else {
+						values =paramater.getPropertys()
+								.get(kayaModel.get(Constant.KINDKEY)).toString();
+					}
+
+					switch (ConditionEnum.toEnum(StringUtil.getCondition(values))) {
+					case IN:
+						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
+						.append("' AND kindvalue in (" + values + ")");
+						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
+							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
+							.append("'");
+						}
+						selectEmptSQL.append(")");
+						break;
+					case DATE:
+						String[] value = values.split("～");
+						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
+						.append("' AND kindvalue >= '" + StringUtil.trim(value[0]) + "'")
+						.append(" AND kindvalue <= '" + StringUtil.trim(value[1]) + "'");
+						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
+							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
+							.append("'");
+						}
+						selectEmptSQL.append(")");
+						break;
+					default:
+						selectEmptSQL.append("(kind = '" + kayaModel.get(Constant.KINDKEY))
+						.append("' AND kindvalue = '").append(values)
+						.append("'");
+
+						if (StringUtil.isNotEmpty(paramater.getOrientationKey())) {
+							selectEmptSQL.append(" AND businessid = '").append(paramater.getOrientationKey())
+							.append("'");
+						}
+						selectEmptSQL.append(")");
+						break;
+					}
+					orString = " OR ";
+				}
+			}
+		}
+
+
+		if (wfflag) {
+			if (selectCount > 0) {
+				selectSQL.append(" WHERE ").append(selectEmptSQL.toString() + " group by " + key + " having count(1)="
+						+ selectCount + "),'%') ");
+			} else {
+				selectSQL.append(selectEmptSQL.toString() + " group by " + key + " ) ");
+			}
+		} else {
+			if (selectCount > 0) {
+				selectSQL.append(" WHERE ").append(selectEmptSQL.toString() + " group by " + key + " having count(1)="
+						+ selectCount + "),'%') ORDER BY orientationkey,parentid;");
+			} else {
+				selectSQL.append(selectEmptSQL.toString() + " group by " + key + " ) ORDER BY orientationkey,parentid;");
 			}
 		}
 

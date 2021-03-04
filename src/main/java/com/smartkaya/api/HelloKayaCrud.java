@@ -67,9 +67,15 @@ public class HelloKayaCrud {
 		
 		List<HashMap<String, Object>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
 		
+		Paramater paramater2 = new Paramater();
+		paramater2.setId(kayaModelId);
+		HashMap<String, Object> propertys2  = new HashMap<String, Object>();
+		propertys2.put("Password", "123456");
+		propertys2.put("EmployeeId", "10001");
+		paramater2.setCrud(Constant.SELECT);
+		paramater2.setPropertys(propertys2);
 		
-		
-		List<HashMap<String, Object>> resultList2 = dao.selectOrientationsByBusinessKeys(paramater);
+		List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
 
 		RestHelper helper = new RestHelper(null, resultList);
 		return helper.getSimpleSuccess();
