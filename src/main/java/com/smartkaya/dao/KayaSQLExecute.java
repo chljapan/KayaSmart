@@ -519,17 +519,14 @@ public final class KayaSQLExecute {
 	}
 	
 	/**
-	 * 任意多键检索
+	 * 任意多键检索(必须包含主键：主要做验证用，或父子表多层数据抽出)
 	 * 
 	 * @param paramater
 	 * @return
 	 */
 	public List<HashMap<String, Object>> selectOrientationkey(Paramater paramater) {
 		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
-		// Table存在确认
-		// if (!KayaModelUtils.checkTableId(paramater)){
-		// return kayaEntityList;
-		// }
+
 		// TODO commonSQL要应用
 		StringBuilder selectSQL = new StringBuilder();
 
