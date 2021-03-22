@@ -1,5 +1,7 @@
 # SmartKaYa
 Metamodel, metadata-driven platform
+#具体参照KaYaModel/SmartKAYA开发手册.docx
+
 # 使用
 1.下载代码后，作为Maven 项目导入
    
