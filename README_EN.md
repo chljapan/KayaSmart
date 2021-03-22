@@ -2,6 +2,10 @@
 Metamodel, metadata-driven platform
 #具体参照KaYaModel/SmartKAYA开发手册.docx
 
+KaYaModel.mga 元模型文件于2021/3/22 更新
+KaYaModel.mga 元模型文件于2021/3/22 更新
+KaYaModel.mga 元模型文件于2021/3/22 更新
+
 # 使用
 1.下载代码后，作为Maven 项目导入
    
