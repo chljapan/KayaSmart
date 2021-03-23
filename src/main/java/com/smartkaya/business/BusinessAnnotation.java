@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**定义限制注解*/
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD) 
+@Target(ElementType.TYPE) 
 public @interface BusinessAnnotation {
 	String objectId() default "";
 	double maxMoney() default 10000;

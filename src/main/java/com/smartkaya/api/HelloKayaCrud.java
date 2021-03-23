@@ -21,6 +21,8 @@ import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.model.KayaModelMasterItem;
+import com.smartkaya.service.KayaBaseService;
+import com.smartkaya.service.KayaFactory;
 import com.smartkaya.user.User;
 import com.smartkaya.user.User.UserType;
 
@@ -66,16 +68,20 @@ public class HelloKayaCrud {
 		KayaSQLExecute dao = new KayaSQLExecute();
 		
 		List<HashMap<String, Object>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
+//		
+//		Paramater paramater2 = new Paramater();
+//		paramater2.setId(kayaModelId);
+//		HashMap<String, Object> propertys2  = new HashMap<String, Object>();
+//		propertys2.put("Password", "123456");
+//		propertys2.put("EmployeeId", "10001");
+//		paramater2.setCrud(Constant.SELECT);
+//		paramater2.setPropertys(propertys2);
+//		
+//		List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
 		
-		Paramater paramater2 = new Paramater();
-		paramater2.setId(kayaModelId);
-		HashMap<String, Object> propertys2  = new HashMap<String, Object>();
-		propertys2.put("Password", "123456");
-		propertys2.put("EmployeeId", "10001");
-		paramater2.setCrud(Constant.SELECT);
-		paramater2.setPropertys(propertys2);
 		
-		List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
+		
+		
 
 		RestHelper helper = new RestHelper(null, resultList);
 		return helper.getSimpleSuccess();
@@ -112,9 +118,18 @@ public class HelloKayaCrud {
 		
 		
 		
-		List<HashMap<String, Object>> resultList2 = dao.selectOrientationsByBusinessKeys(paramater);
+
 		// 用户登录确认
 		
+		Paramater paramater2 = new Paramater();
+		paramater2.setId(kayaModelId);
+		HashMap<String, Object> propertys2  = new HashMap<String, Object>();
+		propertys2.put("Password", "123456");
+		propertys2.put("EmployeeId", "10001");
+		paramater2.setCrud(Constant.SELECT);
+		paramater2.setPropertys(propertys2);
+		
+		List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
 		
 		
 
@@ -250,7 +265,51 @@ public class HelloKayaCrud {
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
 		paramaters.setListPropertys(kvParamaterList);
 
+		KayaBaseService kayaBaseService = KayaFactory.createKayaService(paramaters);
+		kayaBaseService.operate();
+		
 
+		// 有新追加项目时
+		if (insertFieldList.size() > 0) {
+			dao.update(paramaters, insertFieldList);
+			// 普通更新时
+		} else {
+			dao.update(paramaters);
+		}
+
+		RestHelper helper = new RestHelper();
+		return helper.getSimpleSuccess();
+	}
+	
+	// 自定义方法测试
+	@RequestMapping(value = "/baseupdate", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	@ResponseBody
+	public Map<String, Object> KayaBaseUpdate(HttpServletRequest request, HttpServletResponse response) {
+		KayaSQLExecute dao = new KayaSQLExecute();
+
+		String kayaModelId = request.getParameter("kayaModelId");
+
+		Paramaters paramaters = new Paramaters();
+
+		JSONArray jsonarray = JSONArray.fromObject(request.getParameter("kvParamaterList"));
+		JSONArray insertField = JSONArray.fromObject(request.getParameter("insertField"));
+
+		@SuppressWarnings("unchecked")
+		List<HashMap<String, Object>> kvParamaterList = (List<HashMap<String, Object>>) JSONArray.toCollection(jsonarray,
+				HashMap.class);
+
+		// 新追加的项目
+		@SuppressWarnings("unchecked")
+		List<String> insertFieldList = (List<String>) JSONArray.toCollection(insertField);
+
+		paramaters.setId(kayaModelId);
+		// multipleParamater.setKvParamaterList(kvParamaterList);
+		paramaters.setOrientationKey(request.getParameter("orientationKey"));
+		paramaters.setListPropertys(kvParamaterList);
+
+
+
+		
 		// 有新追加项目时
 		if (insertFieldList.size() > 0) {
 			dao.update(paramaters, insertFieldList);

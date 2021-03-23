@@ -2,6 +2,8 @@ package com.smartkaya.business;
 
 import java.lang.reflect.Method;
 
+
+@BusinessAnnotation(maxMoney = 15000,objectId = "")
 public class Business {
 
 	public Business() {
@@ -10,7 +12,7 @@ public class Business {
 	   /**
      * @param money 转账金额
      */
-    @BusinessAnnotation(maxMoney = 15000,objectId = "")
+
     public static void TransferMoney(double money){
         System.out.println(processAnnotationMoney(money));
 
