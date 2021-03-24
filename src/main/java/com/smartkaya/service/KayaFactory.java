@@ -9,8 +9,8 @@ public class KayaFactory {
 	public static KayaBaseService createKayaService(Paramaters paramaters){
 		KayaBaseService kayaBaseService=null; //定义一个类
 		try {
-			String className = paramaters.getId().replace("-", "");
-			kayaBaseService = (KayaBaseService)Class.forName("com.smartkaya.business." + className).newInstance(); //TODO:Packagepath 需要在参数中动态提取
+			String className = paramaters.getServicename();
+			kayaBaseService = (KayaBaseService)Class.forName(className).newInstance(); //TODO:Packagepath 需要在参数中动态提取
 			kayaBaseService.setParamaters(paramaters);
 			kayaBaseService.operate();
 			
