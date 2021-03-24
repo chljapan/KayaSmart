@@ -886,8 +886,8 @@ function doSearch(kayaModelId,title,isDownload,wfType) {
 						// 取得被选择行数据
 						//G_DataRowListMap.set(kayaModelId,res.data[G_SelectDataRowIndexMap.get(kayaModelId)]);
 						//G_SelectDataRowIndexMap.set(kayaModelId,res.data[0]['LAY_TABLE_INDEX']);
-						alert(JSON.stringify(G_DataRowListMap.get(kayaModelId)));
-						alert(JSON.stringify(res.data[0]['LAY_TABLE_INDEX']));
+						//alert(JSON.stringify(G_DataRowListMap.get(kayaModelId)));
+						//alert(JSON.stringify(res.data[0]['LAY_TABLE_INDEX']));
 						//G_SelectDataRowIndexMap.set(kayaModelId,res.data[0]['LAY_TABLE_INDEX']);
 					}
 				});
@@ -1239,7 +1239,7 @@ function inserteOrUpdateRow(kayaModelId,actionId,data,insertField,Title,isEditFl
 	//var kvParamaterList = [];
 	var kvParamaterList = [];
 	kvParamaterList.push(data);
-	alert(G_Orientationkey.get(kayaModelId));
+	//alert(G_Orientationkey.get(kayaModelId));
 	// 更新
 	$.ajax({
 		url : insertOrUpdate,
