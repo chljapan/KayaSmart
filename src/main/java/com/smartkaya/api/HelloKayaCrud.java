@@ -129,7 +129,7 @@ public class HelloKayaCrud {
 		paramater2.setCrud(Constant.SELECT);
 		paramater2.setPropertys(propertys2);
 		
-		List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
+		//List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
 		
 		
 
@@ -265,8 +265,7 @@ public class HelloKayaCrud {
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
 		paramaters.setListPropertys(kvParamaterList);
 
-		KayaBaseService kayaBaseService = KayaFactory.createKayaService(paramaters);
-		kayaBaseService.operate();
+		//KayaBaseService.excuteService(paramaters);
 		
 
 		// 有新追加项目时
