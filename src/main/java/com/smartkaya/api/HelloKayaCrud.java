@@ -22,7 +22,6 @@ import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.model.KayaModelMasterItem;
 import com.smartkaya.service.KayaBaseService;
-import com.smartkaya.service.KayaFactory;
 import com.smartkaya.user.User;
 import com.smartkaya.user.User.UserType;
 
@@ -265,7 +264,8 @@ public class HelloKayaCrud {
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
 		paramaters.setListPropertys(kvParamaterList);
 
-		//KayaBaseService.excuteService(paramaters);
+//		paramaters.setServicename("com.smartkaya.business.id006500000003");
+//		KayaBaseService.excuteService(paramaters);
 		
 
 		// 有新追加项目时
