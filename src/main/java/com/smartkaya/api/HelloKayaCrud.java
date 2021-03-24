@@ -21,7 +21,7 @@ import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.model.KayaModelMasterItem;
-import com.smartkaya.service.KayaBaseService;
+//import com.smartkaya.service.KayaBaseService;
 import com.smartkaya.user.User;
 import com.smartkaya.user.User.UserType;
 
