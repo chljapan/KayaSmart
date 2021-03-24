@@ -15,6 +15,7 @@ public class Paramaters implements java.io.Serializable {
 	private String id;// RoleID
 	private String text;
 	private String crud;
+	private String servicename;
 	private HashMap<String,Object> businessKeyMap;
 	private String actionid;
 	private List<String> targetTableList = new ArrayList<String>();
@@ -44,6 +45,12 @@ public class Paramaters implements java.io.Serializable {
 		this.crud = crud;
 	}
 	
+	public String getServicename() {
+		return servicename;
+	}
+	public void setServicename(String servicename) {
+		this.servicename = servicename;
+	}
 	public HashMap<String, Object> getBusinessKeyMap() {
 		return businessKeyMap;
 	}

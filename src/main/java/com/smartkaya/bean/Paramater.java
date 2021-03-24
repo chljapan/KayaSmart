@@ -29,6 +29,9 @@ public class Paramater implements java.io.Serializable {
 	private String actionid;
 	/** 则删改查标识*/
 	private String crud;
+	/** Service 名称*/
+	private String servicename;
+	
 	/** 检索，删除类型*/
 	private Type type;
 	/** 主键信息*/
@@ -86,6 +89,13 @@ public class Paramater implements java.io.Serializable {
 	}
 	public void setCrud(String crud) {
 		this.crud = crud;
+	}
+	
+	public String getServicename() {
+		return servicename;
+	}
+	public void setServicename(String servicename) {
+		this.servicename = servicename;
 	}
 	public Type getType() {
 		return type;
