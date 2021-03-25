@@ -8,9 +8,8 @@ import com.smartkaya.bean.Paramaters;
 
 public abstract class KayaBaseService {
 	private Paramaters paramaters;
-	private List<Paramaters> paramatersList;
+	private ArrayList<Paramaters> paramatersList;
 	private Paramater paramater;
-	private List<Paramater> paramaterList;
 	
 	//这个参数是各个基本方法执行的顺序
 	public static KayaBaseService excuteService(Paramaters paramaters) {
@@ -31,11 +30,11 @@ public abstract class KayaBaseService {
 		return paramaters;
 	}
 	
-	public List<Paramaters> getParamatersList() {
+	public ArrayList<Paramaters> getParamatersList() {
 		return paramatersList;
 	}
 
-	public void setParamatersList(List<Paramaters> paramatersList) {
+	public void setParamatersList(ArrayList<Paramaters> paramatersList) {
 		this.paramatersList = paramatersList;
 	}
 
@@ -45,14 +44,6 @@ public abstract class KayaBaseService {
 
 	public void setParamater(Paramater paramater) {
 		this.paramater = paramater;
-	}
-
-	public List<Paramater> getParamaterList() {
-		return paramaterList;
-	}
-
-	public void setParamaterList(List<Paramater> paramaterList) {
-		this.paramaterList = paramaterList;
 	}
 
 	public abstract void before();
