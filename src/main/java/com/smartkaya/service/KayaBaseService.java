@@ -1,8 +1,6 @@
 package com.smartkaya.service;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
 
