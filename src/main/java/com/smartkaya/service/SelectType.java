@@ -1,5 +1,10 @@
 package com.smartkaya.service;
-
+/**
+ * 检索枚举类型
+ * @author LiangChen　2021/3/26
+ * @version 1.0.0
+ *
+ */
 public enum SelectType {
 
 	FULLTEXT("全文",1),FREEKEY("任意键",2),BUSINESSKEY("主键",3),MUILTKEYBYORI("用orientationkey多键",4),MUILTKEYBYBUS("用businessid多键单表",5),MUILTKEYINSUB("多键包含子表",6),CUSTOM("自定义",7);
@@ -41,7 +46,7 @@ public enum SelectType {
     } 
     
     /**
-     * Typeを取得
+     * Type取得
      * 
      * @param index
      * @return SelectType

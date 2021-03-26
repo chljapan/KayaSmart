@@ -12,8 +12,8 @@ import com.smartkaya.log.KayaLogManager;
 
 /**
  * 动态生成服务实例
-* @author LiangChen　2021/3/26
-* @version 1.0.0
+ * @author LiangChen　2021/3/26
+ * @version 1.0.0
  *
  */
 public class KayaFactory {
