@@ -7,7 +7,6 @@ import org.apache.commons.lang.StringUtils;
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
 import com.smartkaya.constant.Constant;
-import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.log.KayaLogManager;
 
 public class KayaFactory {
