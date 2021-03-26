@@ -22,6 +22,8 @@ import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.model.KayaModelMasterItem;
 //import com.smartkaya.service.KayaBaseService;
+//import com.smartkaya.service.SelectType;
+//import com.smartkaya.service.KayaBaseService;
 import com.smartkaya.user.User;
 import com.smartkaya.user.User.UserType;
 
@@ -52,7 +54,6 @@ public class HelloKayaCrud {
 		paramater.setId(kayaModelId);
 		paramater.setPropertys(new HashMap<String,Object>());
 		
-		
 		User user = new User();
 		paramater.setUsrinfo(user.initUserInfo(UserType.E1));
 		
@@ -77,8 +78,8 @@ public class HelloKayaCrud {
 //		paramater2.setPropertys(propertys2);
 //		
 //		List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
-		
-		
+
+//		List<HashMap<String, Object>> resultList = KayaBaseService.excuteService(paramater).getQueryresult();
 		
 		
 
@@ -264,7 +265,7 @@ public class HelloKayaCrud {
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
 		paramaters.setListPropertys(kvParamaterList);
 
-//		paramaters.setServicename("com.smartkaya.business.id006500000003");
+//		paramaters.setServicename("com.smartkaya.basebusiness.id006500000003");
 //		KayaBaseService.excuteService(paramaters);
 		
 
