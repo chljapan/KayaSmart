@@ -49,7 +49,6 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.mysql.cj.Constants;
 import com.smartkaya.api.utils.StringUtil;
 import com.smartkaya.constant.Constant;
 import com.smartkaya.log.KayaLogManager;
