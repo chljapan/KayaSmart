@@ -1,4 +1,7 @@
-package com.smartkaya.business;
+package com.smartkaya.basebusiness;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.smartkaya.bean.Paramaters;
 import com.smartkaya.service.BusinessAnnotation;
@@ -18,17 +21,21 @@ public class id006500000003 extends KayaBaseService {
 		paramaters.getListPropertys().get(0).put("PhoneNumber", "66666666");
 	}
 
-//	@Override
-//	public void excutBusiness() {
-//		// TODO Auto-generated method stub
-//		Paramaters paramaters = super.getParamaters();
-//		paramaters.getId();
-//		System.out.println("excutBusiness");
-//	}
+	public void excutBusiness() {
+		EmployeeInfo em = new EmployeeInfo(this.getParamater().getPropertys());
+		
+		
+		
+		// TODO Auto-generated method stub
+		Paramaters paramaters = super.getParamaters();
+		paramaters.getId();
+		System.out.println("excutBusiness");
+	}
 
 	@Override
 	public void after() {
 		Paramaters paramaters = super.getParamaters();
+		ArrayList<Paramaters> ss = super.getParamatersList();
 		paramaters.getId();
 		System.out.println("after");
 	}
