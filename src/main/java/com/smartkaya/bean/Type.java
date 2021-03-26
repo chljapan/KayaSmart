@@ -44,7 +44,7 @@ public enum Type {
      * Typeを取得
      * 
      * @param index
-     * @return Type
+     * @return SelectType
      */
     public static Type getValue(int index) {
         for (Type value : Type.values()) {

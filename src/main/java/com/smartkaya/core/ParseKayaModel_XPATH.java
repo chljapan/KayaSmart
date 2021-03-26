@@ -49,6 +49,7 @@ import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import com.mysql.cj.Constants;
 import com.smartkaya.api.utils.StringUtil;
 import com.smartkaya.constant.Constant;
 import com.smartkaya.log.KayaLogManager;
@@ -102,13 +103,16 @@ public final class ParseKayaModel_XPATH {
 	// TableIdList
 	protected List<String> KayaModelTables;
 
+	// Roles
+	private List<String> KayaRolesList;
+
 	// WorkFlowTables
 	protected List<String> WorkFlowTables;
-	
+
 	// WorkFlowItems
 	protected Map<String,String> WorkFlowItems;
-		
-		
+
+
 
 	// kayaModelTablesMap
 	protected Map<String,String>  KayaModelRoleToProductConnectionMap;
@@ -148,6 +152,7 @@ public final class ParseKayaModel_XPATH {
 
 	private static String baseModelPath = "";
 	private static String baseModelVersion = "";
+	protected static String kayaBaseBusiness = "";
 
 	public static final ParseKayaModel_XPATH getInstance(){
 		ParseKayaModel_XPATH INSTANCE = null;
@@ -179,6 +184,7 @@ public final class ParseKayaModel_XPATH {
 
 			kayaLoger = KayaLogManager.getInstance();
 			baseModelPath = properties.getProperty(Constant.KAYAMODELBASEPATH);
+			kayaBaseBusiness = properties.getProperty(Constant.KAYAMODELBASEPATH);
 
 			mode = properties.getProperty(Constant.MODE);
 			if (Constant.PRODUCTION.equals(mode)) {
@@ -246,7 +252,7 @@ public final class ParseKayaModel_XPATH {
 
 			baseModelPath = properties.getProperty(Constant.KAYAMODELBASEPATH);
 
-
+			kayaBaseBusiness = properties.getProperty(Constant.KAYAMODELBASEPATH);
 
 			mode = properties.getProperty(Constant.MODE);
 			if (Constant.PRODUCTION.equals(mode)) {
@@ -280,7 +286,7 @@ public final class ParseKayaModel_XPATH {
 	}
 
 	private ParseKayaModel_XPATH(String version,String filePath) {
-
+		KayaRolesList = new ArrayList<String>();
 		KayaModelIdOrientationKeyMap = new HashMap<String, String>();
 		KayaModelMap = new HashMap<String,KayaMetaModel>();
 		RootFolderAttributesMap = new HashMap<String,String>();
@@ -336,15 +342,15 @@ public final class ParseKayaModel_XPATH {
 						//			            	System.out.println("Ohter");
 						//			            }
 						InputSource inputSource = null;
-//						String url = ParseKayaModel_XPATH.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-//						if (url.lastIndexOf(".jar")!=-1) {
-//							InputStream inputStream = getClass().getClassLoader().getResourceAsStream("resources/mga.dtd");
-//				            inputSource = new InputSource(inputStream);
-//				            inputSource.setSystemId(systemId);
-//				            inputSource.setEncoding("UTF-8");
-//						} else {
-//						    inputSource = new InputSource(Constant.DTD);
-//						}
+						//						String url = ParseKayaModel_XPATH.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+						//						if (url.lastIndexOf(".jar")!=-1) {
+						//							InputStream inputStream = getClass().getClassLoader().getResourceAsStream("resources/mga.dtd");
+						//				            inputSource = new InputSource(inputStream);
+						//				            inputSource.setSystemId(systemId);
+						//				            inputSource.setEncoding("UTF-8");
+						//						} else {
+						//						    inputSource = new InputSource(Constant.DTD);
+						//						}
 						inputSource = new InputSource(Constant.DTD);
 						return inputSource;
 					}
@@ -566,6 +572,62 @@ public final class ParseKayaModel_XPATH {
 			}
 			kayaLoger.info("*********************Table Create End***********************\n");
 
+			kayaLoger.info("*********************Bean Create Start***********************\n");
+			if (KayaRolesList.size() > 0) {
+//				class emlInfo {
+//					private  HashMap<String,Object> property;
+//					emlInfo(HashMap<String,Object> property) {
+//						this.property = property;
+//					}
+//					
+//					public String 姓名 = (String) this.property.get("name");
+//				}
+				KayaRolesList.forEach(item -> {
+					// 定义类名称
+					System.out.println("// " + KayaModelMap.get(item).getName() + "\n"
+							+ "import java.util.HashMap;");
+					System.out.println("class " + KayaModelMap.get(item).get(Constant.KINDKEY) + " {");
+					System.out.println("	private  HashMap<String,Object> property;");
+					System.out.println("	" + KayaModelMap.get(item).get(Constant.KINDKEY) + "(HashMap<String,Object> property) {"
+							+ "\n		this.property = property;\n"
+							+ "	}");
+					for (Map.Entry<String, String> entity : KayaModelParentIdMap.entrySet()) {
+						if(entity.getValue().equals(item)){
+							switch (KayaModelMap.get(entity.getKey()).getMetaModelType()) { 
+							case Constant.G_PROPERTY:
+							case Constant.UNIQUEPROPERTY:
+								System.out.println("	public " + KayaModelMap.get(entity.getKey()).get(Constant.DATATYPE) + " "
+										+ KayaModelMap.get(entity.getKey()).getName() 
+										+ " = (" + KayaModelMap.get(entity.getKey()).get(Constant.DATATYPE) + ")this.property.get(\"" 
+										+ KayaModelMap.get(entity.getKey()).get(Constant.KINDKEY) + "\");");
+								break;
+							case Constant.MASTER_REFERNCE:
+								System.out.println("	public String "
+										+ KayaModelMap.get(entity.getKey()).getName() 
+										+ " = (String)this.property.get(\"" 
+										+ KayaModelMap.get(entity.getKey()).get(Constant.KINDKEY) + "\");");
+								break;
+							case Constant.PROPERTYREF:
+								System.out.println("	public " + KayaModelMap.get(KayaModelMap.get(entity.getKey()).get(Constant.REFERRED)).get(Constant.DATATYPE) + " "
+										+ KayaModelMap.get(entity.getKey()).getName() 
+										+ " = (" + KayaModelMap.get(KayaModelMap.get(entity.getKey()).get(Constant.REFERRED)).get(Constant.DATATYPE) + ")this.property.get(\"" 
+										+ KayaModelMap.get(entity.getKey()).get(Constant.KINDKEY) + "\");");
+								break;
+							default:
+								break;
+
+							}
+						}
+					}
+					
+					System.out.println("}");
+				});
+
+
+
+
+			}
+			kayaLoger.info("*********************Bean Create End***********************\n");
 
 		} catch (ParserConfigurationException | SAXException | IOException e1) {
 			// TODO:
@@ -583,7 +645,7 @@ public final class ParseKayaModel_XPATH {
 	@SuppressWarnings("unchecked")
 	private void parseMga(MgaObject obj, KayaMetaModel kayaMetaModelMga) {
 
-		// Object Type
+		// Object SelectType
 		int type = obj.getObjType();
 
 		switch (type) {
@@ -712,7 +774,7 @@ public final class ParseKayaModel_XPATH {
 		case MgaObject.OBJTYPE_MODEL:
 			Map<String,Object> modelAttributesMap = new HashMap<String,Object>();
 			List<String> businessKeys = new ArrayList<String>();
-			
+
 
 			KayaMetaModel kayaModel = new KayaMetaModel();
 			kayaModel.setGmeId(obj.getID());
@@ -757,6 +819,9 @@ public final class ParseKayaModel_XPATH {
 				}
 				kayaModel.setOrientationKey(getOrientationKey(ConnectionMap, obj.getID(), obj.getID()));
 				KayaModelIdOrientationKeyMap.put(obj.getID(), getOrientationKey(ConnectionMap, obj.getID(), obj.getID()));
+
+
+				KayaRolesList.add(obj.getID());
 
 			} else if (obj.getMetaBase().getName().equals(Constant.G_WORKFLOW)) {
 				kayaModel.setParentId(ConnectionMap.get(obj.getID()));
@@ -879,7 +944,7 @@ public final class ParseKayaModel_XPATH {
 				}
 
 			}
-			
+
 			// RowSpan is 1
 			modelAttributesMap.put(Constant.ROWSPAN, 1);
 			kayaModel.setAttributesMap(modelAttributesMap);
@@ -1250,7 +1315,7 @@ public final class ParseKayaModel_XPATH {
 						modelKayaMetaModel.setMetaModelType(eElement.getAttribute(Constant.KIND));
 						ConnectionMap.put(eElement.getAttribute(Constant.ID), kayaMetaModelXme.getGmeId());
 						((List<String>) KayaModelMap.get(kayaMetaModelXme.getGmeId()).getAttributesMap().get(Constant.GROUP_ITEMS)).add(eElement.getAttribute(Constant.ID));
-						
+
 						// Diagram
 					} else if (Constant.KAYAWORKFLOWDIAGRAM.equals(eElement.getAttribute(Constant.KIND))) {
 						modelKayaMetaModel.setParentId(RootFolderId);
@@ -1317,7 +1382,7 @@ public final class ParseKayaModel_XPATH {
 					kayaMetaModelXme.put(
 							eElement.getAttribute(Constant.KIND),
 							eElement.getTextContent().trim());
-					
+
 					if (Constant.MULTILANGUAGE.equals(eElement.getAttribute(Constant.KIND))) {
 						for (String language : eElement.getTextContent().trim().split("\n")) {
 							if (language.contains("=") && language.contains("=") && Language.equals(language.split("=")[0].trim())) {
@@ -1325,7 +1390,7 @@ public final class ParseKayaModel_XPATH {
 							}
 						}
 					}
-					
+
 					if (Constant.WORKFLOWID.equals(eElement.getAttribute(Constant.KIND)) && !UtilTools.isEmpty(eElement.getTextContent().trim())) { 
 						WorkFlowItems.put(kayaMetaModelXme.getGmeId(),eElement.getTextContent().trim());
 					} 
@@ -1551,7 +1616,7 @@ public final class ParseKayaModel_XPATH {
 									//atomKayaMetaModel.setUniqueKey(true);
 								} 
 								//else {
-									//atomKayaMetaModel.setUniqueKey(false);
+								//atomKayaMetaModel.setUniqueKey(false);
 								//}
 							} else if (Constant.REGNODE.equals(attributeElement.getTagName())) {
 								//TODO： Element location information
@@ -1605,7 +1670,7 @@ public final class ParseKayaModel_XPATH {
 								refKayaMetaModel.put(
 										attributeElement.getAttribute(Constant.KIND),
 										attributeElement.getTextContent().trim());
-								
+
 								if (Constant.MULTILANGUAGE.equals(attributeElement.getAttribute(Constant.KIND))) {
 									for (String language : attributeElement.getTextContent().trim().split("\n")) {
 										if (language.contains("=") && Language.equals(language.split("=")[0].trim())) {

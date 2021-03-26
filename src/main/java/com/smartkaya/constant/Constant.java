@@ -29,6 +29,7 @@ public class Constant {
 	public static final String KAYAMODELBASEPATH = "baseModel.basePath";// model file path
 	public static final String KAYAMODELMGAV = "baseModel.mgaVersion";// gmeVersion model name
 	public static final String KAYAMODELXMEV = "baseModel.xmeVersion";// xmeVersion model name
+	public static final String KAYABESEBUSINESS = "kayaBaseBusiness";
 	
 	
 	
@@ -260,7 +261,7 @@ public class Constant {
 	public static final String CREATETABLETYPE="CreateTableType";
 	
 	/**
-	 * Database Type
+	 * Database SelectType
 	 */
 	public static final String MYSQL = "MySql";
 	public static final String H2 = "H2";
