@@ -29,14 +29,14 @@ public class id006500000003 extends KayaBaseService {
 		// TODO Auto-generated method stub
 		Paramaters paramaters = super.getParamaters();
 		paramaters.getId();
-		System.out.println("excutBusiness");
+		System.out.println("excutBusiness:"  + em.区);
 	}
 
 	@Override
 	public void after() {
-		Paramaters paramaters = super.getParamaters();
-		ArrayList<Paramaters> ss = super.getParamatersList();
-		paramaters.getId();
+//		Paramaters paramaters = super.getParamaters();
+//		ArrayList<Paramaters> ss = super.getParamatersList();
+//		paramaters.getId();
 		System.out.println("after");
 	}
 
