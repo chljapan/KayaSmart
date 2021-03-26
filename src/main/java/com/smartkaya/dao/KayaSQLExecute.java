@@ -202,7 +202,7 @@ public final class KayaSQLExecute {
 			}
 		}
 
-		dBConnection.executeBatch(sqlStringList);
+		this.count = dBConnection.executeBatch(sqlStringList);
 	}
 
 	/**
@@ -235,9 +235,9 @@ public final class KayaSQLExecute {
 					AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId(), paramater.getActionid(),
 					paramater.getOrientationKey(),paramater.getPropertys(),paramater.getBusinessKeyMap(), usrinfo).toString());
 		}
-		dBConnection.executeBatch(sqlStringList);
+		this.count = dBConnection.executeBatch(sqlStringList);
 		kayaLoger.info(insertSQL);
-		return 0;
+		return this.count;
 
 	}
 
@@ -283,9 +283,9 @@ public final class KayaSQLExecute {
 			kayaLoger.info(insertSQL);
 		}
 
-		dBConnection.executeBatch(sqlStringList);
+		this.count = dBConnection.executeBatch(sqlStringList);
 
-		return 0;
+		return this.count;
 
 	}
 
@@ -326,8 +326,8 @@ public final class KayaSQLExecute {
 			sqlStringList.add(insertSQL.toString());
 		}
 
-		dBConnection.executeBatch(sqlStringList);
-		return 0;
+		this.count = dBConnection.executeBatch(sqlStringList);
+		return this.count;
 
 	}
 
@@ -347,9 +347,9 @@ public final class KayaSQLExecute {
 		List<String> sqlStringList = new ArrayList<String>();
 		getUpdateSqlString(paramater.getPropertys(), kayaModelId, sqlStringList, paramater.getOrientationKey(),paramater.getUsrinfo());
 
-		dBConnection.executeBatch(sqlStringList);
+		this.count = dBConnection.executeBatch(sqlStringList);
 
-		return 0;
+		return this.count;
 	}
 
 	/**
@@ -365,8 +365,8 @@ public final class KayaSQLExecute {
 		for (HashMap<String,Object> subEntity : paramaters.getListPropertys()) {
 			getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey(),paramaters.getUsrinfo());
 		}
-		dBConnection.executeBatch(sqlStringList);
-		return 0;
+		this.count = dBConnection.executeBatch(sqlStringList);
+		return this.count;
 	}
 
 	/**
@@ -402,8 +402,8 @@ public final class KayaSQLExecute {
 		kayaLoger.info(insertSQL);
 		sqlStringList.add(insertSQL.toString());
 
-		dBConnection.executeBatch(sqlStringList);
-		return 0;
+		this.count = dBConnection.executeBatch(sqlStringList);
+		return this.count;
 	}
 
 	/**
@@ -421,8 +421,8 @@ public final class KayaSQLExecute {
 				getUpdateSqlString(subEntity, kayaModelId, sqlStringList, paramaters.getOrientationKey(),paramaters.getUsrinfo());
 			}
 		}
-		dBConnection.executeBatch(sqlStringList);
-		return 0;
+		this.count = dBConnection.executeBatch(sqlStringList);
+		return this.count;
 	}
 
 	/**
@@ -432,11 +432,8 @@ public final class KayaSQLExecute {
 	 * @return
 	 */
 	public List<HashMap<String, Object>> selectByFreeKind(Paramater paramater) {
-		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
-		// Table存在确认
-		if (!KayaModelUtils.checkTableId(paramater)) {
-			return kayaEntityList;
-		}
+		//List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
+		
 		String kayaModelId = paramater.getId();
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
 		// 更新全对象取得（包含子）
@@ -492,8 +489,9 @@ public final class KayaSQLExecute {
 
 		kayaLoger.info(selectSQL);
 		paramater.setOrientationKeySet(new HashSet<String>());
-		kayaEntityList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
-		return kayaEntityList;
+		this.resultList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+		this.count = this.resultList.size();
+		return this.resultList;
 	}
 
 	/**
@@ -503,7 +501,7 @@ public final class KayaSQLExecute {
 	 * @return
 	 */
 	public List<HashMap<String, Object>> selectMuiltKindByOrientationkey(Paramater paramater) {
-		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
+		// List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 
 		// TODO commonSQL要应用
 		StringBuilder selectSQL = new StringBuilder();
@@ -517,9 +515,9 @@ public final class KayaSQLExecute {
 
 		kayaLoger.info(selectSQL);
 		paramater.setOrientationKeySet(new HashSet<String>());
-		kayaEntityList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
-
-		return kayaEntityList;
+		this.resultList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+		this.count = this.resultList.size();
+		return this.resultList;
 	}
 	
 	/**
@@ -529,7 +527,7 @@ public final class KayaSQLExecute {
 	 * @return
 	 */
 	public List<HashMap<String, Object>> selectOrientationkey(Paramater paramater) {
-		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
+		//List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 
 		// TODO commonSQL要应用
 		StringBuilder selectSQL = new StringBuilder();
@@ -538,9 +536,9 @@ public final class KayaSQLExecute {
 
 		kayaLoger.info(selectSQL);
 		paramater.setOrientationKeySet(new HashSet<String>());
-		kayaEntityList = dBConnection.executeOrientationsQuery(selectSQL.toString(), paramater.getOrientationKeySet());
-
-		return kayaEntityList;
+		resultList = dBConnection.executeOrientationsQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+		this.count = resultList.size();
+		return this.resultList;
 	}
 
 	/**
@@ -551,11 +549,12 @@ public final class KayaSQLExecute {
 	 */
 	public List<HashMap<String, Object>> selectMuiltKindByBusiness(Paramater paramater) {
 
-		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
+	//List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 
 		StringBuilder selectSQL = commonSelectSQL(paramater, "businessid",false);
-		kayaEntityList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
-		return kayaEntityList;
+		this.resultList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+		this.count = resultList.size();
+		return this.resultList;
 	}
 
 	/**
@@ -1235,11 +1234,8 @@ public final class KayaSQLExecute {
 	 * @return
 	 */
 	public List<HashMap<String, Object>> selectByBusinessKeys(Paramater paramater) {
-		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
-		// Table存在确认
-		if (!KayaModelUtils.checkTableId(paramater)) {
-			return kayaEntityList;
-		}
+		//List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
+
 		String kayaModelId = paramater.getId();
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
 		String businessId = KayaModelUtils.getBusinessKey(AccessKayaModel.getKayaModelId(kayaModelId),
@@ -1254,8 +1250,8 @@ public final class KayaSQLExecute {
 		}
 		selectSQL.append(" AND parentid = '" + kayaModelId + "' ORDER BY orientationkey DESC;");
 		paramater.setOrientationKeySet(new HashSet<String>());
-		kayaEntityList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
-		return kayaEntityList;
+		this.resultList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+		return this.resultList;
 	}
 
 	/**
@@ -1265,7 +1261,7 @@ public final class KayaSQLExecute {
 	 * @return
 	 */
 	public List<HashMap<String, Object>> selectOrientationsByBusinessKeys(Paramater paramater) {
-		List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
+		//List<HashMap<String, Object>> kayaEntityList = new ArrayList<HashMap<String, Object>>();
 
 		String kayaModelId = paramater.getId();
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
@@ -1282,8 +1278,8 @@ public final class KayaSQLExecute {
 		selectSQL.append(" ORDER BY orientationkey, parentid ASC;");
 		paramater.setOrientationKeySet(new HashSet<String>());
 		kayaLoger.info(selectSQL);
-		kayaEntityList = dBConnection.executeOrientationsQuery(selectSQL.toString(), paramater.getOrientationKeySet());
-		return kayaEntityList;
+		this.resultList = dBConnection.executeOrientationsQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+		return this.resultList;
 	}
 	
 	/**
@@ -1293,11 +1289,8 @@ public final class KayaSQLExecute {
 	 * @return
 	 */
 	public List<HashMap<String, Object>> selectByFullText(Paramater paramater) {
-		List<HashMap<String, Object>> kayaEntityMapList = new ArrayList<HashMap<String, Object>>();
-		// Table存在确认
-		if (!KayaModelUtils.checkTableId(paramater)) {
-			return kayaEntityMapList;
-		}
+		//List<HashMap<String, Object>> kayaEntityMapList = new ArrayList<HashMap<String, Object>>();
+
 		String kayaModelId = paramater.getId();
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
 		StringBuilder selectSQL = new StringBuilder(KayaModelUtils.selectString + tableName
@@ -1306,8 +1299,8 @@ public final class KayaSQLExecute {
 
 		kayaLoger.info(selectSQL);
 		paramater.setOrientationKeySet(new HashSet<String>());
-		kayaEntityMapList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
-		return kayaEntityMapList;
+		this.resultList = dBConnection.executeQuery(selectSQL.toString(), paramater.getOrientationKeySet());
+		return this.resultList;
 	}
 
 	/**
@@ -1338,9 +1331,9 @@ public final class KayaSQLExecute {
 
 		deleteSQL.append(" WHERE orientationkey like '" + orientationKey + "%';");
 		kayaLoger.info(deleteSQL);
-		dBConnection.execute(deleteSQL.toString());
+		this.count = dBConnection.executeUpdate(deleteSQL.toString());
 
-		return 0;
+		return this.count;
 	}
 
 	/**
@@ -1373,9 +1366,9 @@ public final class KayaSQLExecute {
 			sqlStringList.add(deleteSQL.toString());
 		}
 
-		dBConnection.executeBatch(sqlStringList);
+		this.count = dBConnection.executeBatch(sqlStringList);
 
-		return 0;
+		return this.count;
 	}
 
 	/**
@@ -1406,9 +1399,9 @@ public final class KayaSQLExecute {
 			}
 		}
 
-		dBConnection.executeBatch(sqlStringList);
+		this.count = dBConnection.executeBatch(sqlStringList);
 
-		return 0;
+		return this.count;
 	}
 
 	// Business文字列取得
