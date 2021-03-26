@@ -460,6 +460,14 @@ public final class AccessKayaModel {
 
 	}
 
+	public static String getKayaBaseBusinessName() {
+		if (kayaModelAccess == null) {
+			return Constant.EMPTY;
+		} else {
+			return ParseKayaModel_XPATH.kayaBaseBusiness;
+		}
+	}
+	
 	/**
 	 * 取得参照元的KayaModelId
 	 * @param kayaModelId
