@@ -1,8 +1,5 @@
 package com.smartkaya.basebusiness;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.smartkaya.bean.Paramaters;
 import com.smartkaya.service.BusinessAnnotation;
 import com.smartkaya.service.KayaBaseService;
