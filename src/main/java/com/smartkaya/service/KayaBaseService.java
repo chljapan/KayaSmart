@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
-import com.smartkaya.constant.Constant;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.log.KayaLogManager;
 
@@ -14,12 +13,12 @@ public abstract class KayaBaseService {
 	private Paramaters paramaters;
 	private ArrayList<Paramaters> paramatersList;
 	private Paramater paramater;
-	private List<HashMap<String, Object>> queryresult;// 查询结果
-	private int count = 0;
-	static KayaLogManager kayaLoger;
+//	private List<HashMap<String, Object>> queryresult;// 查询结果
+//	private int count = 0;
+	public KayaLogManager kayaLoger = KayaLogManager.getInstance();
 	private int paramaterType = 0;// 识别参数临时变量
 	
-	KayaSQLExecute dao = new KayaSQLExecute();
+	public KayaSQLExecute dao = new KayaSQLExecute();
 	//这个参数是各个基本方法执行的顺序
 	public static KayaBaseService excuteService(Paramaters paramaters) {
 		return KayaFactory.createKayaService(paramaters);
@@ -58,15 +57,20 @@ public abstract class KayaBaseService {
 		this.paramater = paramater;
 	}
 	
-	public List<HashMap<String, Object>> getQueryresult() {
-		return this.queryresult;
-	}
-	
-	
-	public int getCrudCount() {
-		return this.count;
-	}
 
+
+	public List<HashMap<String, Object>> getQueryresult() {
+		return dao.getResultList();
+	}
+//	void setQueryresult(List<HashMap<String, Object>> queryresult) {
+//		this.queryresult = queryresult;
+//	}
+	public int getCount() {
+		return dao.getCount();
+	}
+//	void setCount(int count) {
+//		this.count = count;
+//	}
 	/**
 	 * 业务规则（数据库操作前处理）
 	 */
@@ -77,19 +81,12 @@ public abstract class KayaBaseService {
 		switch (paramaterType) {
 		case 1:
 			dao.execute(paramater);
-			count = dao.getCount();
-			// 查询情况下返回查询结果
-			if(Constant.SELECT.equals(paramater.getCrud())) {
-				queryresult = dao.getResultList();
-			}
 			break;
 		case 2:
 			dao.execute(paramaters);
-			count = dao.getCount();
 			break;
 		case 3:
 			dao.execute(paramatersList);
-			count = dao.getCount();
 			break;
 		default :
 			kayaLoger.error("This type of database is not supported!\n");

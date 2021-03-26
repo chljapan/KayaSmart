@@ -2,9 +2,10 @@ package com.smartkaya.service;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
-import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.log.KayaLogManager;
 
@@ -17,7 +18,7 @@ public class KayaFactory {
 		try {
 
 			String className = paramater.getServicename();
-			if (Constant.EMPTY.equals(paramater.getServicename().trim())) {
+			if (StringUtils.isEmpty(paramater.getServicename())) {
 				// KayaBaseService
 				kayaBaseService = (KayaBaseService)Class.forName(AccessKayaModel.getKayaBaseBusinessName()).newInstance();
 
