@@ -21,6 +21,7 @@ import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.model.KayaModelMasterItem;
+import com.smartkaya.service.KayaBaseService;
 //import com.smartkaya.service.KayaBaseService;
 //import com.smartkaya.service.SelectType;
 //import com.smartkaya.service.KayaBaseService;
@@ -65,9 +66,9 @@ public class HelloKayaCrud {
 		paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
 		paramater.setPropertys(propertys);
 		paramater.setOrientationKey(request.getParameter("orientationKey"));
-		KayaSQLExecute dao = new KayaSQLExecute();
+	//	KayaSQLExecute dao = new KayaSQLExecute();
 		
-		List<HashMap<String, Object>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
+		//List<HashMap<String, Object>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
 //		
 //		Paramater paramater2 = new Paramater();
 //		paramater2.setId(kayaModelId);
@@ -78,8 +79,8 @@ public class HelloKayaCrud {
 //		paramater2.setPropertys(propertys2);
 //		
 //		List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
-
-//		List<HashMap<String, Object>> resultList = KayaBaseService.excuteService(paramater).getQueryresult();
+		paramater.setCrud(Constant.SELECT);
+		List<HashMap<String, Object>> resultList = KayaBaseService.excuteService(paramater).getQueryresult();
 		
 		
 
@@ -233,8 +234,7 @@ public class HelloKayaCrud {
 		{put("YuanGongId", user.getUserId());}}); 
 		paramaters.setCrud(Constant.INSERT);
 		
-		KayaSQLExecute dao = new KayaSQLExecute();
-		dao.execute(paramaters);
+		KayaBaseService.excuteService(paramaters);
 
 		RestHelper helper = new RestHelper();
 		return helper.getSimpleSuccess();
@@ -243,39 +243,39 @@ public class HelloKayaCrud {
 	@RequestMapping(value = "/kayaupdate", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKayaUpdate(HttpServletRequest request, HttpServletResponse response) {
-		KayaSQLExecute dao = new KayaSQLExecute();
+		//KayaSQLExecute dao = new KayaSQLExecute();
 
 		String kayaModelId = request.getParameter("kayaModelId");
 
 		Paramaters paramaters = new Paramaters();
 
 		JSONArray jsonarray = JSONArray.fromObject(request.getParameter("kvParamaterList"));
-		JSONArray insertField = JSONArray.fromObject(request.getParameter("insertField"));
+		//JSONArray insertField = JSONArray.fromObject(request.getParameter("insertField"));
 
 		@SuppressWarnings("unchecked")
 		List<HashMap<String, Object>> kvParamaterList = (List<HashMap<String, Object>>) JSONArray.toCollection(jsonarray,
 				HashMap.class);
 
 		// 新追加的项目
-		@SuppressWarnings("unchecked")
-		List<String> insertFieldList = (List<String>) JSONArray.toCollection(insertField);
+//		@SuppressWarnings("unchecked")
+//		List<String> insertFieldList = (List<String>) JSONArray.toCollection(insertField);
 
 		paramaters.setId(kayaModelId);
 		// multipleParamater.setKvParamaterList(kvParamaterList);
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
 		paramaters.setListPropertys(kvParamaterList);
-
+		paramaters.setCrud(Constant.UPDATE);
 //		paramaters.setServicename("com.smartkaya.basebusiness.id006500000003");
-//		KayaBaseService.excuteService(paramaters);
+		KayaBaseService.excuteService(paramaters);
 		
 
-		// 有新追加项目时
-		if (insertFieldList.size() > 0) {
-			dao.update(paramaters, insertFieldList);
-			// 普通更新时
-		} else {
-			dao.update(paramaters);
-		}
+//		// 有新追加项目时
+//		if (insertFieldList.size() > 0) {
+//			dao.update(paramaters, insertFieldList);
+//			// 普通更新时
+//		} else {
+//			dao.update(paramaters);
+//		}
 
 		RestHelper helper = new RestHelper();
 		return helper.getSimpleSuccess();
@@ -326,7 +326,7 @@ public class HelloKayaCrud {
 	@ResponseBody
 	public Map<String, Object> HelloKayaDelete(HttpServletRequest request, HttpServletResponse response) {
 
-		KayaSQLExecute dao = new KayaSQLExecute();
+		//KayaSQLExecute dao = new KayaSQLExecute();
 
 		String kayaModelId = request.getParameter("kayaModelId");
 
@@ -349,7 +349,9 @@ public class HelloKayaCrud {
 
 		paramaters.setListPropertys(kvParamaterList);
 		paramaters.setBusinessKeyMap(kvBusinessKeyList.get(0));
-		dao.delete(paramaters);
+		paramaters.setCrud(Constant.DELETE);
+		KayaBaseService.excuteService(paramaters);
+		//dao.delete(paramaters);
 
 		RestHelper helper = new RestHelper();
 		return helper.getSimpleSuccess();

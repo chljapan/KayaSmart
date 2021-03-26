@@ -13,14 +13,14 @@ public class KayaBaseBusinessRule  extends KayaBaseService{
 		kayaLoger.info("before");
 	}
 	
-	/**
-	 * 业务数据库操作 
-	 */
-	public void excutBusiness(){
-		this.kayaLoger.info("excutBusiness");
-		dao.execute(this.getParamater());
-			// 查询情况下返回查询结果
-	}
+//	/**
+//	 * 业务数据库操作 
+//	 */
+//	public void excutBusiness(){
+//		this.kayaLoger.info("excutBusiness");
+//		dao.execute(this.getParamater());
+//			// 查询情况下返回查询结果
+//	}
 	
 	/**
 	 * 业务数据库操作后处理

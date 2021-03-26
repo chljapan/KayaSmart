@@ -18,14 +18,14 @@ public class KayaFactory {
 		KayaBaseService kayaBaseService=null; //定义一个类
 		try {
 
-			String className = paramater.getServicename();
+			
 			if (StringUtils.isEmpty(paramater.getServicename())) {
 				// KayaBaseService
 //				kayaBaseService = (KayaBaseService)Class.forName(AccessKayaModel.getKayaBaseBusinessName()).newInstance();
 				kayaBaseService = (KayaBaseService)Class.forName(Constant.KAYABASEBUSINESS).newInstance();
 
 			} else {
-				kayaBaseService = (KayaBaseService)Class.forName(className).newInstance(); //TODO:Packagepath 需要在参数中动态提取
+				kayaBaseService = (KayaBaseService)Class.forName(paramater.getServicename()).newInstance(); //TODO:Packagepath 需要在参数中动态提取
 			}
 
 			kayaBaseService.setParamater(paramater);
@@ -45,8 +45,15 @@ public class KayaFactory {
 	public static KayaBaseService createKayaService(Paramaters paramaters){
 		KayaBaseService kayaBaseService=null; //定义一个类
 		try {
-			String className = paramaters.getServicename();
-			kayaBaseService = (KayaBaseService)Class.forName(className).newInstance(); //TODO:Packagepath 需要在参数中动态提取
+			if (StringUtils.isEmpty(paramaters.getServicename())) {
+				// KayaBaseService
+//				kayaBaseService = (KayaBaseService)Class.forName(AccessKayaModel.getKayaBaseBusinessName()).newInstance();
+				kayaBaseService = (KayaBaseService)Class.forName(Constant.KAYABASEBUSINESS).newInstance();
+
+			} else {
+				kayaBaseService = (KayaBaseService)Class.forName(paramaters.getServicename()).newInstance(); //TODO:Packagepath 需要在参数中动态提取
+			}
+
 			kayaBaseService.setParamaters(paramaters);
 			kayaBaseService.operate();
 			
@@ -66,7 +73,14 @@ public class KayaFactory {
 		KayaBaseService kayaBaseService=null; //定义一个类
 		try {
 
-			kayaBaseService = (KayaBaseService)Class.forName(serviceName).newInstance(); //TODO:Packagepath 需要在参数中动态提取
+			if (StringUtils.isEmpty(serviceName)) {
+				// KayaBaseService
+//				kayaBaseService = (KayaBaseService)Class.forName(AccessKayaModel.getKayaBaseBusinessName()).newInstance();
+				kayaBaseService = (KayaBaseService)Class.forName(Constant.KAYABASEBUSINESS).newInstance();
+
+			} else {
+				kayaBaseService = (KayaBaseService)Class.forName(serviceName).newInstance(); //TODO:Packagepath 需要在参数中动态提取
+			}
 			kayaBaseService.setParamatersList(paramatersList);
 			kayaBaseService.operate();
 			
