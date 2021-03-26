@@ -21,6 +21,7 @@ import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.model.KayaModelMasterItem;
+import com.smartkaya.service.KayaBaseService;
 //import com.smartkaya.service.KayaBaseService;
 //import com.smartkaya.service.SelectType;
 //import com.smartkaya.service.KayaBaseService;
@@ -65,25 +66,9 @@ public class HelloKayaCrud {
 		paramater.setBusinessKeyMap(reqParaToMap(request.getParameter("kvParamaterList")));
 		paramater.setPropertys(propertys);
 		paramater.setOrientationKey(request.getParameter("orientationKey"));
-		KayaSQLExecute dao = new KayaSQLExecute();
+		paramater.setCrud(Constant.SELECT);
 		
-		List<HashMap<String, Object>> resultList = dao.selectMuiltKindByOrientationkey(paramater);
-//		
-//		Paramater paramater2 = new Paramater();
-//		paramater2.setId(kayaModelId);
-//		HashMap<String, Object> propertys2  = new HashMap<String, Object>();
-//		propertys2.put("Password", "123456");
-//		propertys2.put("EmployeeId", "10001");
-//		paramater2.setCrud(Constant.SELECT);
-//		paramater2.setPropertys(propertys2);
-//		
-//		List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
-
-//		List<HashMap<String, Object>> resultList = KayaBaseService.excuteService(paramater).getQueryresult();
-		
-		
-
-		RestHelper helper = new RestHelper(null, resultList);
+		RestHelper helper = new RestHelper(null, KayaBaseService.excuteService(paramater).getQueryresult());
 		return helper.getSimpleSuccess();
 	}
 

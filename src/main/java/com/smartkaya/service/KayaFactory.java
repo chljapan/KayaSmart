@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
+import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.log.KayaLogManager;
 
@@ -20,7 +21,8 @@ public class KayaFactory {
 			String className = paramater.getServicename();
 			if (StringUtils.isEmpty(paramater.getServicename())) {
 				// KayaBaseService
-				kayaBaseService = (KayaBaseService)Class.forName(AccessKayaModel.getKayaBaseBusinessName()).newInstance();
+//				kayaBaseService = (KayaBaseService)Class.forName(AccessKayaModel.getKayaBaseBusinessName()).newInstance();
+				kayaBaseService = (KayaBaseService)Class.forName(Constant.KAYABASEBUSINESS).newInstance();
 
 			} else {
 				kayaBaseService = (KayaBaseService)Class.forName(className).newInstance(); //TODO:Packagepath 需要在参数中动态提取

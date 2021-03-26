@@ -32,7 +32,7 @@ public class Constant {
 	public static final String KAYABESEBUSINESS = "kayaBaseBusiness";
 	
 	
-	
+	public static final String KAYABASEBUSINESS = "com.smartkaya.basebusiness.KayaBaseBusinessRule";
 
 	public static final String BUSINESSID = "businessid";
 	public static final String ORIENTATIONKEY = "orientationkey";
