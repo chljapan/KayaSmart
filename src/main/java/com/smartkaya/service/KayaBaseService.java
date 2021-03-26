@@ -1,14 +1,25 @@
 package com.smartkaya.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.bean.Paramaters;
+import com.smartkaya.constant.Constant;
+import com.smartkaya.dao.KayaSQLExecute;
+import com.smartkaya.log.KayaLogManager;
 
 public abstract class KayaBaseService {
 	private Paramaters paramaters;
 	private ArrayList<Paramaters> paramatersList;
 	private Paramater paramater;
+	private List<HashMap<String, Object>> queryresult;// 查询结果
+	private int count = 0;
+	static KayaLogManager kayaLoger;
+	private int paramaterType = 0;// 识别参数临时变量
 	
+	KayaSQLExecute dao = new KayaSQLExecute();
 	//这个参数是各个基本方法执行的顺序
 	public static KayaBaseService excuteService(Paramaters paramaters) {
 		return KayaFactory.createKayaService(paramaters);
@@ -21,40 +32,82 @@ public abstract class KayaBaseService {
 	}
 	
 	public void setParamaters(Paramaters paramaters) {
+		this.paramaterType = 2;
 		this.paramaters = paramaters;
 	}
 	
 	public Paramaters getParamaters() {
-		return paramaters;
+		return this.paramaters;
 	}
 	
 	public ArrayList<Paramaters> getParamatersList() {
-		return paramatersList;
+		return this.paramatersList;
 	}
 
 	public void setParamatersList(ArrayList<Paramaters> paramatersList) {
+		this.paramaterType = 3;
 		this.paramatersList = paramatersList;
 	}
 
 	public Paramater getParamater() {
-		return paramater;
+		return this.paramater;
 	}
 
 	public void setParamater(Paramater paramater) {
+		this.paramaterType = 1;
 		this.paramater = paramater;
 	}
+	
+	public List<HashMap<String, Object>> getQueryresult() {
+		return this.queryresult;
+	}
+	
+	
+	public int getCrudCount() {
+		return this.count;
+	}
 
+	/**
+	 * 业务规则（数据库操作前处理）
+	 */
 	public abstract void before();
 	
 	public void excutBusiness(){
-		System.out.println("Super excutBusiness!");
+
+		switch (paramaterType) {
+		case 1:
+			dao.execute(paramater);
+			count = dao.getCount();
+			// 查询情况下返回查询结果
+			if(Constant.SELECT.equals(paramater.getCrud())) {
+				queryresult = dao.getResultList();
+			}
+			break;
+		case 2:
+			dao.execute(paramaters);
+			count = dao.getCount();
+			break;
+		case 3:
+			dao.execute(paramatersList);
+			count = dao.getCount();
+			break;
+		default :
+			kayaLoger.error("This type of database is not supported!\n");
+			break;
+		}
 	}
 	
-	public abstract void after();
-	
-	public void operate() {
+	/**
+	 * 
+	 */
+	final public void operate() {
 		before();
 		excutBusiness();
 		after();
 	}
+	
+	/**
+	 * 数据库操作后处理
+	 */
+	public abstract void after();
 }
