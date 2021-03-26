@@ -9,27 +9,49 @@ import com.smartkaya.bean.Paramaters;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.log.KayaLogManager;
 
+/**
+ * 业务处理抽象类
+ * @author LiangChen　2021/3/26
+ * @version 1.0.0
+ *
+ */
 public abstract class KayaBaseService {
 	private Paramaters paramaters;
 	private ArrayList<Paramaters> paramatersList;
 	private Paramater paramater;
-//	private List<HashMap<String, Object>> queryresult;// 查询结果
-//	private int count = 0;
+
 	public KayaLogManager kayaLoger = KayaLogManager.getInstance();
 	private int paramaterType = 0;// 识别参数临时变量
 	
 	public KayaSQLExecute dao = new KayaSQLExecute();
-	//这个参数是各个基本方法执行的顺序
-	public static KayaBaseService excuteService(Paramaters paramaters) {
-		return KayaFactory.createKayaService(paramaters);
-	}
-	public static KayaBaseService excuteService(String serviceName, ArrayList<Paramaters> paramatersList) {
-		return KayaFactory.createKayaService(serviceName, paramatersList);
-	}
+	
+	/**
+	 * 执行业务处理
+	 * @param paramater
+	 * @return
+	 */
 	public static KayaBaseService excuteService(Paramater paramater) {
 		return KayaFactory.createKayaService(paramater);
 	}
 	
+	/**
+	 * 执行业务处理
+	 * @param paramaters
+	 * @return
+	 */
+	public static KayaBaseService excuteService(Paramaters paramaters) {
+		return KayaFactory.createKayaService(paramaters);
+	}
+	/**
+	 * 执行业务处理
+	 * @param serviceName
+	 * @param paramatersList
+	 * @return
+	 */
+	public static KayaBaseService excuteService(String serviceName, ArrayList<Paramaters> paramatersList) {
+		return KayaFactory.createKayaService(serviceName, paramatersList);
+	}
+
 	public void setParamaters(Paramaters paramaters) {
 		this.paramaterType = 2;
 		this.paramaters = paramaters;
@@ -58,24 +80,29 @@ public abstract class KayaBaseService {
 	}
 	
 
-
+	/**
+	 * 获得检索结果
+	 * @return
+	 */
 	public List<HashMap<String, Object>> getQueryresult() {
 		return dao.getResultList();
 	}
-//	void setQueryresult(List<HashMap<String, Object>> queryresult) {
-//		this.queryresult = queryresult;
-//	}
+	/**
+	 * 获得执行后的结果件数
+	 * @return
+	 */
 	public int getCount() {
 		return dao.getCount();
 	}
-//	void setCount(int count) {
-//		this.count = count;
-//	}
+
 	/**
 	 * 业务规则（数据库操作前处理）
 	 */
 	public abstract void before();
 	
+	/**
+	 * 执行数据库相关的业务处理（可覆盖此方法）
+	 */
 	public void excutBusiness(){
 
 		switch (paramaterType) {
@@ -95,7 +122,7 @@ public abstract class KayaBaseService {
 	}
 	
 	/**
-	 * 
+	 * 调用整体服务
 	 */
 	final public void operate() {
 		before();
