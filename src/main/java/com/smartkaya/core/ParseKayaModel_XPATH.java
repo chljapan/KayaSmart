@@ -183,7 +183,7 @@ public final class ParseKayaModel_XPATH {
 
 			kayaLoger = KayaLogManager.getInstance();
 			baseModelPath = properties.getProperty(Constant.KAYAMODELBASEPATH);
-			kayaBaseBusiness = properties.getProperty(Constant.KAYAMODELBASEPATH);
+			kayaBaseBusiness = properties.getProperty(Constant.KAYABESEBUSINESS);
 
 			mode = properties.getProperty(Constant.MODE);
 			if (Constant.PRODUCTION.equals(mode)) {
