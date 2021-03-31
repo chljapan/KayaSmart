@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.smartkaya.user.User;
 
 /**
@@ -13,6 +14,7 @@ import com.smartkaya.user.User;
  * @author LiangChen　2018/4/30
  * @version 1.0.0
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Paramater implements java.io.Serializable {
 	
 	private static final long serialVersionUID = 1L;

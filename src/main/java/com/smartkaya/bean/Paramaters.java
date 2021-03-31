@@ -3,12 +3,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.smartkaya.user.User;
 /**
  * KaYa
  * @author LiangChen　2018/4/30
  * @version 1.0.0
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Paramaters implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 	

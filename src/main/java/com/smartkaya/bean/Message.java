@@ -1,6 +1,9 @@
 
 package com.smartkaya.bean;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Message implements java.io.Serializable  {
 
 	/**
