@@ -16,9 +16,9 @@ import com.smartkaya.log.KayaLogManager;
  *
  */
 public abstract class KayaBaseService {
-	private Paramaters paramaters;
-	private ArrayList<Paramaters> paramatersList;
-	private Paramater paramater;
+	public Paramaters paramaters;
+	public ArrayList<Paramaters> paramatersList;
+	public Paramater paramater;
 
 	public KayaLogManager kayaLoger = KayaLogManager.getInstance();
 	private int paramaterType = 0;// 识别参数临时变量
