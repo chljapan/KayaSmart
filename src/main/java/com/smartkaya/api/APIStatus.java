@@ -7,18 +7,18 @@ package com.smartkaya.api;
 public enum APIStatus {
 
     ERR_INVALID_DATA(100, "Input data is not valid."),
-    ERR_USER_NOT_EXIST(110, "User does not exist"),
-    ERR_USER_NOT_VALID(111, "User name or password is not correct"),
-    USER_ALREADY_EXIST(112, "User name already exist"),
-    USER_PENDING_STATUS(113, "User have not activated"),
-    USER_NO_ROLE(401, "user have not role to access"),
-    USER_LOCKED_OR_EXPIRTED(402, "user was locked or expirted"),
-    INVALID_PARAMETER(201, "Invalid request parameter"),
-    TOKEN_EXPIRIED(202, "Token expiried"),
-    REQUIRED_LOGIN(203, "请重新登录！"),
-    INVALID_TOKEN(204, "Invalid token"),
+    ERR_USER_NOT_EXIST(110, "User does not exist."),
+    ERR_USER_NOT_VALID(111, "User name or password is not correct."),
+    USER_ALREADY_EXIST(112, "User name already exist."),
+    USER_PENDING_STATUS(113, "User have not activated."),
+    USER_NO_ROLE(401, "user have not role to access."),
+    USER_LOCKED_OR_EXPIRTED(402, "user was locked or expirted."),
+    INVALID_PARAMETER(201, "Invalid request parameter."),
+    TOKEN_EXPIRIED(202, "Token expiried."),
+    REQUIRED_LOGIN(203, "Please Re Login."),
+    INVALID_TOKEN(204, "Invalid token."),
     // Common status
-    OK(200, "success"),
+    OK(200, "success."),
 	//Cart status
 	QUANTITY_NOT_ENOUGH(301, "XXXXX"),
 	//product status 
