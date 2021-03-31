@@ -116,7 +116,6 @@ public class HelloKayaInit {
 
 		// 监听业务流程处理
 		if (!Constant.EMPTY.equals(AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId())) {
-			// TODO:验证流程ID
 			// 从元模型中取出表信息
 			// 监听业务流程处理
 			String workFlowId = AccessKayaModel.getKayaModelId(kayaModelId).getWorkFlowId();
@@ -155,7 +154,6 @@ public class HelloKayaInit {
 				
 				for (KayaMetaModel kayaModel : kayaModelList) {
 					Map<String, Object> workflowItem = new HashMap<String, Object>();
-					// System.out.println(kayaModel.getName());
 					workflowItem.put(Constant.LABEL, kayaModel.getName());
 					workflowItem.put(Constant.KAYAMODELID, kayaModel.getGmeId());
 					workflowItem.put(Constant.EDITOR, kayaModel.getMetaModelType());
@@ -167,9 +165,7 @@ public class HelloKayaInit {
 		}
 
 		Collections.sort(workflowList, new MapUtils.MapComparatorAsc());
-		// Collections.sort(labelList);
-		//
-		//
+
 		RestHelper helper = new RestHelper();
 		Map<String, Object> ret = helper.getSimpleSuccess();
 		ret.put(Constant.LABELLIST, columnsList);
