@@ -24,14 +24,14 @@ public class ScriptEXERules {
 		ScriptEngine engine = factory.getEngineByName(Constant.SCRIPT_ENGINE);
 
 		// 从元模型中取出表信息
-		KayaMetaModel kayaMetaModel = AccessKayaModel.getKayaModelId(kayaModelId);
+		//KayaMetaModel kayaMetaModel = AccessKayaModel.getKayaModelId(kayaModelId);
 		List<KayaMetaModel> kayamodelList = AccessKayaModel.getKayaModelByParentIdNoAction(kayaModelId);
 
 		try {
 			assert engine != null; 
 			String scriptInit = "def exeRules(){";
-			String scriptString = "";
-			//javax.script.Bindings  
+			//String scriptString = "";
+			 
 			Bindings binding = engine.createBindings();  
 			binding.put("mapping", property);
 			//			EmployeeInfo(HashMap<String,Object> property) {
@@ -42,14 +42,14 @@ public class ScriptEXERules {
 			//			public String 市 = (String)this.property.get("AddressCity");
 			//			public String 区 = (String)this.property.get("AddressDistrict");
 			// import
-			String inmportString = "import java.util.HashMap;\n";
+			//String inmportString = "import java.util.HashMap;\n";
 
 			// class
-			StringBuilder classString = new StringBuilder("class " + kayaMetaModel.get(Constant.KINDKEY) + " {\n" +// Class 定义
-					"	private  HashMap<String,Object> property; \n" + // 构造函数
-					"	" + kayaMetaModel.get(Constant.KINDKEY) + "(HashMap<String,Object> property) { \n" +
-					"		this.property = property;\n" +
-					"	}");
+//			StringBuilder classString = new StringBuilder("class " + kayaMetaModel.get(Constant.KINDKEY) + " {\n" +// Class 定义
+//					"	private  HashMap<String,Object> property; \n" + // 构造函数
+//					"	" + kayaMetaModel.get(Constant.KINDKEY) + "(HashMap<String,Object> property) { \n" +
+//					"		this.property = property;\n" +
+//					"	}");
 			// 变量初期化
 			kayamodelList.forEach(item -> {
 				switch (item.getMetaModelType()) { 
