@@ -780,7 +780,6 @@ public final class AccessKayaModel {
 		return actionList;
 	}
 
-	@SuppressWarnings("unchecked")
 	private static Set<Boolean> checkUserPermission(SysUser user,KayaMetaModel kayaMetaModel) {
 		Set<Boolean> checkSet = new HashSet<Boolean>();
 		for (KayaModelPermissionsItem kp : kayaMetaModel.getPermissionsItems()) {
@@ -789,10 +788,10 @@ public final class AccessKayaModel {
 			if (user.getUserMap().containsKey(kp.getId())) {
 				// List(复数项)的场合
 				if (Constant.EMPTY.equals(kp.getText())) {
-					checkSet.add(((List<String>) user.getUserMap().get(kp.getId())).containsAll(kp.getTextList()));
+					checkSet.add(user.getPermissionList().containsAll(kp.getTextList()));
 					// 单项的场合
 				} else {
-					checkSet.add(user.getUserMap().get(kp.getId()).equals(kp.getText()));
+					checkSet.add(user.getPermissionList().equals(kp.getText()));
 				}
 				// 不存在的场合
 			} else {
