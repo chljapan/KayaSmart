@@ -552,7 +552,7 @@ public final class ParseKayaModel_XPATH {
 
 				switch (DBConnectionInfoMap.get(Constant.DBTYPE)) {
 				case Constant.MYSQL:
-					//dBConnection.execute("DROP TABLE IF EXISTS " + kayaModelId.replace('-','_') + ";");
+					//dbConnection.execute("DROP TABLE IF EXISTS " + kayaModelId.replace('-','_') + ";");
 					dbConnection.execute(CreateMysqlWorkflowTables(kayaModelId.replace('-','_')));
 					break;
 				case Constant.POSTGRESQL:
