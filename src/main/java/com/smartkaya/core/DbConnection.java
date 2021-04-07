@@ -613,7 +613,7 @@ public class DbConnection implements Pool {
 					}
 					
 					// 子表Orientation Key发生变化的场合
-					if (orientationSubKeySet.add(resultSet.getString(Constant.ORIENTATIONKEY))) {
+					if (orientationSubKeySet.add(resultSet.getString(Constant.PARENTID) + resultSet.getString(Constant.ORIENTATIONKEY))) {
 						tempChildMap = new HashMap<String, Object>();
 						childMapList.add(tempChildMap);
 					}
