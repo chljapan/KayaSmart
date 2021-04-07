@@ -961,9 +961,9 @@ public final class KayaSQLExecute {
 		} else {
 			if (selectCount > 0) {
 				selectSQL.append(" WHERE ").append(selectEmptSQL.toString() + " group by " + key + " having count(1)="
-						+ selectCount + "),'%') ORDER BY orientationkey,parentid;");
+						+ selectCount + "),'%') ORDER BY parentid,orientationkey;");
 			} else {
-				selectSQL.append(selectEmptSQL.toString() + " group by " + key + " ) ORDER BY orientationkey,parentid;");
+				selectSQL.append(selectEmptSQL.toString() + " group by " + key + " ) ORDER BY parentid,orientationkey;");
 			}
 		}
 
