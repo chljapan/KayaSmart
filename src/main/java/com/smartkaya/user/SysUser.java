@@ -126,6 +126,14 @@ public class SysUser implements Serializable {
 	public List<SysPermission> getPermissions() {
 		return permissions;
 	}
+	
+	public List<String> getPermissionList() {
+		List<String> perList = new ArrayList<String>();
+		permissions.forEach(item -> {
+			perList.add(item.getPermissionId());
+		});
+		return perList;
+	}
 
 	public void setPermissions(List<SysPermission> permissions) {
 		this.permissions = permissions;
