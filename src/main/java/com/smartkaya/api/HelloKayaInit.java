@@ -41,8 +41,8 @@ public class HelloKayaInit {
 	@RequestMapping(value = "/kayamenu", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> kayaMenu_html5(final HttpServletRequest request, final HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
+//		HttpSession session = request.getSession();
+//		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
 		List<Map<String, Object>> menuList = new ArrayList<Map<String, Object>>();
 		
 		// TODO:menu的权限判断处理
@@ -58,8 +58,8 @@ public class HelloKayaInit {
 	@RequestMapping(value = "/kayainit", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKaya(final HttpServletRequest request, final HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
+//		HttpSession session = request.getSession();
+//		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
 
@@ -182,8 +182,8 @@ public class HelloKayaInit {
 	@RequestMapping(value = "/kayareset", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> KayaReset(final HttpServletRequest request, final HttpServletResponse response) {
-		HttpSession session = request.getSession();
-		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
+//		HttpSession session = request.getSession();
+//		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
 		// TODO：admin权限才可以进行模型Load处理
 		AccessKayaModel.ResetKayaModel();
 		
