@@ -8,7 +8,7 @@ import java.util.List;
 import com.smartkaya.constant.Constant;
 
 
-public class User implements Serializable {
+public class SysUser implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
@@ -30,8 +30,8 @@ public class User implements Serializable {
      */
     private HashMap<String, Object> userMap = new HashMap<String, Object>();
     
-    private List<String> roles = new ArrayList<String>();
-	private List<String> permissions = new ArrayList<String>();
+    private List<HashMap<String, Object>> roles = new ArrayList<HashMap<String, Object>>();
+	private List<HashMap<String, Object>> permissions = new ArrayList<HashMap<String, Object>>();
 	
 	
 	//private List<HashMap<String,Object>> OrganizeInformation = new ArrayList<HashMap<String,Object>>();
@@ -92,37 +92,33 @@ public class User implements Serializable {
 	 * 用户角色（普通员工，经理等）
 	 * @param role
 	 */
-	public void setRole(String role) {
-		this.roles.add(role);
+	public List<HashMap<String, Object>> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<HashMap<String, Object>> roles) {
+		this.roles = roles;
 	}
 	
-	public List<String> getRole() {
-		return this.roles;
-	}
-	
-	public void removeRole(String role) {
-		this.roles.forEach((value) -> {if (role.equals(value)) {this.roles.remove(role);}});
-	}
 	
 	/**
 	 * 权限管理（多重权限 Admin, Sys等特殊权限管理）
 	 * @param permission
 	 */
-	public void setPermissions(String permission) {
-		this.permissions.add(permission);
+
+	public List<HashMap<String, Object>> getPermissions() {
+		return permissions;
 	}
-	
-	public List<String> getPermissions() {
-		return this.permissions;
-	}
-	
-	public void removePermission(String permission) {
-		this.permissions.forEach((value) -> {if (permission.equals(value)) {this.permissions.remove(permission);}});
+
+	public void setPermissions(List<HashMap<String, Object>> permissions) {
+		this.permissions = permissions;
 	}
 	
 	public Boolean getEnabled() {
 		return (Boolean)this.userMap.get(Constant.USER_ENABLED);
 	}
+
+
 
 	public void setEnabled(Boolean enabled) {
 		this.userMap.put(Constant.USER_ENABLED, enabled);
@@ -172,7 +168,7 @@ public class User implements Serializable {
 
 		E1,E2,E3,EO,PEM,PM,GL,PL;
 	};
-	public User initUserInfo(UserType userType) {
+	public SysUser initUserInfo(UserType userType) {
 		//User user = new User();
 
 		List<String> roleList = new ArrayList<String>();
