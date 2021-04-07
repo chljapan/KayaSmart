@@ -22,8 +22,8 @@ import com.smartkaya.constant.Constant;
 import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelMasterItem;
-import com.smartkaya.user.User;
-import com.smartkaya.user.User.UserType;
+import com.smartkaya.user.SysUser;
+import com.smartkaya.user.SysUser.UserType;
 import com.smartkaya.utils.UtilTools;
 
 import net.sf.json.JSONArray;
@@ -136,16 +136,16 @@ public class HelloKayaInit {
 
 				// 申请者（Add）
 				if(Constant.APPLY.equals(WFType) && "false".equals(isEdit)) {
-					User user=new User();
+					SysUser user=new SysUser();
 					// 取得活性化Actions（开始Action和指向自己的Action）
 					kayaModelList = AccessKayaModel.getWorkFlowItemByStartKayaModelId(workFlowId,user.initUserInfo(UserType.E1));
 					// 申请者（Edit）
 				}  else if (Constant.APPLY.equals(WFType) && "true".equals(isEdit)) {
-					User user=new User();
+					SysUser user=new SysUser();
 					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,user.initUserInfo(UserType.E1),kvParamaterList.get(0));
 					// 审批者（ReView）
 				} else if (Constant.APPROVAL.equals(WFType)) {
-					User user=new User();
+					SysUser user=new SysUser();
 					kayaModelList = AccessKayaModel.chekPermission(workFlowId,user.initUserInfo(UserType.PEM),kvParamaterList.get(0));
 				} else {
 					// TODO： 例外处理

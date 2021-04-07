@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.smartkaya.user.User;
+import com.smartkaya.user.SysUser;
 /**
  * KaYa
  * @author LiangChen　2018/4/30
@@ -25,7 +25,7 @@ public class Paramaters implements java.io.Serializable {
 	private boolean error;
 	private List<HashMap<String,Object>> listPropertys = new ArrayList<HashMap<String,Object>>();
 	private String orientationKey;
-	private User usrinfo;
+	private SysUser usrinfo;
 	
 	public String getId() {
 		return id;
@@ -75,10 +75,10 @@ public class Paramaters implements java.io.Serializable {
 		this.actionid = actionid;
 	}
 	
-	public User getUsrinfo() {
+	public SysUser getUsrinfo() {
 		return usrinfo;
 	}
-	public void setUsrinfo(User usrinfo) {
+	public void setUsrinfo(SysUser usrinfo) {
 		this.usrinfo = usrinfo;
 	}
 

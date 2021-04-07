@@ -11,7 +11,6 @@ public class KayaBaseBusinessRule  extends KayaBaseService{
 	public void before() {
 		// TODO Auto-generated method stub
 		kayaLoger.info("before");
-		//paramater.getPropertys();
 	}
 	
 //	/**

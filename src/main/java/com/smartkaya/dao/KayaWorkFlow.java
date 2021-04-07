@@ -21,7 +21,7 @@ import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelOrganizationItem;
 import com.smartkaya.model.KayaModelPermissionsItem;
 import com.smartkaya.script.ScriptEXE;
-import com.smartkaya.user.User;
+import com.smartkaya.user.SysUser;
 import com.smartkaya.utils.UtilTools;
 
 /**
@@ -83,7 +83,7 @@ public final class KayaWorkFlow {
 
 		// Role Upadate SQLString
 		StringBuilder updateSQL = new StringBuilder("UPDATE " + tableName + " SET ");
-		User userInfo = paramater.getUsrinfo();
+		SysUser userInfo = paramater.getUsrinfo();
 		getInsertSqlString(paramater.getPropertys(), kayaModelId, actionId, insertSQL, updateSQL, businessKeyMap,
 				userInfo);
 		insertSQL.append(";");
@@ -155,7 +155,7 @@ public final class KayaWorkFlow {
 
 		// Role Upadate SQLString
 		StringBuilder updateSQL = new StringBuilder("");
-		User userInfo = paramaters.getUsrinfo();
+		SysUser userInfo = paramaters.getUsrinfo();
 
 		for (HashMap<String,Object> propertys : paramaters.getListPropertys()) {
 			// Role Upadate SQLString
@@ -241,7 +241,7 @@ public final class KayaWorkFlow {
 	 * @param userInfo
 	 */
 	private void getInsertSqlString(HashMap<String,Object> propertys, String kayaModelId, String actionId, StringBuilder insertSQL,
-			StringBuilder updateSQL, HashMap<String, String> businessKeyMap, User usrinfo) {
+			StringBuilder updateSQL, HashMap<String, String> businessKeyMap, SysUser usrinfo) {
 		// 取得Role子元素信息
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaWorkFlowAction(actionId);
 		// 取得Role信息
@@ -523,7 +523,7 @@ public final class KayaWorkFlow {
 	 * @param paramater
 	 * @return
 	 */
-	public List<Map<String, String>> selectForWorkflow(Paramater paramater, boolean mgrFlg, User userInfo) {
+	public List<Map<String, String>> selectForWorkflow(Paramater paramater, boolean mgrFlg, SysUser userInfo) {
 		List<Map<String, String>> kayaEntityList = new ArrayList<Map<String, String>>();
 		// Table存在确认
 		if (!KayaModelUtils.checkTableId(paramater)) {
@@ -649,7 +649,7 @@ public final class KayaWorkFlow {
 	 * @param userInfo
 	 * @return
 	 */
-	private StringBuilder commonRelidInSQL(List<String> flowcodeList, User userInfo, String tableName) {
+	private StringBuilder commonRelidInSQL(List<String> flowcodeList, SysUser userInfo, String tableName) {
 		StringBuilder selectSQL = new StringBuilder("");
 		selectSQL.append("relid IN (");
 		String unionString = "";

@@ -5,26 +5,78 @@ package com.smartkaya.constant;
  * @version 1.0.0
  */
 public class Constant {
-	
+	/**
+	 * KaYa关键字
+	 */
 	public static final String KAYA = "KaYa";
+	/**
+	 * 模型文件固定参数
+	 */
 	public static final String MGA = "MGA=";
+	/**
+	 * 元元数据解析文件
+	 */
 	public static final String DTD = "classpath:mga.dtd";
+	/**
+	 * 日志关键字
+	 */
 	public static final String LOG = "Log";
 	// KAYA Settings Start
+	/**
+	 * 数据库设定
+	 */
 	public static final String DATABASESETTINGS = "DataBaseSettings";
+	/**
+	 * 数据库类型
+	 */
 	public static final String DBTYPE = "DbType";
+	/**
+	 * 数据库驱动类型
+	 */
 	public static final String DRIVER = "Driver";
+	/**
+	 * 数据库链接URL
+	 */
 	public static final String URL = "URL";
+	/**
+	 * 数据库主机名称
+	 */
 	public static final String HOST = "Host";
+	/**
+	 * 数据库名称
+	 */
 	public static final String DBNAME = "DatabaseName";
+	/**
+	 * 数据库连接附加属性
+	 */
 	public static final String DBPROPERTYS = "DbPropertys";
-	
+	/**
+	 * 数据库连接User名称
+	 */
 	public static final String USER = "UserName";
+	/**
+	 * 数据库连接密码
+	 */
 	public static final String PWD = "Password";
+	/**
+	 * 数据库Schema
+	 */
 	public static final String SCHEMA = "Schema";
+	/**
+	 * 业务模型存放路径
+	 */
 	public static final String KAYAMETAMODELPATH = "metamodelPath";
+	/**
+	 * 业务模型解析日志文件路径
+	 */
 	public static final String KAYAMETAMODELPARSELOGPATH = "kayaMetaModelParseLogPath";
+	/**
+	 * SQL日志文件存放路径
+	 */
 	public static final String KAYAMETAMODELSQLLOGPATH = "kayaMetaModelSqlLogPath";
+	/**
+	 * 扩展日志文件存放路径（TODO：未使用）
+	 */
 	public static final String KAYAMETAMODELCONNECTIONLOGPATH = "kayaMetaModelConnectionLogPath";
 	public static final String KAYAMODELBASEPATH = "baseModel.basePath";// model file path
 	public static final String KAYAMODELMGAV = "baseModel.mgaVersion";// gmeVersion model name
@@ -181,20 +233,6 @@ public class Constant {
 	public static final String APPROVAL = "approval";
 	
 	// login user information
-	public static final String P_USERTABLEID = "user.tableId";
-	public static final String P_USERID = "user.userId";
-	public static final String P_USERNAME = "user.userName";
-	public static final String P_PASSWORD = "user.password";
-	public static final String P_SALT = "user.salt";
-	public static final String P_ROLES = "user.role";
-	public static final String P_ROLEID = "user.role.id";
-	public static final String P_ROLER = "user.role.role";
-	public static final String P_ROLEDESCRIBE = "user.role.describe";
-	public static final String P_ROLEENABLED = "user.role.enabled";
-	public static final String P_PERMISSIONS = "user.role.permission";
-	public static final String P_PERMISSIONID = "user.role.permission.id";
-	public static final String P_PERMISSIONNAME = "user.role.permission.name";
-	public static final String P_PERMISSIONP = "user.role.permission.permission";
 	
 	// Master
 	public static final String MASTER = "Master";

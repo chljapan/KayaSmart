@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import com.smartkaya.api.utils.StringUtil;
 import com.smartkaya.bean.Message;
 import com.smartkaya.bean.Message.Lever;
@@ -21,7 +23,7 @@ import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelMasterItem;
 import com.smartkaya.model.KayaModelOrganizationItem;
 import com.smartkaya.script.ScriptEXE;
-import com.smartkaya.user.User;
+import com.smartkaya.user.SysUser;
 import com.smartkaya.utils.UtilTools;
 
 /**
@@ -129,7 +131,7 @@ public final class KayaSQLExecute {
 			String kayaModelId = paramaters.getId();
 
 			String crud = paramaters.getCrud();
-			User usrinfo = paramaters.getUsrinfo();
+			SysUser usrinfo = paramaters.getUsrinfo();
 			switch (crud) {
 			case Constant.INSERT:
 				KayaMetaModel kayaMetaModel = AccessKayaModel.getKayaModelId(kayaModelId);
@@ -217,7 +219,7 @@ public final class KayaSQLExecute {
 			return 0;
 		}
 		String kayaModelId = paramater.getId();
-		User usrinfo = paramater.getUsrinfo();
+		SysUser usrinfo = paramater.getUsrinfo();
 		// 取得Role信息
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
 		// SqlList
@@ -256,7 +258,7 @@ public final class KayaSQLExecute {
 		// 取得Role信息
 		KayaMetaModel kayaMetaModel = AccessKayaModel.getKayaModelId(kayaModelId);
 		String tableName = kayaMetaModel.getTableId();
-		User userInfo = paramaters.getUsrinfo();
+		SysUser userInfo = paramaters.getUsrinfo();
 		// WF处理（更新WF状态）
 		if (Constant.UPDATE.equals(paramaters.getCrud())) {
 			KayaWorkFlow kayaWorkFlow = new KayaWorkFlow();
@@ -302,7 +304,7 @@ public final class KayaSQLExecute {
 
 		for (Paramaters paramaters : paramatersList) {
 
-			User userInfo = paramaters.getUsrinfo();
+			SysUser userInfo = paramaters.getUsrinfo();
 			String kayaModelId = paramaters.getId();
 			// 取得Role信息
 			KayaMetaModel kayaMetaModel = AccessKayaModel.getKayaModelId(kayaModelId);
@@ -376,7 +378,7 @@ public final class KayaSQLExecute {
 	 * @return
 	 */
 	public int update(Paramaters paramaters, List<String> insertFieldList) {
-		User userInfo = paramaters.getUsrinfo();
+		SysUser userInfo = paramaters.getUsrinfo();
 		String kayaModelId = paramaters.getId();
 		// SqlList
 		List<String> sqlStringList = new ArrayList<String>();
@@ -1440,7 +1442,7 @@ public final class KayaSQLExecute {
 		}
 	}
 
-	private String getWorkflowRoleSqlString(String kayaModelId, String workflowId, String actionId, String orientationKey, HashMap<String,Object> propertys,HashMap<String,Object> businesskey,User usrinfo) {
+	private String getWorkflowRoleSqlString(String kayaModelId, String workflowId, String actionId, String orientationKey, HashMap<String,Object> propertys,HashMap<String,Object> businesskey,SysUser usrinfo) {
 		StringBuilder insertSQL = new StringBuilder("");
 		String orderNo = UtilTools.getOrderNo();
 		// 判断Action是否符合自身流程要求
@@ -1725,7 +1727,7 @@ public final class KayaSQLExecute {
 
 	// 主表子表主键处理
 	private void getInsertSqlString(HashMap<String,Object> propertys,String orientationKey, String kayaModelId, StringBuilder insertSQL,
-			User user,boolean flg) {
+			SysUser user,boolean flg) {
 		// 取得Role子元素信息
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 
@@ -1798,8 +1800,17 @@ public final class KayaSQLExecute {
 			if (propertys.get(kayaModel.get(Constant.KINDKEY)) == null) {
 				insertSQL.append("'',");
 			} else {
-				insertSQL.append(
-						"'" + propertys.get(kayaModel.get(Constant.KINDKEY)) + "',");
+				// 加密处理
+				if (Constant.TRUE.equals(kayaModel.get(Constant.ISENCRYPTION))) {
+					insertSQL.append(
+							"'" + DigestUtils.md5Hex(propertys.get(kayaModel.get(Constant.KINDKEY)).toString()) + "',");
+				} else {
+					insertSQL.append(
+							"'" + propertys.get(kayaModel.get(Constant.KINDKEY)) + "',");
+				}
+				
+				
+				
 			}
 
 			// kindtype
@@ -1837,7 +1848,7 @@ public final class KayaSQLExecute {
 
 	// 主表子表主键处理
 	private void getInsertSqlString(HashMap<String,Object> propertys, String kayaModelId, StringBuilder insertSQL, String orientationKey,
-			List<String> sqlStringList, User user,boolean flg) {
+			List<String> sqlStringList, SysUser user,boolean flg) {
 		// 取得Role子元素信息
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 
@@ -1941,7 +1952,7 @@ public final class KayaSQLExecute {
 	}
 
 	private void getUpdateSqlString(HashMap<String,Object> propertys, String kayaModelId, List<String> sqlStringList,
-			String orientationKey,User user) {
+			String orientationKey,SysUser user) {
 
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();
@@ -2098,7 +2109,7 @@ public final class KayaSQLExecute {
 	}
 
 	private void getUpdateSqlString(HashMap<String,Object> propertys, String kayaModelId, List<String> sqlStringList,
-			List<String> insertFieldList, String orientationKey, User user) {
+			List<String> insertFieldList, String orientationKey, SysUser user) {
 
 		List<KayaMetaModel> kayaModelList = AccessKayaModel.getKayaModelByParentIdNotRole(kayaModelId);
 		String tableName = AccessKayaModel.getKayaModelId(kayaModelId).getTableId();

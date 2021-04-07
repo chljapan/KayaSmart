@@ -22,11 +22,8 @@ import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.model.KayaModelMasterItem;
 import com.smartkaya.service.KayaBaseService;
-//import com.smartkaya.service.KayaBaseService;
-//import com.smartkaya.service.SelectType;
-//import com.smartkaya.service.KayaBaseService;
-import com.smartkaya.user.User;
-import com.smartkaya.user.User.UserType;
+import com.smartkaya.user.SysUser;
+import com.smartkaya.user.SysUser.UserType;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -55,7 +52,7 @@ public class HelloKayaCrud {
 		paramater.setId(kayaModelId);
 		paramater.setPropertys(new HashMap<String,Object>());
 		
-		User user = new User();
+		SysUser user = new SysUser();
 		paramater.setUsrinfo(user.initUserInfo(UserType.E1));
 		
 		// 检索Map
@@ -88,7 +85,7 @@ public class HelloKayaCrud {
 		paramater.setPropertys(new HashMap<String,Object>());
 		
 		
-		User user = new User();
+		SysUser user = new SysUser();
 		paramater.setUsrinfo(user.initUserInfo(UserType.E1));
 		
 		// 检索Map
@@ -197,7 +194,7 @@ public class HelloKayaCrud {
 		}
 		
 		// TODO:普通用户(E1)
-		User user = new User();
+		SysUser user = new SysUser();
 		
 		paramaters.setUsrinfo(user.initUserInfo(UserType.E1));
 		

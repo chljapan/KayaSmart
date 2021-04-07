@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.smartkaya.user.User;
+import com.smartkaya.user.SysUser;
 
 /**
  * KaYa
@@ -49,7 +49,7 @@ public class Paramater implements java.io.Serializable {
 	/** 联合主键信息（整形加工后）*/
 	private String orientationKey;
 	/** login User信息*/
-	private User usrinfo;
+	private SysUser usrinfo;
 	
 	
 	public String getId() {
@@ -66,10 +66,10 @@ public class Paramater implements java.io.Serializable {
 		this.text = fullText;
 	}
 
-	public User getUsrinfo() {
+	public SysUser getUsrinfo() {
 		return usrinfo;
 	}
-	public void setUsrinfo(User usrinfo) {
+	public void setUsrinfo(SysUser usrinfo) {
 		this.usrinfo = usrinfo;
 	}
 	

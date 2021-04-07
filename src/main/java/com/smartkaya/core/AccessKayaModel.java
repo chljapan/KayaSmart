@@ -11,7 +11,7 @@ import java.util.Vector;
 import com.smartkaya.constant.Constant;
 import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelPermissionsItem;
-import com.smartkaya.user.User;
+import com.smartkaya.user.SysUser;
 
 
 /**
@@ -643,7 +643,7 @@ public final class AccessKayaModel {
 	 * @param type(add,edit,review)
 	 * @return
 	 */
-	public static List<KayaMetaModel> getWorkFlowItemByStartKayaModelId(String workFlowId,User user){
+	public static List<KayaMetaModel> getWorkFlowItemByStartKayaModelId(String workFlowId,SysUser user){
 
 		// Start 指向的Action 
 
@@ -678,7 +678,7 @@ public final class AccessKayaModel {
 	 * @param kayaModelId
 	 * @return
 	 */
-	public static List<KayaMetaModel> getWorkFlowItemByNextKayaModelId(String workFlowId,User user,Map<String,Object> rowData){
+	public static List<KayaMetaModel> getWorkFlowItemByNextKayaModelId(String workFlowId,SysUser user,Map<String,Object> rowData){
 		List<KayaMetaModel> kayaModelList=new Vector<>();
 		KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
 		String startUserTaskId = kayaModelAccess.KayaModelMap.get(AccessKayaModel
@@ -725,7 +725,7 @@ public final class AccessKayaModel {
 	 * @param user
 	 * @return kayaMetaModel List
 	 */
-	public static List<KayaMetaModel> chekPermission(String workFlowId, User user, Map<String,Object> rowData) {
+	public static List<KayaMetaModel> chekPermission(String workFlowId, SysUser user, Map<String,Object> rowData) {
 
 		List<KayaMetaModel> userTaskList = new ArrayList<KayaMetaModel>();
 		KayaMetaModel kayaMetaWorkFlowModel = AccessKayaModel.getKayaModelId(workFlowId);
@@ -781,7 +781,7 @@ public final class AccessKayaModel {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Set<Boolean> checkUserPermission(User user,KayaMetaModel kayaMetaModel) {
+	private static Set<Boolean> checkUserPermission(SysUser user,KayaMetaModel kayaMetaModel) {
 		Set<Boolean> checkSet = new HashSet<Boolean>();
 		for (KayaModelPermissionsItem kp : kayaMetaModel.getPermissionsItems()) {
 			// 用户信息同MetaModel中的信息进行匹配
