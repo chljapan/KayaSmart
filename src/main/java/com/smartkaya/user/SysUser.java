@@ -4,295 +4,139 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import com.smartkaya.constant.Constant;
-
+import java.util.Map;
 
 public class SysUser implements Serializable {
+	 /**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+     * 数据表
+     */
+    private String userTableId;
 
-//    /**
-//     * 一个用户对应多个角色的情况
-//     * 该用户的角色列表
-//     */
-//    private List<String> roleList = new ArrayList<String>();
-//
-//    /**
-//     * 一个用户对应多个权限的情况
-//     * 该用户的权限列表
-//     */
-//    private List<String> permissions = new ArrayList<String>();
- 
-    
+	/**
+     * 数据库主键
+     */
+    private String userId;
+
+    /**
+     * 用户名（登录名）
+     */
+    private String userName;
+
     /**
      * 密码
      */
-    private HashMap<String, Object> userMap = new HashMap<String, Object>();
-    
-    private List<HashMap<String, Object>> roles = new ArrayList<HashMap<String, Object>>();
-	private List<HashMap<String, Object>> permissions = new ArrayList<HashMap<String, Object>>();
-	
-	
-	//private List<HashMap<String,Object>> OrganizeInformation = new ArrayList<HashMap<String,Object>>();
+    private String password;
+
+    /**
+     * 改账户是否启用
+     * true为启用 false为禁用
+     */
+    private Boolean enabled;
+
+    /**
+     * 一个用户对应一个角色的情况
+     * 该用户对应的角色
+     * 这个与下方的情况 二选一即可
+     */
+    //private SysRole role;
+
+    /**
+     * 一个用户对应多个角色的情况
+     * 该用户的角色列表
+     */
+    private List<SysRole> roleList = new ArrayList<SysRole>();
+
+    /**
+     * 一个用户对应多个权限的情况
+     * 该用户的权限列表
+     */
+    private List<SysPermission> permissions = new ArrayList<SysPermission>();
+
+    /**
+     * 密码
+     */
+    private Map<String, Object> userMap = new HashMap<String, Object>();
 
 	/**
-	 * Get公司CODE
-	 * @return
-	 */
-    public String getCompanyCode() {
-    	return this.userMap.get(Constant.USER_COMPANYCODE).toString();
-    }
-    
-    /**
-     * Set公司CODE
-     * @param companyCode
+     * 加密过程中使用的 盐
+     * 通常为: 用户名 + 随机的一些数值（改数值必须和你注册时密码加密使用的数值是一致的）。
+     * 在这里我就使用固定的，如： layjava
      */
-    public void setCompanyCode(String companyCode) {
-    	this.userMap.put(Constant.USER_COMPANYCODE,companyCode);
+    public String getCredentialsSalt() {
+        return userName + "layjava";
     }
-    
-    /**
-     * 用户ID
-     * @return
-     */
+
+
+	public String getUserTableId() {
+		return userTableId;
+	}
+
+	public void setUserTableId(String userTableId) {
+		this.userTableId = userTableId;
+	}
+
 	public String getUserId() {
-		return this.userMap.get(Constant.USER_ID).toString();
+		return userId;
 	}
 
 	public void setUserId(String userId) {
-		this.userMap.put(Constant.USER_ID, userId);
+		this.userId = userId;
 	}
 
-	/**
-	 * 用户名
-	 * @return
-	 */
 	public String getUserName() {
-		return this.userMap.get(Constant.USER_NAME).toString();
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		this.userMap.put(Constant.USER_NAME,userName);
+		this.userName = userName;
 	}
 
-	/**
-	 * 用户密码
-	 * @return
-	 */
 	public String getPassword() {
-		return this.userMap.get(Constant.USER_PASSWORD).toString();
+		return password;
 	}
 
 	public void setPassword(String password) {
-		this.userMap.put(Constant.USER_PASSWORD,password);
-	}
-	
-	/**
-	 * 用户角色（普通员工，经理等）
-	 * @param role
-	 */
-	public List<HashMap<String, Object>> getRoles() {
-		return roles;
+		this.password = password;
 	}
 
-	public void setRoles(List<HashMap<String, Object>> roles) {
-		this.roles = roles;
+	public Boolean getEnabled() {
+		return enabled;
 	}
-	
-	
-	/**
-	 * 权限管理（多重权限 Admin, Sys等特殊权限管理）
-	 * @param permission
-	 */
 
-	public List<HashMap<String, Object>> getPermissions() {
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public List<SysRole> getRoleList() {
+		return roleList;
+	}
+
+	public void setRoleList(List<SysRole> roleList) {
+		this.roleList = roleList;
+	}
+
+    /**
+     * 还可以拓展其他的用户信息字段，这里尽量只添加最基本的字段信息
+     */
+	public List<SysPermission> getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(List<HashMap<String, Object>> permissions) {
+	public void setPermissions(List<SysPermission> permissions) {
 		this.permissions = permissions;
 	}
-	
-	public Boolean getEnabled() {
-		return (Boolean)this.userMap.get(Constant.USER_ENABLED);
-	}
 
-
-
-	public void setEnabled(Boolean enabled) {
-		this.userMap.put(Constant.USER_ENABLED, enabled);
-	}
-
-	
-//	public List<String> getRoleList() {
-//		return roleList;
-//	}
-//
-//	public void setRoleList(List<String> roleList) {
-//		this.roleList = roleList;
-//	}
-//
-//    /**
-//     * 还可以拓展其他的用户信息字段，这里尽量只添加最基本的字段信息
-//     */
-//	public List<String> getPermissions() {
-//		return permissions;
-//	}
-//
-//	public void setPermissions(List<String> permissions) {
-//		this.permissions = permissions;
-//	}
-
-    public HashMap<String, Object> getUserMap() {
+    public Map<String, Object> getUserMap() {
 		return userMap;
 	}
 
-	public void setUserMap(HashMap<String, Object> userMap) {
+	public void setUserMap(Map<String, Object> userMap) {
 		this.userMap = userMap;
-	}
-	
-    public Object getUserProperty(String propertyKey) {
-		return userMap.get(propertyKey);
-	}
-
-	public void setUserProperty(String propertyKey, Object propertyValue) {
-		this.userMap.put(propertyKey, propertyValue);
-	}
-	
-	
-	
-	// @TODO 
-
-	public enum UserType {
-
-		E1,E2,E3,EO,PEM,PM,GL,PL;
-	};
-	public SysUser initUserInfo(UserType userType) {
-		//User user = new User();
-
-		List<String> roleList = new ArrayList<String>();
-		List<String> bumencodeList = new ArrayList<String>();
-		List<String> permissions = new ArrayList<String>();
-		//HashMap<String, Object> userMap = new HashMap<String, Object>();
-		
-		switch (userType){
-		case E1:
-			
-			roleList.add("E");
-			userMap.put("roles", roleList);
-			this.setUserId("10001");
-			permissions.add("E");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10004");
-			bumencodeList.add("12");
-			bumencodeList.add("13");
-			userMap.put("BumenCode",bumencodeList);
-			//userMap.put("YuanGongId", user.getUserId());
-			
-			userMap.put("ZhiweiCode","1");
-			this.setUserMap(userMap);
-			break;
-		case E2:
-			
-			this.setUserId("10002");
-			roleList.add("E");
-			userMap.put("roles", roleList);
-
-			permissions.add("E");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10004");
-			bumencodeList.add("12");
-			bumencodeList.add("13");
-			userMap.put("BumenCode",bumencodeList);
-			userMap.put("ZhiweiCode","1");
-			this.setUserMap(userMap);
-			break;
-		case EO:
-			
-			this.setUserId("10003");
-			roleList.add("EO");
-			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", this.getUserId());
-			permissions.add("E");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10004");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","0");
-			this.setUserMap(userMap);
-			break;
-		case PEM:
-			
-			this.setUserId("10004");
-			roleList.add("E");
-			roleList.add("PEM");
-			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", this.getUserId());
-			permissions.add("E");
-			permissions.add("PEM");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10006");
-			bumencodeList.add("12");
-			bumencodeList.add("13");
-			userMap.put("BumenCode",bumencodeList);
-			userMap.put("ZhiweiCode","4");
-			this.setUserMap(userMap);
-			break;
-		case PM:
-			
-			this.setUserId("10005");
-			roleList.add("E");
-			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", this.getUserId());
-			permissions.add("E");
-			permissions.add("PM");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10001");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","3");
-			this.setUserMap(userMap);
-			break;
-		case GL:
-			
-			this.setUserId("10006");
-			roleList.add("E");
-			roleList.add("EO");
-			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", this.getUserId());
-			permissions.add("E");
-			permissions.add("PEM");
-			permissions.add("GL");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10008");
-			userMap.put("bumenids","20");
-			userMap.put("ZhiweiCode","5");
-			this.setUserMap(userMap);
-			break;
-		case PL:
-			
-			this.setUserId("10007");
-			roleList.add("E");
-			userMap.put("roles", roleList);
-			userMap.put("YuanGongId", this.getUserId());
-			permissions.add("E");
-			userMap.put("permissions", permissions);
-			
-			userMap.put("PemId","10006");
-			userMap.put("BumenCode","20");
-			userMap.put("ZhiweiCode","2");
-			this.setUserMap(userMap);
-			break;
-		default:
-			break;
-		}
-		
-		return this;
 	}
 
 }
