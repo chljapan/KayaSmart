@@ -1,5 +1,6 @@
 package com.smartkaya.shiro;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +20,10 @@ import org.apache.shiro.subject.PrincipalCollection;
 import com.smartkaya.bean.Paramater;
 import com.smartkaya.constant.Constant;
 import com.smartkaya.dao.KayaSQLExecute;
+import com.smartkaya.user.SysPermission;
+import com.smartkaya.user.SysRole;
+import com.smartkaya.user.SysUser;
+
 
 public class UserRealm extends AuthorizingRealm{
 
@@ -115,7 +120,7 @@ public class UserRealm extends AuthorizingRealm{
 		//数据库数据
 		String username;
 		String password;
-
+		SysUser sysuser = new SysUser();
 		Paramater paramater2 = new Paramater();
 		paramater2.setId("id-0065-00000003");
 		HashMap<String, Object> propertys2  = new HashMap<String, Object>();
@@ -132,8 +137,32 @@ public class UserRealm extends AuthorizingRealm{
 			// 没找到帐号
 			throw new UnknownAccountException();
 		}else {
+			sysuser.setUserId(userInfoMapList.get(0).get("EmployeeId").toString());
+			sysuser.setPassword(userInfoMapList.get(0).get("Password").toString());
+			// roleList
+			List<SysRole> sysRoleList =new ArrayList<SysRole>();
+			@SuppressWarnings("unchecked")
+			List<HashMap<String,Object>> userRoles = (ArrayList<HashMap<String,Object>>)userInfoMapList.get(0).get("RoleInfo");
+			userRoles.forEach(item -> {
+				SysRole sysrole = new SysRole();
+				sysrole.setRoleId(item.get("RoleType").toString());
+				sysrole.setRole(item.get("Other").toString());
+				sysRoleList.add(sysrole);
+				});
+			sysuser.setRoleList(sysRoleList);
+			List<SysPermission> sysPerList =new ArrayList<SysPermission>();
+			@SuppressWarnings("unchecked")
+			List<HashMap<String,Object>> userPers = (ArrayList<HashMap<String,Object>>)userInfoMapList.get(0).get("PermissionsInfo");
+			userPers.forEach(item -> {
+				SysPermission sysper = new SysPermission();
+				sysper.setPermissionId(item.get("Permission").toString());
+				sysper.setPermission(item.get("Other").toString());
+				sysPerList.add(sysper);
+				});
+			sysuser.setPermissions(sysPerList);
 			
-			username=userInfoMapList.get(0).get("EmployeeId").toString();
+			
+			username=userInfoMapList.get(0).get("EmployeeName").toString();
 			password=userInfoMapList.get(0).get("Password").toString();
 			//credentialsSalt = ByteSource.Util.bytes(username);
 		}
@@ -168,7 +197,7 @@ public class UserRealm extends AuthorizingRealm{
 		if(!principal.equals(username)) {
 			return null;//shiro底层抛出UnknownAccountException异常
 		}
-		return new SimpleAuthenticationInfo(username, password, getName());
+		return new SimpleAuthenticationInfo(sysuser, password, getName());
 	}
 	
 	
