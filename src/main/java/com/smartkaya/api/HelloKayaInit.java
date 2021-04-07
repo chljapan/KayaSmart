@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,6 @@ import com.smartkaya.core.AccessKayaModel;
 import com.smartkaya.model.KayaMetaModel;
 import com.smartkaya.model.KayaModelMasterItem;
 import com.smartkaya.user.SysUser;
-import com.smartkaya.user.SysUser.UserType;
 import com.smartkaya.utils.UtilTools;
 
 import net.sf.json.JSONArray;
@@ -41,7 +41,11 @@ public class HelloKayaInit {
 	@RequestMapping(value = "/kayamenu", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> kayaMenu_html5(final HttpServletRequest request, final HttpServletResponse response) {
+		HttpSession session = request.getSession();
+		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
 		List<Map<String, Object>> menuList = new ArrayList<Map<String, Object>>();
+		
+		// TODO:menu的权限判断处理
 		menuList = AccessKayaModel.getMenuTree();
 		RestHelper helper = new RestHelper();
 		Map<String, Object> ret = helper.getSimpleSuccess();
@@ -54,10 +58,12 @@ public class HelloKayaInit {
 	@RequestMapping(value = "/kayainit", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKaya(final HttpServletRequest request, final HttpServletResponse response) {
-
+		HttpSession session = request.getSession();
+		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
 
+		// TODO：表的处理的权限判断处理
 		// 表列信息列表
 		List<GridColumn> columnsList = new ArrayList<GridColumn>();
 		// 从元模型中取出表信息
@@ -102,6 +108,7 @@ public class HelloKayaInit {
 	@RequestMapping(value = "/kayainitwindow", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> KayaWindow(final HttpServletRequest request, final HttpServletResponse response) {
+		HttpSession session = request.getSession();
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
 		
@@ -133,20 +140,17 @@ public class HelloKayaInit {
 				@SuppressWarnings("unchecked")
 				List<Map<String, Object>> kvParamaterList = (List<Map<String, Object>>) JSONArray.toCollection(jsonarray,
 						Map.class);
-
+				SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
 				// 申请者（Add）
 				if(Constant.APPLY.equals(WFType) && "false".equals(isEdit)) {
-					SysUser user=new SysUser();
 					// 取得活性化Actions（开始Action和指向自己的Action）
-					kayaModelList = AccessKayaModel.getWorkFlowItemByStartKayaModelId(workFlowId,user.initUserInfo(UserType.E1));
+					kayaModelList = AccessKayaModel.getWorkFlowItemByStartKayaModelId(workFlowId,user);
 					// 申请者（Edit）
 				}  else if (Constant.APPLY.equals(WFType) && "true".equals(isEdit)) {
-					SysUser user=new SysUser();
-					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,user.initUserInfo(UserType.E1),kvParamaterList.get(0));
+					kayaModelList = AccessKayaModel.getWorkFlowItemByNextKayaModelId(workFlowId,user,kvParamaterList.get(0));
 					// 审批者（ReView）
 				} else if (Constant.APPROVAL.equals(WFType)) {
-					SysUser user=new SysUser();
-					kayaModelList = AccessKayaModel.chekPermission(workFlowId,user.initUserInfo(UserType.PEM),kvParamaterList.get(0));
+					kayaModelList = AccessKayaModel.chekPermission(workFlowId,user,kvParamaterList.get(0));
 				} else {
 					// TODO： 例外处理
 				}
@@ -178,8 +182,11 @@ public class HelloKayaInit {
 	@RequestMapping(value = "/kayareset", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> KayaReset(final HttpServletRequest request, final HttpServletResponse response) {
-
+		HttpSession session = request.getSession();
+		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
+		// TODO：admin权限才可以进行模型Load处理
 		AccessKayaModel.ResetKayaModel();
+		
 		//
 		//
 		RestHelper helper = new RestHelper();

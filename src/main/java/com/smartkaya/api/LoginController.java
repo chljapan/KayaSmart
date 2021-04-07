@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.smartkaya.constant.Constant;
 import com.smartkaya.exception.ExceptionEnum;
+import com.smartkaya.user.SysUser;
 import com.smartkaya.utils.VerifyCodeUtil;
 /**
  * 权限验证处理
@@ -90,6 +91,10 @@ public class LoginController {
 			helper.setMessage("セッションタイムアウト.");
 			return helper.getFailed(ExceptionEnum.BUSINESS_ERROR.getCode());
 		}
+		
+		
+		
+		
 		logger.info("login       sessionId = " + session + "        " + request.getSession().getId());
 		String trueCode = (String) session.getAttribute(Constant.VALIDATE_CODE);
 		if (StringUtils.isBlank(trueCode)) {
@@ -107,11 +112,14 @@ public class LoginController {
 			AuthenticationToken token=new UsernamePasswordToken(username,password,Boolean.valueOf(rememberMe));
 			try {
 				user.login(token);
-				//SysUser principal = (SysUser) user.getPrincipal();
-				session.setAttribute("user", user.getPrincipal());
+				SysUser principal = (SysUser) user.getPrincipal();
+
+				session.setAttribute(Constant.G_USER, principal);
 				if (user.isAuthenticated()) {
 					ret = helper.getSimpleSuccess();
 					ret.put("url", "../index.html");
+				} else {
+					ret.put("url", "/Mini/page/login-1.html");
 				}
 			} catch (IncorrectCredentialsException e) {
 				error = "パスワード不正です.";

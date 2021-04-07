@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,7 @@ import com.smartkaya.dao.KayaSQLExecute;
 import com.smartkaya.model.KayaModelMasterItem;
 import com.smartkaya.service.KayaBaseService;
 import com.smartkaya.user.SysUser;
-import com.smartkaya.user.SysUser.UserType;
+
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -42,6 +43,7 @@ public class HelloKayaCrud {
 	@RequestMapping(value = "/kayaselect", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKayaSelect(final HttpServletRequest request, final HttpServletResponse response) {
+		HttpSession session = request.getSession();
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
 		// 获取前台参数
@@ -52,8 +54,8 @@ public class HelloKayaCrud {
 		paramater.setId(kayaModelId);
 		paramater.setPropertys(new HashMap<String,Object>());
 		
-		SysUser user = new SysUser();
-		paramater.setUsrinfo(user.initUserInfo(UserType.E1));
+		SysUser userInfo = (SysUser) session.getAttribute(Constant.G_USER);
+		paramater.setUsrinfo(userInfo);
 		
 		// 检索Map
 		HashMap<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
@@ -74,6 +76,7 @@ public class HelloKayaCrud {
 	@RequestMapping(value = "/kayauserselect", produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> KayaParentChildSelect(final HttpServletRequest request, final HttpServletResponse response) {
+		HttpSession session = request.getSession();
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
 		// 获取前台参数
@@ -84,9 +87,11 @@ public class HelloKayaCrud {
 		paramater.setId(kayaModelId);
 		paramater.setPropertys(new HashMap<String,Object>());
 		
+		// TODO:普通用户(E1)
+		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
+		paramater.setUsrinfo(user);
 		
-		SysUser user = new SysUser();
-		paramater.setUsrinfo(user.initUserInfo(UserType.E1));
+
 		
 		// 检索Map
 		HashMap<String, Object> propertys = reqParaToMap(request.getParameter("searchParamaterList"));
@@ -105,14 +110,14 @@ public class HelloKayaCrud {
 
 		// 用户登录确认
 		
-		Paramater paramater2 = new Paramater();
-		paramater2.setId(kayaModelId);
-		HashMap<String, Object> propertys2  = new HashMap<String, Object>();
-		propertys2.put("Password", "123456");
-		propertys2.put("EmployeeId", "10001");
-		paramater2.setCrud(Constant.SELECT);
-		paramater2.setPropertys(propertys2);
-		
+//		Paramater paramater2 = new Paramater();
+//		paramater2.setId(kayaModelId);
+//		HashMap<String, Object> propertys2  = new HashMap<String, Object>();
+//		propertys2.put("Password", "123456");
+//		propertys2.put("EmployeeId", "10001");
+//		paramater2.setCrud(Constant.SELECT);
+//		paramater2.setPropertys(propertys2);
+//		
 		//List<HashMap<String, Object>> resultList2 = dao.selectOrientationkey(paramater2);
 		
 		
@@ -125,6 +130,7 @@ public class HelloKayaCrud {
 	@ResponseBody
 	public Map<String, Object> HelloKayaSelectAll(final HttpServletRequest request,
 			final HttpServletResponse response) {
+		HttpSession session = request.getSession();
 		// 获取前台参数
 		String kayaModelId = request.getParameter("kayaModelId");
 		// 获取前台参数
@@ -132,6 +138,10 @@ public class HelloKayaCrud {
 		String searchValue = request.getParameter("searchvalue");
 
 		Paramater paramater = new Paramater();
+		// TODO:普通用户(E1)
+		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
+		paramater.setUsrinfo(user);
+		
 		paramater.setId(kayaModelId);
 		paramater.setPropertys(new HashMap<String,Object>());
 		// 检索Map
@@ -153,6 +163,7 @@ public class HelloKayaCrud {
 	@RequestMapping(value = "/kayainsert", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	@ResponseBody
 	public Map<String, Object> HelloKayaInsert(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession();
 		String kayaModelId = request.getParameter("kayaModelId");
 		String actionId = request.getParameter("actionId");
 
@@ -194,9 +205,8 @@ public class HelloKayaCrud {
 		}
 		
 		// TODO:普通用户(E1)
-		SysUser user = new SysUser();
-		
-		paramaters.setUsrinfo(user.initUserInfo(UserType.E1));
+		SysUser user = (SysUser) session.getAttribute(Constant.G_USER);
+		paramaters.setUsrinfo(user);
 		
 		
 		paramaters.setId(kayaModelId);
@@ -321,7 +331,10 @@ public class HelloKayaCrud {
 		@SuppressWarnings("unchecked")
 		List<HashMap<String, Object>> kvBusinessKeyList = (List<HashMap<String, Object>>) JSONArray
 				.toCollection(businessKeyList, Map.class);
-
+		HttpSession session = request.getSession();
+		SysUser userInfo = (SysUser) session.getAttribute(Constant.G_USER);
+		paramaters.setUsrinfo(userInfo);
+		
 		paramaters.setId(kayaModelId);
 		// 父表OrientationKey（主键）
 		paramaters.setOrientationKey(request.getParameter("orientationKey"));
