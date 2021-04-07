@@ -333,6 +333,7 @@ public class Constant {
 	public static final String NUMBER99999999="99999999";
 	
 	// UserInfo
+	public static final String G_USER = "user";
 	public static final String USER_COMPANYCODE = "companycode";
 	public static final String USER_ID = "userid";
 	public static final String USER_NAME = "username";
