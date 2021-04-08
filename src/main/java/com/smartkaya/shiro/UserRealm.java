@@ -3,6 +3,7 @@ package com.smartkaya.shiro;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
@@ -10,7 +11,7 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UnknownAccountException;
+//import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -116,9 +117,10 @@ public class UserRealm extends AuthorizingRealm{
 		String principal =token.getUsername();
 //		char[] credentials = token.getPassword();
 //		ByteSource credentialsSalt;
-
+		Map<String, Object> userMap = new HashMap<String,Object>();
 		//数据库数据
 		String username;
+		//String userid;
 		String password;
 		SysUser sysuser = new SysUser();
 		Paramater paramater2 = new Paramater();
@@ -135,7 +137,7 @@ public class UserRealm extends AuthorizingRealm{
 
 		if (userInfoMapList == null || userInfoMapList.size() == 0) {
 			// 没找到帐号
-			throw new UnknownAccountException();
+			//throw new UnknownAccountException();
 		}else {
 			sysuser.setUserId(userInfoMapList.get(0).get("EmployeeId").toString());
 			sysuser.setPassword(userInfoMapList.get(0).get("Password").toString());
@@ -143,31 +145,54 @@ public class UserRealm extends AuthorizingRealm{
 			List<SysRole> sysRoleList =new ArrayList<SysRole>();
 			@SuppressWarnings("unchecked")
 			List<HashMap<String,Object>> userRoles = (ArrayList<HashMap<String,Object>>)userInfoMapList.get(0).get("RoleInfo");
-			userRoles.forEach(item -> {
-				SysRole sysrole = new SysRole();
-				sysrole.setRoleId(item.get("RoleType").toString());
-				sysrole.setRole(item.get("Other").toString());
-				sysRoleList.add(sysrole);
-				});
-			sysuser.setRoleList(sysRoleList);
+			if (userRoles == null || userRoles.size() == 0) {
+				// 没找到帐号
+				//throw new UnknownAccountException();
+			} else {
+				List<String> userRoleList = new ArrayList<String>();
+				userRoles.forEach(item -> {
+					SysRole sysrole = new SysRole();
+					sysrole.setRoleId(item.get("RoleType").toString());
+					sysrole.setRole(item.get("Other").toString());
+					sysRoleList.add(sysrole);
+					userRoleList.add(item.get("RoleType").toString());
+					});
+				sysuser.setRoleList(sysRoleList);
+				userMap.put("RoluInfo", userRoleList);// Workflow验证用
+			}
+			
+			
 			List<SysPermission> sysPerList =new ArrayList<SysPermission>();
 			@SuppressWarnings("unchecked")
 			List<HashMap<String,Object>> userPers = (ArrayList<HashMap<String,Object>>)userInfoMapList.get(0).get("PermissionsInfo");
-			userPers.forEach(item -> {
-				SysPermission sysper = new SysPermission();
-				sysper.setPermissionId(item.get("Permission").toString());
-				sysper.setPermission(item.get("Other").toString());
-				sysPerList.add(sysper);
-				});
-			sysuser.setPermissions(sysPerList);
+			if (userPers == null || userPers.size() == 0) {
+				// 没找到帐号
+				//throw new UnknownAccountException();
+			} else {
+				List<String>  userPerList = new ArrayList<String>();
+				userPers.forEach(item -> {
+					SysPermission sysper = new SysPermission();
+					sysper.setPermissionId(item.get("Permission").toString());
+					sysper.setPermission(item.get("Other").toString());
+					sysPerList.add(sysper);
+					userPerList.add(item.get("Permission").toString());
+					});
+				sysuser.setPermissions(sysPerList);
+				
+				userMap.put("PermissionInfo", userPerList);// Workflow验证用
+			}
 			
 			
-			username=userInfoMapList.get(0).get("EmployeeName").toString();
-			password=userInfoMapList.get(0).get("Password").toString();
+			
 			//credentialsSalt = ByteSource.Util.bytes(username);
 		}
 
-
+		username=userInfoMapList.get(0).get("EmployeeId").toString();
+		//userid = userInfoMapList.get(0).get("EmployeeName").toString();
+				
+				
+		password=userInfoMapList.get(0).get("Password").toString();
+		sysuser.setUserMap(userMap);
 
 
 //
