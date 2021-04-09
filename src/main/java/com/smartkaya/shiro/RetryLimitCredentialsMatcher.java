@@ -43,11 +43,12 @@ public class RetryLimitCredentialsMatcher extends HashedCredentialsMatcher{
 	        
 	        
 	        AtomicInteger retryCount = passwordRetryCache.get(userName);
-	        System.out.println("密码重试次数:"+retryCount);
+
 	        if (retryCount == null) {
 	            // 高并发下使用的线程安全的int类
 	            retryCount = new AtomicInteger(0);
 	            passwordRetryCache.put(userName, retryCount);
+		        System.out.println("密码重试次数:"+retryCount);
 	        }
 	        if (retryCount.incrementAndGet() > MAX_LOGIN_RETRY_TIMES) {
 //	            throw new ExcessiveAttemptsException();
@@ -57,9 +58,9 @@ public class RetryLimitCredentialsMatcher extends HashedCredentialsMatcher{
 	        //并将其保存到缓存中
 	        passwordRetryCache.put(userName, retryCount);
 	        //debug
-	        if (LOGGER.isDebugEnabled()) {
+	       // if (LOGGER.isDebugEnabled()) {
 	            LOGGER.debug("用户:{},尝试登录次数:{}", userName, retryCount.get());
-	        }
+	       // }
 	        
 		
 	        boolean match = super.doCredentialsMatch(token, info);

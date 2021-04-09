@@ -172,7 +172,7 @@ public class ShiroConfig{
 		return sessionManager;
 	}
 
-	//设置密码重试次数
+	//设置缓存机制
 	@Bean
 	public EhCacheManager ehCacheManager() {
 		EhCacheManager ehCacheManager = new EhCacheManager();

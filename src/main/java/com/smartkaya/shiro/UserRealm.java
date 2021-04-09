@@ -224,34 +224,5 @@ public class UserRealm extends AuthorizingRealm{
 		}
 		return new SimpleAuthenticationInfo(sysuser, password, getName());
 	}
-	
-	
-//	org.apache.shiro.authc.IncorrectCredentialsException ：
-//	Submitted credentials for token [org.apache.shiro.authc.UsernamePasswordToken - admin, rememberMe=false] did not match the expected credentials.
-//	原因：
-//
-//	数据库的密码是加密的,而页面传过来的是数据未加密。
-//	解决办法：
-//
-//	自己写的类继承AuthorizingRealm，重写setCredentialsMatcher方法
 
-//	@Override
-//	public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
-//		// 构建凭证匹配对象
-//		HashedCredentialsMatcher cMatcher = new HashedCredentialsMatcher();
-//		// 设置加密算法  Matcher
-//		cMatcher.setHashAlgorithmName("MD5");
-//		// 设置加密次数
-//		cMatcher.setHashIterations(1);
-//		super.setCredentialsMatcher(cMatcher);
-//	}
-//	/**
-//	 * 重写shiro的密码验证，让shiro用我自己的验证.
-//	 */
-//	@PostConstruct
-//	public void initCredentialsMatcher() {
-//		HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(Constant.HASH_ALGORITHM);
-//		matcher.setHashIterations(Constant.HASH_INTERATIONS);
-//		setCredentialsMatcher(matcher);
-//	}
 }

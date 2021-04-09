@@ -118,25 +118,31 @@ public class LoginController {
 				if (user.isAuthenticated()) {
 					ret = helper.getSimpleSuccess();
 					ret.put("url", "../index.html");
-				} else {
-					ret.put("url", "/Mini/page/login-1.html");
 				}
 			} catch (IncorrectCredentialsException e) {
 				error = "パスワード不正です.";
+				ret.put("url", "/Mini/page/login-1.html");
 			} catch (ExcessiveAttemptsException e) {
 				error = "失敗したログインが多すぎます.";
+				ret.put("url", "/Mini/page/login-1.html");
 			} catch (LockedAccountException e) {
 				error = "アカウントがロックされました.";
+				ret.put("url", "/Mini/page/login-1.html");
 			} catch (DisabledAccountException e) {
 				error = "アカウントが無効になりました.";
+				ret.put("url", "/Mini/page/login-1.html");
 			} catch (ExpiredCredentialsException e) {
 				error = "アカウントの有効期限が切れています.";
+				ret.put("url", "/Mini/page/login-1.html");
 			} catch (UnknownAccountException e) {
 				error = "アカウントは存在しません.";
+				ret.put("url", "/Mini/page/login-1.html");
 			} catch (UnauthorizedException e) {
 				error = "アクセス権限がありません.";
+				ret.put("url", "/Mini/page/login-1.html");
 			} catch (Exception e) {
 				error = "システムエラー.";
+				ret.put("url", "/Mini/page/login-1.html");
 			}
 		}
 		if (StringUtils.isBlank(error)) {
